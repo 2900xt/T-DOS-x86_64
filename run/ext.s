@@ -1,4 +1,3 @@
-[org 0x7e00]
 
 jmp EnterProtectedMode
 
@@ -47,17 +46,12 @@ startProtectedMode:
 
 
 [bits 64]
+[extern _start]
 start64Bit:
     mov edi,0xb8000
     mov rax,0x1f201f201f201f20
     mov ecx, 500
     rep stosq
 
-    mov [0xb8000],byte 'D'
-    mov [0xb8002],byte 'e'
-    mov [0xb8004],byte 'a'
-    mov [0xb8006],byte 't'
-    mov [0xb8008],byte 'h'
-    jmp $;
-
-times 2048-($-$$) db 0
+    call _start
+    hlt;

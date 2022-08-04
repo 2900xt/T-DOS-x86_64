@@ -1,7 +1,10 @@
-nasm -o os.o -f bin boot/boot.asm
-nasm -o ext.o -f bin run/ext.s
+nasm -o build/boot.bin -f bin boot/boot.asm
+nasm -o build/ext.elf -f elf64 run/ext.s
 
-cat  os.o ext.o > os.flp
+/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc -ffreestanding -mno-red-zone -m64 -c "2900-files/kernel.cpp" -o "build/kernel.o"
+/usr/local/x86_64elfgcc/bin/x86_64-elf-ld --oformat binary -o build/kernel.bin -Ttext 0x7e00 build/ext.elf build/kernel.o
 
-qemu-system-x86_64 --fda os.flp
-rm os.flp ext.o os.o
+cat  build/boot.bin build/kernel.bin > build/os.img
+
+qemu-system-x86_64  build/os.img
+rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o
