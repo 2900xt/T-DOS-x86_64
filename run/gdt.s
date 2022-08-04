@@ -20,7 +20,13 @@ gdt_end:
 gdt_desc:
     gdt_size:
         dw gdt_end - gdt_null_desc - 1
-        dd gdt_null_desc
+        dq gdt_null_desc
     
 codeseg equ gdt_code_seg - gdt_null_desc
 dataseg equ gdt_data_seg - gdt_null_desc
+[bits 32]
+editGDT:
+    mov [gdt_code_seg + 6], byte 10101111b
+    mov [gdt_data_seg + 6], byte 10101111b
+    ret
+[bits 16]

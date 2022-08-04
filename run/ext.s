@@ -4,9 +4,7 @@ jmp EnterProtectedMode
 
 
 %include "run/gdt.s"
-%include "headers/ostream32.s"
-%include "run/CPUID.s"
-%include "run/paging.s"
+
 EnterProtectedMode:
     call EnableA20
     cli
@@ -24,6 +22,9 @@ EnableA20:
 
 [bits 32]
 
+%include "headers/CPUID.s"
+%include "run/paging.s"
+
 startProtectedMode:
 
     mov ax, dataseg
@@ -40,9 +41,21 @@ startProtectedMode:
     mov [0xb8008],byte 'o'
 
     call Detect_CPUID
-    call DetectLongMode
-    call setUpIdentityPaging
-    jmp $
 
+    call DetectLongMode
+
+    call setUpIdentityPaging
+    call editGDT
+
+    jmp codeseg:start64Bit
+
+
+[bits 64]
+start64Bit:
+    mov edi,0xb8000
+    mov rax,0x1f201f201f201f20
+    mov ecx, 500
+    rep stosq
+    jmp $;
 
 times 2048-($-$$) db 0
