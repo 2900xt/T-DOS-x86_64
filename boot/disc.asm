@@ -4,7 +4,7 @@ disc_read:
 
     mov ah, 0x02
     mov bx, PROGRAM_SPACE
-    mov al, 64 ;sectors to read
+    mov al, 128 ;sectors to read
     mov dl, [BOOT_DISK]
     mov ch, 0x00
     mov dh, 0x00
