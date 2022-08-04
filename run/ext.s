@@ -34,11 +34,7 @@ startProtectedMode:
     mov fs, ax
     mov gs, ax
 
-    mov [0xb8000],byte 'H'
-    mov [0xb8002],byte 'e'
-    mov [0xb8004],byte 'l'
-    mov [0xb8006],byte 'l'
-    mov [0xb8008],byte 'o'
+
 
     call Detect_CPUID
 
@@ -56,6 +52,12 @@ start64Bit:
     mov rax,0x1f201f201f201f20
     mov ecx, 500
     rep stosq
+
+    mov [0xb8000],byte 'D'
+    mov [0xb8002],byte 'e'
+    mov [0xb8004],byte 'a'
+    mov [0xb8006],byte 't'
+    mov [0xb8008],byte 'h'
     jmp $;
 
 times 2048-($-$$) db 0
