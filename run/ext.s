@@ -5,6 +5,8 @@ jmp EnterProtectedMode
 
 %include "run/gdt.s"
 %include "headers/ostream32.s"
+%include "run/CPUID.s"
+%include "run/paging.s"
 EnterProtectedMode:
     call EnableA20
     cli
@@ -37,8 +39,10 @@ startProtectedMode:
     mov [0xb8006],byte 'l'
     mov [0xb8008],byte 'o'
 
+    call Detect_CPUID
+    call DetectLongMode
+    call setUpIdentityPaging
     jmp $
 
-teststr:
-    db 'Hello World',0
+
 times 2048-($-$$) db 0
