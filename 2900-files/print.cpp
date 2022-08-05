@@ -31,10 +31,44 @@ void printf(const char* str){
     uint_8 index = cursorPosition;
     while (*charptr != 0)
     {
-        *(VGA_MEMORY + index *2) = *charptr;
+        switch (*charptr)
+        {
+        case 10:
+            index+=VGA_WIDTH;
+            break;
+        case 13:
+            index -=index %VGA_WIDTH;
+            break;
+        default:
+            *(VGA_MEMORY + index *2) = *charptr;
+            index++;
+            break;
+        }
+
+        
         charptr++;
-        index++;
+        
     }
     setCursorPosition(index);
     
+}
+
+
+char hexToStringOutput[128];
+template<typename T>
+const char* HexToString(T value){
+  T* valPtr = &value;
+  uint_8* ptr;
+  uint_8 temp;
+  uint_8 size = (sizeof(T)) * 2 - 1;
+  uint_8 i;
+  for (i = 0; i < size; i++){
+    ptr = ((uint_8*)valPtr + i);
+    temp = ((*ptr & 0xF0) >> 4);
+    hexToStringOutput[size - (i * 2 + 1)] = temp + (temp > 9 ? 55 : 48);
+    temp = ((*ptr & 0x0F));
+    hexToStringOutput[size - (i * 2 + 0)] = temp + (temp > 9 ? 55 : 48);
+  }
+  hexToStringOutput[size + 1] = 0;
+  return hexToStringOutput;
 }

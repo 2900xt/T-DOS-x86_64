@@ -3,6 +3,8 @@
 
 
 extern "C" void _start(){
-    printf("Hassan is a bugha");
+    printf("Hassan is a bugha\n\r");
+    printf(HexToString("HH"));
+
     return;
 }
