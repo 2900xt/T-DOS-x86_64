@@ -4,4 +4,6 @@ Operating system with custom kernel
 
 # How to compile??
 
-Prebuild .img file can be found in the "build" folder build the OS by running build.sh
+Prebuild .img file can be found in the "build" folder
+
+Alternatively, build the OS by running build.sh
