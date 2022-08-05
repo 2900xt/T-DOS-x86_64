@@ -3,6 +3,6 @@
 
 
 extern "C" void _start(){
-    printf("Hello World");
+    printf("Hassan is a bugha");
     return;
 }
