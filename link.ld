@@ -31,6 +31,6 @@ SECTIONS{
     .bss : ALIGN(0x1000)
     {
         *(COMMON)
-        *(.text)
+        *(.bss)
     }
 }
