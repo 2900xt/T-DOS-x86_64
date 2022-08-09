@@ -1,10 +1,15 @@
-nasm -o build/boot.bin -f bin boot/boot.asm
-nasm -o build/ext.elf -f elf64 run/ext.s
+/home/uhc/opt/cross/bin/i686-elf-as src/ext.s -o build/boot.o
+/home/uhc/opt/cross/bin/i686-elf-gcc -c 2900-files/kernel.c -o build/kernel.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+/home/uhc/opt/cross/bin/i686-elf-gcc -T link.ld -o build/iso/boot/2900-os.bin -ffreestanding -O2 -nostdlib build/boot.o build/kernel.o -lgcc
 
-/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c "2900-files/kernel.cpp" -o "build/kernel.o"
-/usr/local/x86_64elfgcc/bin/x86_64-elf-ld -T "link.ld"
+if grub-file --is-x86-multiboot build/2900-os.bin; then
+  echo multiboot confirmed
+else
+  echo the file is not multiboot
+fi
 
-cat  build/boot.bin build/kernel.bin > build/os.img
 
-qemu-system-x86_64  build/os.img
-rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o
+grub-mkrescue -o 2900-os.iso build/iso
+
+#qemu-system-x86_64 -hda build/os.bin
+rm build/boot.o build/kernel.o 
