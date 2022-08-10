@@ -8,4 +8,4 @@
 	%1_size: dq %1_size - %1
 %endmacro
 
-IncBin Test, "2900-files/bin/display.txt"
+IncBin Finput, "2900-files/bin/Finput.txt"

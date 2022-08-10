@@ -131,8 +131,7 @@ void terminal_write(const char* text, size_t size,uint16_t data)
 			switch (text[i+1])
 			{
 			case 'd':
-				const char* tmp = HexToString(data);
-				cout(tmp,NULL);
+				cout(HexToString(data),NULL);
 				i+=2;
 				break;
 			
