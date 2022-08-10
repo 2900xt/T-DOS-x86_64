@@ -2,6 +2,7 @@
     "files.associations": {
         "temp": "c",
         "stddef.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "scroll.h": "c"
     }
 }

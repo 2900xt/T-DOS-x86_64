@@ -8,8 +8,10 @@
 
 const char* HexToString(uint16_t value);
 
-static const size_t VGA_WIDTH = 80;
-static const size_t VGA_HEIGHT = 25;
+#ifndef VGA_WIDTH
+#define VGA_WIDTH 80
+#define VGA_HEIGHT 25
+#endif
  
 size_t terminal_row;
 size_t terminal_column;
@@ -114,8 +116,10 @@ void terminal_putchar(char c)
 	if (++terminal_column == VGA_WIDTH) {
 		terminal_column = 0;
 		if (++terminal_row == VGA_HEIGHT){
-			terminal_row = 0;
-			__TTY_INIT(VGA_COLOR_RED,VGA_COLOR_BLACK);
+			terminal_row--;
+			setCursorPosition(cursorPosition-80);
+			scroll(terminal_buffer);
+			//__TTY_INIT(VGA_COLOR_RED,VGA_COLOR_BLACK);
 			}
 	}
 }
