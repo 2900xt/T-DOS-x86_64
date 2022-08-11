@@ -1,0 +1,310 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.3
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Thu Aug 11 06:02:35 2022
+
+# Variables
+
+# environment
+GDK_BACKEND = x11
+# environment
+LC_ALL = C
+# environment
+NO_AT_BRIDGE = 1
+# environment
+VSCODE_CWD = /home/uhc
+# environment
+WINDOWPATH = 1
+# environment
+GCC_SPECS = 
+# default
+MAKE_COMMAND := make
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# environment
+PWD = /home/uhc/Documents/2900-os
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+XDG_DATA_DIRS = /usr/local/share:/usr/share:/usr/share
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_CODE_CACHE_PATH = /home/uhc/.config/Code/CachedData/3b889b090b5ad5793f524b5d1d39fda662b96a2a
+# environment
+LANG = C
+# environment
+XAUTHORITY = /home/uhc/.Xauthority
+# default
+.LOADED := 
+# default
+.INCLUDE_DIRS = /usr/include /usr/include
+# makefile
+MAKEFLAGS = pqrR
+# makefile
+CURDIR := /home/uhc/Documents/2900-os
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+LESSOPEN = |lesspipe %s
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+MFLAGS = -pqrR
+# environment
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXXqsOpyf/agent.2586
+# default
+.SHELLFLAGS := -c
+# environment
+XDG_CONFIG_DIRS = /etc/xdg:/etc/xdg
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST := Makefile
+# makefile (from 'Makefile', line 7)
+ASFLAGS = -felf32
+# automatic
+@F = $(notdir $@)
+# environment
+VSCODE_PID = 3394
+# environment
+XDG_SESSION_TYPE = tty
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# makefile (from 'Makefile', line 2)
+CROSS = /home/uhc/opt/cross/bin/i686-elf-g++
+# makefile (from 'Makefile', line 3)
+CCFLAGS = -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -std=c++20
+# environment
+MANPAGER = manpager
+# environment
+SESSION_MANAGER = local/localhost:@/tmp/.ICE-unix/2524,unix/localhost:/tmp/.ICE-unix/2524
+# automatic
+*F = $(notdir $*)
+# environment
+MANPATH = /usr/share/gcc-data/x86_64-pc-linux-gnu/11.3.0/man:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.38/man:/etc/java-config-2/current-system-vm/man/:/usr/local/share/man:/usr/share/man:/usr/lib/rust/man:/usr/lib/llvm/14/share/man
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:abstract=/tmp/dbus-AHnny0DS3n,guid=233d8832918024bbbd4528f762f4b7d4
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# makefile (from 'Makefile', line 9)
+INCLUDE = 2900-files/include
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+INFOPATH = /usr/share/gcc-data/x86_64-pc-linux-gnu/11.3.0/info:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.38/info:/usr/share/info
+# makefile
+SHELL = /bin/sh
+# default
+MAKECMDGOALS := all
+# environment
+SHLVL = 4
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin:/usr/lib/llvm/14/bin
+# environment
+MOZ_GMP_PATH = /usr/lib64/nsbrowser/plugins/gmp-gmpopenh264/system-installed
+# default
+MAKEFILES := 
+# automatic
+^F = $(notdir $^)
+# environment
+ROOTPATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin:/usr/lib/llvm/14/bin
+# automatic
+?F = $(notdir $?)
+# environment
+GSETTINGS_BACKEND = dconf
+# environment
+XDG_SEAT = seat0
+# environment
+XDG_CURRENT_DESKTOP = XFCE
+# automatic
++F = $(notdir $+)
+# environment
+LESS = -R -M --shift 5
+# environment
+DESKTOP_SESSION = xfce
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = XFCE
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+LOGNAME = uhc
+# environment
+VBOX_APP_HOME = /usr/lib64/virtualbox
+# environment
+CONFIG_PROTECT_MASK = /etc/sandbox.d /etc/fonts/fonts.conf /etc/gentoo-release /etc/terminfo /etc/dconf /etc/ca-certificates.conf
+# environment
+CONFIG_PROTECT = /usr/share/gnupg/qualified.txt
+# environment
+XDG_VTNR = 1
+# makefile
+.DEFAULT_GOAL := all
+# environment
+DISPLAY = :0.0
+# environment
+USER = uhc
+# default
+MAKE_VERSION := 4.3
+# environment
+HUSHLOGIN = FALSE
+# makefile (from 'Makefile', line 5)
+LDFLAGS = -T link.ld -o build/iso/boot/2900-os.bin -ffreestanding -O2 -nostdlib build/boot.o build/kernel.o build/bin.o -lgcc
+# environment
+SSH_AGENT_PID = 2587
+# environment
+_ = /usr/bin/make
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+XDG_SESSION_CLASS = user
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/uhc
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-2544bd1b-1.69.2-main.sock
+# environment
+TERM = linux
+# environment
+XDG_SESSION_ID = 1
+# environment
+PANEL_GDK_CORE_DEVICE_EVENTS = 0
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# default
+SUFFIXES := 
+# environment
+VSCODE_CLI = 1
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
+# environment
+XDG_MENU_PREFIX = xfce-
+# variable set hash-table stats:
+# Load=97/1024=9%, Rehash=0, Collisions=3/135=2%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 66308, inode 2229133): 12 files, no impossibilities.
+
+# 12 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-11 06:02:28.753825069
+#  File has been updated.
+#  Successfully updated.
+
+buildiso:
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := buildiso
+# automatic
+# * := 
+# automatic
+# < := 
+# automatic
+# + := 
+# automatic
+# % := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=3/18=17%
+#  recipe to execute (from 'Makefile', line 14):
+	nasm ${ASFLAGS} src/ext.s -o build/boot.o
+	nasm ${ASFLAGS} 2900-files/bin/bin.asm -o build/bin.o
+	${CROSS} -c 2900-files/kernel/kernel.cpp -o build/kernel.o ${CCFLAGS} -I ${INCLUDE}
+	${CROSS} ${LDFLAGS}
+	grub-mkrescue -o 2900-os.iso build/iso
+	rm build/boot.o build/kernel.o 
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+all: buildiso run
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/10=0%
+
+run:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 24):
+	qemu-system-x86_64 --cdrom 2900-os.iso
+ 
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# files hash-table stats:
+# Load=6/1024=1%, Rehash=0, Collisions=0/22=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 18 / storage = 136 B / avg = 7 B
+# current buf: size = 8162 B / used = 136 B / count = 18 / avg = 7 B
+
+# strcache performance: lookups = 29 / hit rate = 37%
+# hash-table stats:
+# Load=18/8192=0%, Rehash=0, Collisions=0/29=0%
+# Finished Make data base on Thu Aug 11 06:02:35 2022
+
+ 

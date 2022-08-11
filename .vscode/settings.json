@@ -4,5 +4,6 @@
         "stddef.h": "c",
         "stdbool.h": "c",
         "scroll.h": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

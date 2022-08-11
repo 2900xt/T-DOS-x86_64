@@ -6,7 +6,7 @@ Operating system with custom kernel
 
 Prebuild .iso file can be found in the root folder
 
-Alternatively, build the OS by running ./build.sh
+Alternatively, build the OS by running Make buildiso
 
 # dependencies 
 
