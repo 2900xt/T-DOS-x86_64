@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Aug 11 06:02:35 2022
+# Make data base, printed on Thu Aug 11 06:39:55 2022
 
 # Variables
 
@@ -167,13 +167,14 @@ MAKE_VERSION := 4.3
 # environment
 HUSHLOGIN = FALSE
 # makefile (from 'Makefile', line 5)
-LDFLAGS = -T link.ld -o build/iso/boot/2900-os.bin -ffreestanding -O2 -nostdlib build/boot.o build/kernel.o build/bin.o -lgcc
+LDFLAGS = -T link.ld -o build/iso/boot/2900-os.bin -ffreestanding -O2 -nostdlib build/boot.o build/kernel.o build/bin.o build/idt.o -lgcc
 # environment
 SSH_AGENT_PID = 2587
 # environment
 _ = /usr/bin/make
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
+ 
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -205,7 +206,7 @@ ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 XDG_MENU_PREFIX = xfce-
 # variable set hash-table stats:
-# Load=97/1024=9%, Rehash=0, Collisions=3/135=2%
+# Load=97/1024=9%, Rehash=0, Collisions=3/136=2%
 
 # Pattern-specific Variable Values
 
@@ -213,9 +214,9 @@ XDG_MENU_PREFIX = xfce-
 
 # Directories
 
-# . (device 66308, inode 2229133): 12 files, no impossibilities.
+# . (device 66308, inode 2229133): 11 files, no impossibilities.
 
-# 12 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -226,7 +227,7 @@ XDG_MENU_PREFIX = xfce-
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 06:02:28.753825069
+#  Last modified 2022-08-11 06:39:37.371595649
 #  File has been updated.
 #  Successfully updated.
 
@@ -253,10 +254,11 @@ buildiso:
 # automatic
 # | := 
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=3/18=17%
+# Load=8/32=25%, Rehash=0, Collisions=3/19=16%
 #  recipe to execute (from 'Makefile', line 14):
 	nasm ${ASFLAGS} src/ext.s -o build/boot.o
 	nasm ${ASFLAGS} 2900-files/bin/bin.asm -o build/bin.o
+	nasm ${ASFLAGS} 2900-files/include/mem/idt.asm  -o build/idt.o
 	${CROSS} -c 2900-files/kernel/kernel.cpp -o build/kernel.o ${CCFLAGS} -I ${INCLUDE}
 	${CROSS} ${LDFLAGS}
 	grub-mkrescue -o 2900-os.iso build/iso
@@ -275,15 +277,14 @@ all: buildiso run
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/10=0%
+# Load=0/32=0%, Rehash=0, Collisions=0/11=0%
 
 run:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 24):
+#  recipe to execute (from 'Makefile', line 25):
 	qemu-system-x86_64 --cdrom 2900-os.iso
- 
 
 # Not a target:
 .SUFFIXES:
@@ -299,12 +300,12 @@ run:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 18 / storage = 136 B / avg = 7 B
-# current buf: size = 8162 B / used = 136 B / count = 18 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 17 / storage = 127 B / avg = 7 B
+# current buf: size = 8162 B / used = 127 B / count = 17 / avg = 7 B
 
-# strcache performance: lookups = 29 / hit rate = 37%
+# strcache performance: lookups = 28 / hit rate = 39%
 # hash-table stats:
-# Load=18/8192=0%, Rehash=0, Collisions=0/29=0%
-# Finished Make data base on Thu Aug 11 06:02:35 2022
+# Load=17/8192=0%, Rehash=0, Collisions=0/28=0%
+# Finished Make data base on Thu Aug 11 06:39:55 2022
 
  

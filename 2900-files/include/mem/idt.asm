@@ -1,4 +1,13 @@
-isr1:
+[bits 32]
 
-    iretw
-    GLOBAL isr1
+global _IDT_INIT
+_IDT_INIT:
+    push ebp
+    mov ebp, esp
+
+    mov eax, [ebp + 8]
+    lidt [eax]
+
+    mov esp, ebp
+    pop ebp
+    ret

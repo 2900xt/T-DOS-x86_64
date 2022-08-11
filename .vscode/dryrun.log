@@ -2,8 +2,9 @@ make --dry-run --keep-going --print-directory
 make: Entering directory '/home/uhc/Documents/2900-os'
 nasm -felf32 src/ext.s -o build/boot.o
 nasm -felf32 2900-files/bin/bin.asm -o build/bin.o
+nasm -felf32 2900-files/include/mem/idt.asm  -o build/idt.o
 /home/uhc/opt/cross/bin/i686-elf-g++ -c 2900-files/kernel/kernel.cpp -o build/kernel.o -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -std=c++20 -I 2900-files/include
-/home/uhc/opt/cross/bin/i686-elf-g++ -T link.ld -o build/iso/boot/2900-os.bin -ffreestanding -O2 -nostdlib build/boot.o build/kernel.o build/bin.o -lgcc
+/home/uhc/opt/cross/bin/i686-elf-g++ -T link.ld -o build/iso/boot/2900-os.bin -ffreestanding -O2 -nostdlib build/boot.o build/kernel.o build/bin.o build/idt.o -lgcc
 grub-mkrescue -o 2900-os.iso build/iso
 rm build/boot.o build/kernel.o 
 qemu-system-x86_64 --cdrom 2900-os.iso

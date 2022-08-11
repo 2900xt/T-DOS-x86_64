@@ -4,6 +4,10 @@
 #include <stdint.h>
 #include <tty/console.hpp>
 
+#define FLAG_SET(number,flag)number |= flag
+#define FLAG_UNSET(number,flag)number &= ~flag
+
+
 char hexToStringOutput[128];
 
 const char* HexToString(uint16_t value){
