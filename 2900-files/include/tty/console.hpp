@@ -4,8 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "../std/io.hpp"
-#include <tty/scroll.hpp>
-
+uint16_t* terminal_buffer_copy;
 const char* HexToString(uint16_t value);
 void outb(unsigned short port, unsigned char val);
 void cout(const char* text , uint16_t data);
@@ -100,7 +99,28 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 	const size_t index = y * VGA_WIDTH + x;
 	terminal_buffer[index] = vga_entry(c, color);
 }
- 
+ void scroll(uint16_t* terminal_buffer){
+    for (size_t y = 0; y < VGA_HEIGHT; y++) {
+	    for (size_t x = 0; x < VGA_WIDTH; x++) {
+            const size_t index = y * VGA_WIDTH + x;
+	        terminal_buffer_copy[index]=terminal_buffer[index]; 
+	    }
+    }
+
+    for (size_t y = 0; y < VGA_HEIGHT; y++) {
+		for (size_t x = 0; x < VGA_WIDTH; x++) {
+			const size_t index = y * VGA_WIDTH + x;
+			terminal_buffer[index] = vga_entry(' ', VGA_COLOR_BLACK);
+		}
+	}
+
+    for (size_t y = 0; y < VGA_HEIGHT; y++) {
+	    for (size_t x = 0; x < VGA_WIDTH; x++) {
+            const size_t index = y * VGA_WIDTH + x;
+	        terminal_buffer[index-80] = terminal_buffer_copy[index];
+	    }
+    }
+}
 void terminal_putchar(char c) 
 {	
 	switch (c){
@@ -125,7 +145,7 @@ void terminal_putchar(char c)
 	}
 }
 
-void terminal_write(const char* text, size_t size,uint16_t data) 
+void terminal_write(const char* text, size_t size,uint16_t data = 0) 
 {
 	for (size_t i = 0; i < size; i++){
 		if (text[i]=='%'){
@@ -135,7 +155,6 @@ void terminal_write(const char* text, size_t size,uint16_t data)
 				cout(HexToString(data),0);
 				i+=2;
 				break;
-			
 			default:
 				break;
 			}
