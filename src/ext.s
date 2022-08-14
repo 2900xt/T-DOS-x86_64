@@ -1,46 +1,56 @@
-
-MBALIGN  equ  1 << 0            ; align loaded modules on page boundaries
-MEMINFO  equ  1 << 1            ; provide memory map
-FLAGS    equ  MBALIGN | MEMINFO ; this is the Multiboot 'flag' field
-MAGIC    equ  0x1BADB002        ; 'magic number' lets bootloader find the header
-CHECKSUM equ -(MAGIC + FLAGS)   ; checksum of above, to prove we are multiboot
- 
-
-section .multiboot
-align 4
-	dd MAGIC
-	dd FLAGS
-	dd CHECKSUM
- 
+jmp EnterProtectedMode
 
 
-section .bss
-align 16
-stack_bottom:
-resb 16384 ; 16 KiB
-stack_top:
- 
+%include "src/gdt.s"
 
-section .text
+EnterProtectedMode:
+    call EnableA20
+    cli
+    lgdt [gdt_desc]
+    mov eax, cr0
+    or eax, 1 
+    mov cr0, eax
+    jmp codeseg:startProtectedMode
+
+EnableA20:
+    in al, 0x92
+    or al, 2
+    out 0x92, al
+    ret
+
+[bits 32]
+
+%include "headers/CPUID.s"
+%include "src/paging.s"
+
+startProtectedMode:
+
+    mov ax, dataseg
+    mov ds, ax
+    mov ss, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
 
 
-[extern kmain]
-[extern gdt_desc]
-global _start:function (_start.end - _start)
-_start:
+    call Detect_CPUID
 
-mov esp , stack_top
+    call DetectLongMode
+
+    call setUpIdentityPaging
+    call editGDT
+
+    jmp codeseg:start64Bit
 
 
-call kmain
+[bits 64]
+[extern _start]
+start64Bit:
+    mov edi,0xb8000
+    mov rax,0x1f201f201f201f20
+    mov ecx, 500
+    rep stosq
 
+    call _start
+    hlt;
 
-.hang:	hlt
-	jmp .hang
-.end:
-
-LoadA20:
-	in al,0x92
-	or al, 2
-	out 0x92, al
-	ret

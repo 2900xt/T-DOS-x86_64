@@ -1,8 +1,7 @@
 
-CROSS = /home/uhc/opt/cross/bin/i686-elf-g++
-CCFLAGS = -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -std=c++20 -mgeneral-regs-only
+CROSS = /usr/local/x86_64elfgcc/bin/x86_64-elf-g++
+CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I headers
 
-LDFLAGS =	-T link.ld -o build/iso/boot/2900-os.bin -ffreestanding -O2 -nostdlib build/boot.o build/kernel.o build/bin.o build/idt.o build/gdt.o build/isr.o -lgcc
 
 ASFLAGS = -felf32
 
@@ -11,17 +10,15 @@ INCLUDE = 2900-files/include
 all: buildiso run
 
 buildiso:
-	nasm ${ASFLAGS} src/ext.s -o build/boot.o
-	nasm ${ASFLAGS} 2900-files/bin/bin.asm -o build/bin.o
-	nasm ${ASFLAGS} 2900-files/include/mem/gdt.asm -o build/gdt.o
-	nasm ${ASFLAGS} 2900-files/include/mem/idt.asm  -o build/idt.o
-	nasm ${ASFLAGS} 2900-files/include/mem/isr.asm -o build/isr.o
-	${CROSS} -c 2900-files/kernel/kernel.cpp -o build/kernel.o ${CCFLAGS} -I ${INCLUDE}
-	${CROSS} ${LDFLAGS}
+	nasm -o build/boot.bin -f bin T-DOS/boot/boot.asm
+	nasm -o build/ext.elf -f elf64 src/ext.s
 
-	grub-mkrescue -o 2900-os.iso build/iso
+	/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc ${CCFLAGS} -c "T-DOS/INIT.cpp" -o "build/kernel.o" 
+	/usr/local/x86_64elfgcc/bin/x86_64-elf-ld -T "link.ld"
 
-	rm build/boot.o build/kernel.o 
+	cat  build/boot.bin build/kernel.bin > build/os.img
+
+	rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o
 
 run:
-	qemu-system-x86_64 --cdrom 2900-os.iso
+	qemu-system-x86_64 --fda build/os.img
