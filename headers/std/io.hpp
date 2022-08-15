@@ -27,3 +27,14 @@ const char* HexToString(uint16_t value){
   return hexToStringOutput;
 }
 
+bool stringCmp(const char* a, const char* b){
+    
+  for (int i=0;b[i] != 0;i++);
+  for (int j=-1;b[++j] != 0;){
+    if (a[j] != b[j]){
+      return false;
+    }
+  }
+  return true;
+}
+

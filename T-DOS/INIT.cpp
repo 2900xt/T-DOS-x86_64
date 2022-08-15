@@ -3,7 +3,6 @@
 #include <tty/shell.h>
 
 void kmain(){
-
      for(;;) {
     asm("hlt");
  }

@@ -2,6 +2,11 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
+char command_buffer[256];
+int exit_code = 0;
+int buffer_ptr = 0;
+int arg_bit = 0;
+
 
 void outb(unsigned short port, unsigned char val){
   asm volatile ("outb %0, %1" : : "a"(val), "Nd"(port));
@@ -59,6 +64,15 @@ void backspace(){
 
 	setcursor(--g_ScreenX, g_ScreenY);
 	putchr(g_ScreenX,g_ScreenY,' ');
+    command_buffer[buffer_ptr--] = 0;
+ 
+}
+
+void resetBuffer(){
+    buffer_ptr=0;
+    for (int i = 0; i < 256; i++)
+        command_buffer[i] = 0;
+
 }
 
 void clrscr()
@@ -180,18 +194,6 @@ void printf_signed(long long number, int radix)
 #define PRINTF_LENGTH_LONG          3
 #define PRINTF_LENGTH_LONG_LONG     4
 
-const char* cin()
-{
-    char* out;
-    uint8_t iterator=0;
-    char current = getchr(--g_ScreenX,g_ScreenY);
-    while (current != '>'){
-        out[iterator] = current;
-        current = getchr(--g_ScreenX,g_ScreenY);
-        iterator++;
-
-    }
-}
 
 void cout(const char* fmt, ...)
 {

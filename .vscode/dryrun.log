@@ -1,0 +1,11 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/uhc/Documents/2900-os'
+nasm -o build/boot.bin -f bin T-DOS/boot/boot.asm
+nasm -o build/ext.elf -f elf64 src/ext.s
+/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I headers -c "T-DOS/INIT.cpp" -o "build/kernel.o" 
+/usr/local/x86_64elfgcc/bin/x86_64-elf-ld -T "link.ld"
+cat  build/boot.bin build/kernel.bin > build/os.img
+rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o
+qemu-system-x86_64 --fda build/os.img
+make: Leaving directory '/home/uhc/Documents/2900-os'
+ 

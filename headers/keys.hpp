@@ -4,50 +4,74 @@ case 1:
 case 2:
 	character = '1';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 3:
 	character = '2';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 4:
 	character = '3';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 5:
 	character = '4';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 6:
 	character = '5';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 7:
 	character = '6';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 8:
 	character = '7';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 9:
 	character = '8';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 10:
 	character = '9';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 11:
 	character = '0';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 12:
 	character = '-';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 13:
 	character = '=';
     putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 14:
     backspace();
@@ -57,44 +81,64 @@ case 15:
 	
 	return;
 case 16:
-    character = 'q';
+    character = (Shift_BIT ? 'Q' : 'q' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 17:
-    character = 'w';
+    character = (Shift_BIT ? 'W' : 'w' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 18:
-    character = 'e';
+    character = (Shift_BIT ? 'E' : 'e' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 19:
-	character = 'r';
+	character = (Shift_BIT ? 'R' : 'r' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 20:
-	character = 't';
+	character = (Shift_BIT ? 'T' : 't' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 21:
-	character = 'y';
+	character = (Shift_BIT ? 'Y' : 'y' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 22:
-	character = 'u';
+	character = (Shift_BIT ? 'U' : 'u' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 23:
-	character = 'i';
+	character = (Shift_BIT ? 'I' : 'i' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 24:
-	character = 'o';
+	character = (Shift_BIT ? 'O' : 'o' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 25:
-	character = 'p';
+	character = (Shift_BIT ? 'P' : 'p' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 26:
     cout("[");
@@ -103,59 +147,86 @@ case 27:
     cout("]");
 	return;
 case 28:
-    command(getchr(g_ScreenX-1,g_ScreenY));
-    cout("\n");
+
+		command();
+		cout("\n[%d]->",exit_code);
+		command_buffer[buffer_ptr]=0;
+	
 	return;
 case 29:
     cout("lctrl 29");
 	return;
 case 30:
-	character = 'a';
+	character = (Shift_BIT ? 'A' : 'a' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 31:
-	character = 's';
+	character = (Shift_BIT ? 'S' : 's' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 32:
-	character = 'd';
+	character = (Shift_BIT ? 'D' : 'd' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 33:
-	character = 'f';
+	character = (Shift_BIT ? 'F' : 'f' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 34:
-	character = 'g';
+	character = (Shift_BIT ? 'G' : 'g' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 35:
-	character = 'h';
+	character = (Shift_BIT ? 'H' : 'h' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 36:
-	character = 'j';
+	character = (Shift_BIT ? 'J' : 'j' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 37:
-	character = 'k';
+	character = (Shift_BIT ? 'K' : 'k' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 38:
-	character = 'l';
+	character = (Shift_BIT ? 'L' : 'l' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 39:
 	character = ';';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 40:
 	character = '\'';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 41:
 	character = '`';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 42:
     cout("lShift 42");
@@ -164,46 +235,68 @@ case 42:
 case 43:
 	character = '\\';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 44:
-	character = 'z';
+	character = (Shift_BIT ? 'Z' : 'z' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 45:
-	character = 'x';
+	character = (Shift_BIT ? 'X' : 'x' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 46:
-	character = 'c';
+	character = (Shift_BIT ? 'C' : 'c' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 47:
-	character = 'v';
+	character = (Shift_BIT ? 'V' : 'v' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 48:
-	character = 'b';
+	character = (Shift_BIT ? 'B' : 'b' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 49:
-	character = 'n';
+	character = (Shift_BIT ? 'N' : 'n' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 50:
-	character = 'm';
+	character = (Shift_BIT ? 'M' : 'm' );
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 51:
 	character = ',';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 52:
 	character = '.';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 53:
 	character = '/';
 	putc(character);
+	command_buffer[buffer_ptr] = character;
+	buffer_ptr++;
 	return;
 case 54:
     cout("rshift 54");
@@ -216,9 +309,11 @@ case 56:
 	return;
 case 57:
     cout(" ");
+	command_buffer[buffer_ptr] = ' ';
+	buffer_ptr++;
 	return;
 case 58:
-	cout("CAPS LOCK 58");
+	Shift_BIT = !Shift_BIT;
 	return;
     /*
 case 59:
