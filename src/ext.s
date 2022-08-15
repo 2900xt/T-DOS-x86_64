@@ -6,7 +6,7 @@ jmp EnterProtectedMode
 EnterProtectedMode:
     call EnableA20
     cli
-    lgdt [gdt_desc]
+    lgdt [gdt_descriptor]
     mov eax, cr0
     or eax, 1 
     mov cr0, eax
@@ -23,6 +23,7 @@ EnableA20:
 %include "headers/CPUID.s"
 %include "src/paging.s"
 
+
 startProtectedMode:
 
     mov ax, dataseg
@@ -37,14 +38,15 @@ startProtectedMode:
 
     call DetectLongMode
 
-    call setUpIdentityPaging
-    call editGDT
+    call SetUpIdentityPaging
+    call EditGDT
 
     jmp codeseg:start64Bit
 
 
 [bits 64]
 [extern _start]
+
 start64Bit:
     mov edi,0xb8000
     mov rax,0x1f201f201f201f20
@@ -52,5 +54,14 @@ start64Bit:
     rep stosq
 
     call _start
-    hlt;
+    jmp $
 
+%define COM1 0x3F8
+
+global com1_putc
+com1_putc:
+    mov rax, rdi
+    mov dx, COM1
+    out dx, al
+    ret
+%include "src/idt.asm"

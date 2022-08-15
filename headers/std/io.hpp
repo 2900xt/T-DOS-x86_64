@@ -27,19 +27,3 @@ const char* HexToString(uint16_t value){
   return hexToStringOutput;
 }
 
-
-void cout(const char* text , uint16_t data = 0)
-{
-	terminal_write(text, strlen(text),data);
-}
-
-
-void outb(unsigned short port, unsigned char val){
-    asm volatile("outb %0 ,%1" :: "a"(val), "Nd"(port));
-}
-
-unsigned char inb(unsigned short port){
-    unsigned char returnval = 0;
-    asm volatile("outb %0 ,%1" :: "a"(returnval), "Nd"(port));
-    return returnval;
-}

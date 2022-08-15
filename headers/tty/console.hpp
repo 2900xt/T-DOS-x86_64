@@ -1,168 +1,365 @@
 #pragma once
-
+#include <stdarg.h>
 #include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
-#include "../std/io.hpp"
-uint16_t* terminal_buffer_copy;
-void outb(unsigned short port, unsigned char val);
-void cout(const char* text , uint16_t data);
-const char* HexToString(uint16_t value);
-#ifndef VGA_WIDTH
-#define VGA_WIDTH 80
-#define VGA_HEIGHT 25
-#endif
- 
-size_t terminal_row;
-size_t terminal_column;
-uint8_t terminal_color;
-uint16_t* terminal_buffer;
-uint16_t cursorPosition;
-enum vga_color {
-	VGA_COLOR_BLACK = 0,
-	VGA_COLOR_BLUE = 1,
-	VGA_COLOR_GREEN = 2,
-	VGA_COLOR_CYAN = 3,
-	VGA_COLOR_RED = 4,
-	VGA_COLOR_MAGENTA = 5,
-	VGA_COLOR_BROWN = 6,
-	VGA_COLOR_LIGHT_GREY = 7,
-	VGA_COLOR_DARK_GREY = 8,
-	VGA_COLOR_LIGHT_BLUE = 9,
-	VGA_COLOR_LIGHT_GREEN = 10,
-	VGA_COLOR_LIGHT_CYAN = 11,
-	VGA_COLOR_LIGHT_RED = 12,
-	VGA_COLOR_LIGHT_MAGENTA = 13,
-	VGA_COLOR_LIGHT_BROWN = 14,
-	VGA_COLOR_WHITE = 15,
-};
- 
-static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
-{
-	return fg | bg << 4;
+
+
+void outb(unsigned short port, unsigned char val){
+  asm volatile ("outb %0, %1" : : "a"(val), "Nd"(port));
 }
- 
-static inline uint16_t vga_entry(unsigned char uc, uint8_t color) 
-{
-	return (uint16_t) uc | (uint16_t) color << 8;
+
+unsigned char inb(unsigned short port){
+  unsigned char returnVal;
+  asm volatile ("inb %1, %0"
+  : "=a"(returnVal)
+  : "Nd"(port));
+  return returnVal;
 }
- 
-size_t strlen(const char* str) 
+
+const unsigned SCREEN_WIDTH = 80;
+const unsigned SCREEN_HEIGHT = 25;
+const uint8_t DEFAULT_COLOR = 0x7;
+
+uint8_t* g_ScreenBuffer = (uint8_t*)0xB8000;
+int g_ScreenX = 0, g_ScreenY = 0;
+
+void putchr(int x, int y, char c)
 {
-	size_t len = 0;
-	while (str[len])
-		len++;
-	return len;
+    g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x)] = c;
 }
- 
-void setCursorPosition(uint16_t position){
+
+void putcolor(int x, int y, uint8_t color)
+{
+    g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x) + 1] = color;
+}
+
+char getchr(int x, int y)
+{
+    return g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x)];
+}
+
+uint8_t getcolor(int x, int y)
+{
+    return g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x) + 1];
+}
+
+void setcursor(int x, int y)
+{
+    int pos = y * SCREEN_WIDTH + x;
 
     outb(0x3D4, 0x0F);
-    outb(0x3D5, (uint8_t)(position & 0xFF));
+    outb(0x3D5, (uint8_t)(pos & 0xFF));
     outb(0x3D4, 0x0E);
-    outb(0x3D5, (uint8_t)((position >> 8) & 0xFF));
-
-    cursorPosition = position;
+    outb(0x3D5, (uint8_t)((pos >> 8) & 0xFF));
 }
 
-uint16_t positionFromCoords(int8_t x, int8_t y){
-    if (x<80 && x>-1 && y<25 && y>-1){
-    return y * VGA_WIDTH +x;
-    }
-    else {
-        return 0;
-    }
+void backspace(){
+	if (g_ScreenX==0){
+		return;
+	}
+
+	setcursor(--g_ScreenX, g_ScreenY);
+	putchr(g_ScreenX,g_ScreenY,' ');
 }
 
-void __TTY_INIT(enum vga_color fg, enum vga_color bg) 
+void clrscr()
 {
-	terminal_row = 0;
-	terminal_column = 0;
-	terminal_color = vga_entry_color(fg,bg);
-	terminal_buffer = (uint16_t*) 0xB8000;
-	for (size_t y = 0; y < VGA_HEIGHT; y++) {
-		for (size_t x = 0; x < VGA_WIDTH; x++) {
-			const size_t index = y * VGA_WIDTH + x;
-			terminal_buffer[index] = vga_entry(' ', terminal_color);
-		}
-	}
+    for (int y = 0; y < SCREEN_HEIGHT; y++)
+        for (int x = 0; x < SCREEN_WIDTH; x++)
+        {
+            putchr(x, y, '\0');
+            putcolor(x, y, 4);
+        }
+
+    g_ScreenX = 0;
+    g_ScreenY = 0;
+    setcursor(g_ScreenX, g_ScreenY);
 }
 
+void scrollback(int lines)
+{
+    for (int y = lines; y < SCREEN_HEIGHT; y++)
+        for (int x = 0; x < SCREEN_WIDTH; x++)
+        {
+            putchr(x, y - lines, getchr(x, y));
+            putcolor(x, y - lines, getcolor(x, y));
+        }
 
-void terminal_setcolor(uint8_t color) 
-{
-	terminal_color = color;
+    for (int y = SCREEN_HEIGHT - lines; y < SCREEN_HEIGHT; y++)
+        for (int x = 0; x < SCREEN_WIDTH; x++)
+        {
+            putchr(x, y, '\0');
+            putcolor(x, y, 4);
+        }
+
+    g_ScreenY -= lines;
 }
- 
-void terminal_putentryat(char c, uint8_t color, size_t x, size_t y) 
+
+void putc(char c)
 {
-	const size_t index = y * VGA_WIDTH + x;
-	terminal_buffer[index] = vga_entry(c, color);
-}
- void scroll(uint16_t* terminal_buffer){
-    for (size_t y = 0; y < VGA_HEIGHT; y++) {
-	    for (size_t x = 0; x < VGA_WIDTH; x++) {
-            const size_t index = y * VGA_WIDTH + x;
-	        terminal_buffer_copy[index]=terminal_buffer[index]; 
-	    }
+    switch (c)
+    {
+        case '\n':
+            g_ScreenX = 0;
+            g_ScreenY++;
+            break;
+    
+        case '\t':
+            for (int i = 0; i < 4 - (g_ScreenX % 4); i++)
+                putc(' ');
+            break;
+
+        case '\r':
+            g_ScreenX = 0;
+            break;
+
+        default:
+            putchr(g_ScreenX, g_ScreenY, c);
+            g_ScreenX++;
+            break;
     }
 
-    for (size_t y = 0; y < VGA_HEIGHT; y++) {
-		for (size_t x = 0; x < VGA_WIDTH; x++) {
-			const size_t index = y * VGA_WIDTH + x;
-			terminal_buffer[index] = vga_entry(' ', VGA_COLOR_BLACK);
-		}
-	}
+    if (g_ScreenX >= SCREEN_WIDTH)
+    {
+        g_ScreenY++;
+        g_ScreenX = 0;
+    }
+    if (g_ScreenY >= SCREEN_HEIGHT)
+        scrollback(1);
 
-    for (size_t y = 0; y < VGA_HEIGHT; y++) {
-	    for (size_t x = 0; x < VGA_WIDTH; x++) {
-            const size_t index = y * VGA_WIDTH + x;
-	        terminal_buffer[index-80] = terminal_buffer_copy[index];
-	    }
+    setcursor(g_ScreenX, g_ScreenY);
+}
+
+void puts(const char* str)
+{
+    while(*str)
+    {
+        putc(*str);
+        str++;
     }
 }
-void terminal_putchar(char c) 
-{	
-	switch (c){
-		case '\n':
-			terminal_row+=1;
-			terminal_column = 0;
-			setCursorPosition(positionFromCoords(terminal_column,terminal_row));
-			return;
-		default:
-			setCursorPosition(++cursorPosition);
-			terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
-			break;
-	}
-	if (++terminal_column == VGA_WIDTH) {
-		terminal_column = 0;
-		if (++terminal_row == VGA_HEIGHT){
-			terminal_row--;
-			setCursorPosition(cursorPosition-80);
-			scroll(terminal_buffer);
-			//__TTY_INIT(VGA_COLOR_RED,VGA_COLOR_BLACK);
-			}
-	}
-}
 
-void terminal_write(const char* text, size_t size,uint16_t data = 0) 
+const char g_HexChars[] = "0123456789abcdef";
+
+void printf_unsigned(unsigned long long number, int radix)
 {
-	for (size_t i = 0; i < size; i++){
-		if (text[i]=='%'){
-			switch (text[i+1])
-			{
-			case 'd':
-				cout(HexToString(data),0);
-				break;
-			default:
-				i+=2;
-				break;
-			}
+    char buffer[32];
+    int pos = 0;
 
-		}
-		terminal_putchar(text[i]);
-	}
-	
+    // convert number to ASCII
+    do 
+    {
+        unsigned long long rem = number % radix;
+        number /= radix;
+        buffer[pos++] = g_HexChars[rem];
+    } while (number > 0);
+
+    // print number in reverse order
+    while (--pos >= 0)
+        putc(buffer[pos]);
 }
 
+void printf_signed(long long number, int radix)
+{
+    if (number < 0)
+    {
+        putc('-');
+        printf_unsigned(-number, radix);
+    }
+    else printf_unsigned(number, radix);
+}
 
+#define PRINTF_STATE_NORMAL         0
+#define PRINTF_STATE_LENGTH         1
+#define PRINTF_STATE_LENGTH_SHORT   2
+#define PRINTF_STATE_LENGTH_LONG    3
+#define PRINTF_STATE_SPEC           4
+
+#define PRINTF_LENGTH_DEFAULT       0
+#define PRINTF_LENGTH_SHORT_SHORT   1
+#define PRINTF_LENGTH_SHORT         2
+#define PRINTF_LENGTH_LONG          3
+#define PRINTF_LENGTH_LONG_LONG     4
+
+const char* cin()
+{
+    char* out;
+    uint8_t iterator=0;
+    char current = getchr(--g_ScreenX,g_ScreenY);
+    while (current != '>'){
+        out[iterator] = current;
+        current = getchr(--g_ScreenX,g_ScreenY);
+        iterator++;
+
+    }
+}
+
+void cout(const char* fmt, ...)
+{
+    va_list args;
+    va_start(args, fmt);
+
+    int state = PRINTF_STATE_NORMAL;
+    int length = PRINTF_LENGTH_DEFAULT;
+    int radix = 10;
+    bool sign = false;
+    bool number = false;
+
+    while (*fmt)
+    {
+        switch (state)
+        {
+            case PRINTF_STATE_NORMAL:
+                switch (*fmt)
+                {
+                    case '%':   state = PRINTF_STATE_LENGTH;
+                                break;
+                    default:    putc(*fmt);
+                                break;
+                }
+                break;
+
+            case PRINTF_STATE_LENGTH:
+                switch (*fmt)
+                {
+                    case 'h':   length = PRINTF_LENGTH_SHORT;
+                                state = PRINTF_STATE_LENGTH_SHORT;
+                                break;
+                    case 'l':   length = PRINTF_LENGTH_LONG;
+                                state = PRINTF_STATE_LENGTH_LONG;
+                                break;
+                    default:    goto PRINTF_STATE_SPEC_;
+                }
+                break;
+
+            case PRINTF_STATE_LENGTH_SHORT:
+                if (*fmt == 'h')
+                {
+                    length = PRINTF_LENGTH_SHORT_SHORT;
+                    state = PRINTF_STATE_SPEC;
+                }
+                else goto PRINTF_STATE_SPEC_;
+                break;
+
+            case PRINTF_STATE_LENGTH_LONG:
+                if (*fmt == 'l')
+                {
+                    length = PRINTF_LENGTH_LONG_LONG;
+                    state = PRINTF_STATE_SPEC;
+                }
+                else goto PRINTF_STATE_SPEC_;
+                break;
+
+            case PRINTF_STATE_SPEC:
+            PRINTF_STATE_SPEC_:
+                switch (*fmt)
+                {
+                    case 'c':   putc((char)va_arg(args, int));
+                                break;
+
+                    case 's':   
+                                puts(va_arg(args, const char*));
+                                break;
+
+                    case '%':   putc('%');
+                                break;
+
+                    case 'd':
+                    case 'i':   radix = 10; sign = true; number = true;
+                                break;
+
+                    case 'u':   radix = 10; sign = false; number = true;
+                                break;
+
+                    case 'X':
+                    case 'x':
+                    case 'p':   radix = 16; sign = false; number = true;
+                                break;
+
+                    case 'o':   radix = 8; sign = false; number = true;
+                                break;
+
+                    // ignore invalid spec
+                    default:    break;
+                }
+
+                if (number)
+                {
+                    if (sign)
+                    {
+                        switch (length)
+                        {
+                        case PRINTF_LENGTH_SHORT_SHORT:
+                        case PRINTF_LENGTH_SHORT:
+                        case PRINTF_LENGTH_DEFAULT:     printf_signed(va_arg(args, int), radix);
+                                                        break;
+
+                        case PRINTF_LENGTH_LONG:        printf_signed(va_arg(args, long), radix);
+                                                        break;
+
+                        case PRINTF_LENGTH_LONG_LONG:   printf_signed(va_arg(args, long long), radix);
+                                                        break;
+                        }
+                    }
+                    else
+                    {
+                        switch (length)
+                        {
+                        case PRINTF_LENGTH_SHORT_SHORT:
+                        case PRINTF_LENGTH_SHORT:
+                        case PRINTF_LENGTH_DEFAULT:     printf_unsigned(va_arg(args, unsigned int), radix);
+                                                        break;
+                                                        
+                        case PRINTF_LENGTH_LONG:        printf_unsigned(va_arg(args, unsigned  long), radix);
+                                                        break;
+
+                        case PRINTF_LENGTH_LONG_LONG:   printf_unsigned(va_arg(args, unsigned  long long), radix);
+                                                        break;
+                        }
+                    }
+                }
+
+                // reset state
+                state = PRINTF_STATE_NORMAL;
+                length = PRINTF_LENGTH_DEFAULT;
+                radix = 10;
+                sign = false;
+                number = false;
+                break;
+        }
+
+        fmt++;
+    }
+
+    va_end(args);
+}
+
+void print_buffer(const char* msg, const void* buffer, uint32_t count)
+{
+    const uint8_t* u8Buffer = (const uint8_t*)buffer;
+    
+    puts(msg);
+    for (uint16_t i = 0; i < count; i++)
+    {
+        putc(g_HexChars[u8Buffer[i] >> 4]);
+        putc(g_HexChars[u8Buffer[i] & 0xF]);
+    }
+    puts("\n");
+}
+
+uint32_t bintohex(uint32_t binaryval){
+    uint32_t hexadecimalval = 0, i = 1, remainder = 0;
+        while (binaryval != 0)
+
+    {
+
+        remainder = binaryval % 10;
+
+        hexadecimalval = hexadecimalval + remainder * i;
+
+        i = i * 2;
+
+        binaryval = binaryval / 10;
+
+    }
+    return hexadecimalval;
+}

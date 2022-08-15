@@ -1,11 +1,17 @@
 #include <std/io.hpp>
+#include <mem/idt.h>
+#include <tty/shell.h>
 
+void kmain(){
+
+     for(;;) {
+    asm("hlt");
+ }
+}
 
 extern "C" void _start(){
-
-    __TTY_INIT(VGA_COLOR_RED,VGA_COLOR_BLACK);
-    setCursorPosition(0);
-
-    cout("Welcome to 2900-OS\n->");
-    return;
+    clrscr();
+    cout("Welcome to T-DOS\n->");
+    _IDT_INIT();
+    kmain();
 }
