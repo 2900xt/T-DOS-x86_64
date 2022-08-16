@@ -149,7 +149,7 @@ case 27:
 case 28:
 
 		command();
-		cout("\n[%d]->",exit_code);
+		cout("\n%s [%d]->",PWD,exit_code);
 		command_buffer[buffer_ptr]=0;
 	
 	return;

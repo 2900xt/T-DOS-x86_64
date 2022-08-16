@@ -48,15 +48,21 @@ startProtectedMode:
 
 [bits 64]
 [extern _start]
+[extern data]
 
 start64Bit:
+
+
     mov edi,0xb8000
     mov rax,0x1f201f201f201f20
     mov ecx, 500
     rep stosq
 
     call _start
-    jmp $
+
+.end:
+    hlt
+    jmp .end;
 
 %define COM1 0x3F8
 
@@ -66,4 +72,5 @@ com1_putc:
     mov dx, COM1
     out dx, al
     ret
+
 %include "src/idt.asm"
