@@ -28,8 +28,6 @@ const char* HexToString(uint16_t value){
 }
 
 bool stringCmp(const char* a, const char* b){
-    
-  for (int i=0;b[i] != 0;i++);
   for (int j=-1;b[++j] != 0;){
     if (a[j] != b[j]){
       return false;
@@ -38,3 +36,28 @@ bool stringCmp(const char* a, const char* b){
   return true;
 }
 
+int strlen(const char* str){
+  int i = 0;
+  while(*str != 0){
+    str++;
+    i++;
+  }
+  return i;
+}
+
+char* my_strcat(char* destination, const char* source)
+{
+    // make `ptr` point to the end of the destination string
+    char* ptr = destination + strlen(destination);
+ 
+    // appends characters of the source to the destination string
+    while (*source != '\0') {
+        *ptr++ = *source++;
+    }
+ 
+    // null terminate destination string
+    *ptr = '\0';
+ 
+    // the destination is returned by standard `strcat()`
+    return destination;
+}

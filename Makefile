@@ -13,7 +13,8 @@ buildiso:
 	nasm -o build/boot.bin -f bin T-DOS/boot/boot.asm
 	nasm -o build/ext.elf -f elf64 src/ext.s
 
-	/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc ${CCFLAGS} -c "T-DOS/INIT.cpp" -o "build/kernel.o" 
+	/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc ${CCFLAGS} -c "T-DOS/INIT.cpp" -o "build/kernel.o"
+	/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc ${CCFLAGS} -c "T-DOS/Programs/serial.cpp" -o "build/serial.o"
 	/usr/local/x86_64elfgcc/bin/x86_64-elf-ld -T "link.ld"
 
 	cat  build/boot.bin build/kernel.bin > build/os.img

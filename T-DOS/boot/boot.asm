@@ -15,7 +15,7 @@ jmp PROGRAM_SPACE; EXT
 %include "headers/ostream16"
 %include "src/disc.asm"
 str:
-    db "Loading OS",0
+    db "ERROR LOADING OS (-1)",0
 times 510-($-$$) db 0;
 
 dw 0xaa55;

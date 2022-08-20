@@ -4,8 +4,12 @@ jmp EnterProtectedMode
 
 
 %include "src/gdt.s"
+%include "headers/ostream16"
+%include "src/mem.asm"
 
 EnterProtectedMode:
+    call MEM_DETECT
+    
     call EnableA20
     cli
     lgdt [gdt_descriptor]
@@ -58,6 +62,7 @@ start64Bit:
     mov ecx, 500
     rep stosq
 
+    call activateSSE
     call _start
 
 .end:
@@ -71,6 +76,17 @@ com1_putc:
     mov rax, rdi
     mov dx, COM1
     out dx, al
+    ret
+
+activateSSE:
+    mov rax , cr0
+    and ax, 0b11111101
+    or ax, 0b00000001
+    mov cr0, rax
+
+    mov rax, cr4
+    or ax, 0b1100000000
+    mov cr4, rax
     ret
 
 %include "src/idt.asm"

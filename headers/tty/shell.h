@@ -1,12 +1,8 @@
 #pragma once
 #include <tty/console.hpp>
-//#include <ata/vfs.h>
+#include <../T-DOS/Programs/programinc.h>
 
-char* PWD = "/";
-
-extern "C" void com1_putc(char c);
-
-int sout(const char* str);
+#include <ata/gvfs.h>
 
 
 void command(){
@@ -23,28 +19,14 @@ void command(){
         cout("\n%s",command_buffer+5);
     }
 
-    /*else if(stringCmp(command_buffer,"ls")){
+    else if(stringCmp(command_buffer,"lf")){
         exit_code = LISTFILES();
-    }*/
+    }
 
-    /*else if(stringCmp(command_buffer,"mkfile")){
-        char* arg1;
-        int i;
-        if (command_buffer[7] != ' '){
-            cout("ERROR INVALID FILENAME\n");
-        }
-        for (i=0;i>248;i++){
-            if (command_buffer[i+7] == ' '){
-                break;
-            }
-            else
-                arg1[i] = command_buffer[i+7];
-        }
+    else if(stringCmp(command_buffer,"mkfl")){
 
-
-        exit_code = 0;
-        MKFILE(PWD,arg1,0x8000);
-    }*/
+        exit_code = mkfl("HELLO");
+    }
 
     else if(stringCmp(command_buffer,"help")){
         exit_code = 0;
@@ -56,12 +38,4 @@ void command(){
         cout("\nCOMMAND NOT FOUND: %s",command_buffer);
     }
     resetBuffer();       
-}
-
-int sout(const char* str){
-
-    do {
-    com1_putc(*(str++));
-    } while (*str);
-    return 0;
 }

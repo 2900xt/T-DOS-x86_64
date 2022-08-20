@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Aug 15 09:35:26 2022
+# Make data base, printed on Sat Aug 20 14:54:55 2022
 
 # Variables
 
@@ -19,7 +19,7 @@ NO_AT_BRIDGE = 1
 # environment
 VSCODE_CWD = /home/uhc
 # environment
-WINDOWPATH = 1
+WINDOWPATH = 2
 # environment
 GCC_SPECS = 
 # default
@@ -63,7 +63,7 @@ LESSOPEN = |lesspipe %s
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-XXXXXXqKOzds/agent.2379
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXXPv7QJ2/agent.2556
 # default
 .SHELLFLAGS := -c
 # environment
@@ -77,7 +77,7 @@ ASFLAGS = -felf32
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 3843
+VSCODE_PID = 3982
 # environment
 XDG_SESSION_TYPE = tty
 # automatic
@@ -89,7 +89,7 @@ CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I headers
 # environment
 MANPAGER = manpager
 # environment
-SESSION_MANAGER = local/localhost:@/tmp/.ICE-unix/2317,unix/localhost:/tmp/.ICE-unix/2317
+SESSION_MANAGER = local/localhost:@/tmp/.ICE-unix/2494,unix/localhost:/tmp/.ICE-unix/2494
 # automatic
 *F = $(notdir $*)
 # environment
@@ -97,7 +97,7 @@ MANPATH = /usr/share/gcc-data/x86_64-pc-linux-gnu/11.3.0/man:/usr/share/binutils
 # environment
 CHROME_DESKTOP = code-url-handler.desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:abstract=/tmp/dbus-SiE6GEFKkB,guid=3c58f69ec6ca1e2b350070c262fa42a4
+DBUS_SESSION_BUS_ADDRESS = unix:abstract=/tmp/dbus-94oadtJC23,guid=b50b10ed388d938bc5ca8e806300f47c
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
@@ -155,7 +155,7 @@ CONFIG_PROTECT_MASK = /etc/sandbox.d /etc/fonts/fonts.conf /etc/gentoo-release /
 # environment
 CONFIG_PROTECT = /usr/share/gnupg/qualified.txt
 # environment
-XDG_VTNR = 1
+XDG_VTNR = 2
 # makefile
 .DEFAULT_GOAL := all
 # environment
@@ -167,7 +167,7 @@ MAKE_VERSION := 4.3
 # environment
 HUSHLOGIN = FALSE
 # environment
-SSH_AGENT_PID = 2380
+SSH_AGENT_PID = 2557
 # environment
 _ = /usr/bin/make
 # environment
@@ -185,7 +185,7 @@ VSCODE_IPC_HOOK = /run/user/1000/vscode-2544bd1b-1.69.2-main.sock
 # environment
 TERM = linux
 # environment
-XDG_SESSION_ID = 2
+XDG_SESSION_ID = 3
 # environment
 PANEL_GDK_CORE_DEVICE_EVENTS = 0
 # default
@@ -203,7 +203,7 @@ ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 XDG_MENU_PREFIX = xfce-
 # variable set hash-table stats:
-# Load=96/1024=9%, Rehash=0, Collisions=3/128=2%
+# Load=96/1024=9%, Rehash=0, Collisions=3/129=2%
 
 # Pattern-specific Variable Values
 
@@ -211,9 +211,9 @@ XDG_MENU_PREFIX = xfce-
 
 # Directories
 
-# . (device 66308, inode 2229133): 12 files, no impossibilities.
+# . (device 66308, inode 2229133): 11 files, no impossibilities.
 
-# 12 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -224,7 +224,7 @@ XDG_MENU_PREFIX = xfce-
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-15 09:34:41.67004126
+#  Last modified 2022-08-20 14:54:48.282871812
 #  File has been updated.
 #  Successfully updated.
 
@@ -251,11 +251,12 @@ buildiso:
 # automatic
 # | := 
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
+# Load=8/32=25%, Rehash=0, Collisions=1/13=8%
 #  recipe to execute (from 'Makefile', line 13):
 	nasm -o build/boot.bin -f bin T-DOS/boot/boot.asm
 	nasm -o build/ext.elf -f elf64 src/ext.s
-	/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc ${CCFLAGS} -c "T-DOS/INIT.cpp" -o "build/kernel.o" 
+	/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc ${CCFLAGS} -c "T-DOS/INIT.cpp" -o "build/kernel.o"
+	/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc ${CCFLAGS} -c "T-DOS/Programs/serial.cpp" -o "build/serial.o"
 	/usr/local/x86_64elfgcc/bin/x86_64-elf-ld -T "link.ld"
 	cat  build/boot.bin build/kernel.bin > build/os.img
 	rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o
@@ -273,13 +274,13 @@ all: buildiso run
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/4=0%
+# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
 
 run:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 24):
+#  recipe to execute (from 'Makefile', line 25):
 	qemu-system-x86_64 --fda build/os.img
 
 # Not a target:
@@ -294,15 +295,15 @@ run:
 
 # No 'vpath' search paths.
 
+ 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 18 / storage = 128 B / avg = 7 B
-# current buf: size = 8162 B / used = 128 B / count = 18 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 17 / storage = 118 B / avg = 6 B
+# current buf: size = 8162 B / used = 118 B / count = 17 / avg = 6 B
 
-# strcache performance: lookups = 29 / hit rate = 37%
+# strcache performance: lookups = 28 / hit rate = 39%
 # hash-table stats:
- 
-# Load=18/8192=0%, Rehash=0, Collisions=0/29=0%
-# Finished Make data base on Mon Aug 15 09:35:26 2022
+# Load=17/8192=0%, Rehash=0, Collisions=0/28=0%
+# Finished Make data base on Sat Aug 20 14:54:55 2022
 
  
