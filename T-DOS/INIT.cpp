@@ -6,10 +6,10 @@
 
 void kmain(){
 
+    MEMMAPENTRY** UsableMemory = GetUsableMemory();
 
-    for (uint8_t i = 0; i< MemoryRegionCount;i++){
-        MEMMAPENTRY* memmap = (MEMMAPENTRY*)0x5000;//address of memory map
-        memmap+=i;
+    for (uint8_t i = 0; i< usableMemoryRegionCount;i++){
+        MEMMAPENTRY* memmap = UsableMemory[i];//address of memory map
         printMemory(memmap);
     }
 

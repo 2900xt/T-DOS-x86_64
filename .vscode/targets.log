@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Aug 20 14:54:55 2022
+# Make data base, printed on Mon Aug 22 06:12:53 2022
 
 # Variables
 
@@ -19,7 +19,7 @@ NO_AT_BRIDGE = 1
 # environment
 VSCODE_CWD = /home/uhc
 # environment
-WINDOWPATH = 2
+WINDOWPATH = 1
 # environment
 GCC_SPECS = 
 # default
@@ -63,7 +63,7 @@ LESSOPEN = |lesspipe %s
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-XXXXXXPv7QJ2/agent.2556
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXXVHM4qJ/agent.2427
 # default
 .SHELLFLAGS := -c
 # environment
@@ -77,7 +77,7 @@ ASFLAGS = -felf32
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 3982
+VSCODE_PID = 3841
 # environment
 XDG_SESSION_TYPE = tty
 # automatic
@@ -89,7 +89,7 @@ CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I headers
 # environment
 MANPAGER = manpager
 # environment
-SESSION_MANAGER = local/localhost:@/tmp/.ICE-unix/2494,unix/localhost:/tmp/.ICE-unix/2494
+SESSION_MANAGER = local/localhost:@/tmp/.ICE-unix/2365,unix/localhost:/tmp/.ICE-unix/2365
 # automatic
 *F = $(notdir $*)
 # environment
@@ -97,7 +97,7 @@ MANPATH = /usr/share/gcc-data/x86_64-pc-linux-gnu/11.3.0/man:/usr/share/binutils
 # environment
 CHROME_DESKTOP = code-url-handler.desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:abstract=/tmp/dbus-94oadtJC23,guid=b50b10ed388d938bc5ca8e806300f47c
+DBUS_SESSION_BUS_ADDRESS = unix:abstract=/tmp/dbus-yyl8UVAgAS,guid=73f3b07a9f76256170fecbb563035380
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
@@ -155,7 +155,7 @@ CONFIG_PROTECT_MASK = /etc/sandbox.d /etc/fonts/fonts.conf /etc/gentoo-release /
 # environment
 CONFIG_PROTECT = /usr/share/gnupg/qualified.txt
 # environment
-XDG_VTNR = 2
+XDG_VTNR = 1
 # makefile
 .DEFAULT_GOAL := all
 # environment
@@ -167,7 +167,7 @@ MAKE_VERSION := 4.3
 # environment
 HUSHLOGIN = FALSE
 # environment
-SSH_AGENT_PID = 2557
+SSH_AGENT_PID = 2428
 # environment
 _ = /usr/bin/make
 # environment
@@ -185,7 +185,7 @@ VSCODE_IPC_HOOK = /run/user/1000/vscode-2544bd1b-1.69.2-main.sock
 # environment
 TERM = linux
 # environment
-XDG_SESSION_ID = 3
+XDG_SESSION_ID = 2
 # environment
 PANEL_GDK_CORE_DEVICE_EVENTS = 0
 # default
@@ -290,12 +290,12 @@ run:
 #  File has not been updated.
 
 # files hash-table stats:
+ 
 # Load=6/1024=1%, Rehash=0, Collisions=0/22=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
- 
 # No general ('VPATH' variable) search path.
 
 # strcache buffers: 1 (0) / strings = 17 / storage = 118 B / avg = 6 B
@@ -304,6 +304,6 @@ run:
 # strcache performance: lookups = 28 / hit rate = 39%
 # hash-table stats:
 # Load=17/8192=0%, Rehash=0, Collisions=0/28=0%
-# Finished Make data base on Sat Aug 20 14:54:55 2022
+# Finished Make data base on Mon Aug 22 06:12:53 2022
 
  
