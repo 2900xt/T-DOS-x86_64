@@ -7,9 +7,19 @@
 
 void kmain(){
 
-    int* ptr = (int*)malloc(2048);
+    int* ptr = (int*)malloc(0x10);
+
+
+
+    int* ptr2 = (int*)malloc(0x10);
+
+
+
+    int* ptr3 = (int*)malloc(0x10);
 
     cout("\nWelcome to T-DOS\n->%x",ptr);
+    cout("\n%x\n",ptr2);
+    cout("\n%x\n",ptr3);
 
      for(;;) {
     asm("hlt");
