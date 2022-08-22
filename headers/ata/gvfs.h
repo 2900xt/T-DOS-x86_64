@@ -3,7 +3,7 @@
 char* PWD;
 
 struct FILE_T{
-    char* filename;
+     char* filename;
     uint8_t properties;
 };
 

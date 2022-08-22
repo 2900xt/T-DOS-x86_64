@@ -1,5 +1,9 @@
 #pragma once 
 #include <stdint.h>
+#include <mem/mem.h>
+
+void memset(void* start, uint64_t value, uint64_t num);
+void memcpy(void* destination, void* source, uint64_t num);
 
 struct MemorySegmentHeader_T{
     uint64_t MemoryLength;
@@ -124,4 +128,22 @@ void free(void* address) {
 		if (currentMemorySegment->PreviousSegment->Free) CombineFreeSegments(currentMemorySegment, currentMemorySegment->PreviousSegment);
 
 	}
+}
+
+
+void* calloc(uint64_t size) {
+	void* mallocVal = malloc(size);
+	memset(mallocVal, 0, size);
+	return mallocVal;
+}
+
+
+void* realloc(void* address, uint64_t newSize) {
+	MemorySegmentHeader_T* oldSegmentHeader = (MemorySegmentHeader_T*)address - 1;
+	uint64_t smallerSize = newSize;
+	if (oldSegmentHeader->MemoryLength < newSize) smallerSize = oldSegmentHeader->MemoryLength;
+	void* newMem = malloc(newSize);
+	memcpy(newMem, address, smallerSize);
+	free(address);
+	return(newMem);
 }

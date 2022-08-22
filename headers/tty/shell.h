@@ -28,9 +28,15 @@ void command(){
         exit_code = mkfl("HELLO");
     }
 
+    else if(stringCmp(command_buffer,"debug")){
+        //cout("Debug Info: \n\n%s\n",debug);
+        cout("\nWIP");
+        exit_code = 0;
+    }
+
     else if(stringCmp(command_buffer,"help")){
         exit_code = 0;
-        cout("\n2 Commands: SOUT [str] prints to serial \n ECHO [str] echoes");
+        cout("\nCommands:\n\nSOUT [str] \t\t\tprints to serial \nECHO [str]\t\t\t\t prints to tty\nDEBUG\t\t\t\t\t shows debug info");
     }
 
     else{

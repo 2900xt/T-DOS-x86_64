@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <std/class.hpp>
 #include <tty/console.hpp>
 
 #define FLAG_SET(number,flag)number |= flag

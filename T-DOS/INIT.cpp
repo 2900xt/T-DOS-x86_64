@@ -7,24 +7,13 @@
 
 void kmain(){
 
-    int* ptr = (int*)malloc(0x10);
+    cout("\nWelcome To T-DOS\n for a list of commands: 'help'\n\n->");
 
+    int arr[2] = {2,3};
 
+    gsl::Vector<int> vec(arr);
 
-    int* ptr2 = (int*)malloc(0x10);
-
-    int* ptr3 = (int*)malloc(0x10);
-
-    cout("\nWelcome to T-DOS\n->%x",ptr);
-    cout("\n%x\n",ptr2);
-    cout("\n%x\n",ptr3);
-
-    free(ptr);
-    free(ptr2);
-    free(ptr3);
-
-    void* ptr4 = malloc(0x10);
-    cout("\n%x\n",ptr4);
+    cout("%d",*(arr+2*sizeof(int)));
 
      for(;;) {
     asm("hlt");
