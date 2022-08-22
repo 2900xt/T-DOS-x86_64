@@ -3,17 +3,13 @@
 #include <mem/mem.h>
 #include <tty/shell.h>
 #include <ata/gvfs.h>
+#include <mem/heap.h>
 
 void kmain(){
 
-    MEMMAPENTRY** UsableMemory = GetUsableMemory();
+    int* ptr = (int*)malloc(2048);
 
-    for (uint8_t i = 0; i< usableMemoryRegionCount;i++){
-        MEMMAPENTRY* memmap = UsableMemory[i];//address of memory map
-        printMemory(memmap);
-    }
-
-    cout("\nWelcome to T-DOS\n->");
+    cout("\nWelcome to T-DOS\n->%x",ptr);
 
      for(;;) {
     asm("hlt");
@@ -25,10 +21,19 @@ extern "C" void _start(){
     
     clrscr();
 
-    cout("MEMORY REGIONS AVALIBLE: \n%d\n",MemoryRegionCount);
+    cout("Initializing IDT");
 
     _IDT_INIT();
+
+    cout("  ...done!\nInitializing Malloc");
+
+    heap_init(0x100000,0x100000);
+
+    cout("  ...done!\nInitializing VFS");
+
     _GFS_INIT();
+
+    cout(" ...done!\n\n");
 
     kmain();
 }

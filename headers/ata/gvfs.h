@@ -1,26 +1,21 @@
 #pragma once
 #include <std/io.hpp>
-char* PWD = "/";
+char* PWD;
 
-struct FOLDERS_T2{
-    char* NAME;
-    char* FILES[128];
-    //FOLDERS_T2 Subdirs[8]; 
+struct FILE_T{
+    char* filename;
+    uint8_t properties;
 };
 
-//GARBAGE VFS :)
 struct FOLDER_T{
     char* NAME;
-    char* FILES[128];
-    FOLDERS_T2 Subdirs[8];
+    FILE_T** FILES;
+    FOLDER_T** subdir;
 };
-
-
 
 
 FOLDER_T ROOT; 
 char* FILES_IN_PWD;
-//int filecount = 0;
 /*
 const char* ReadDir(FOLDER_T* DIR){
 
@@ -33,10 +28,11 @@ const char* ReadDir(FOLDER_T* DIR){
                 break;
         }
 
-}
-*/
+}*/
+
 void _GFS_INIT(){
-    //ROOT.NAME = "/";
+    ROOT.NAME = "/";
+    PWD = ROOT.NAME;
     //ROOT.FILES[0]="kernel";
     FILES_IN_PWD = "kernel\t";
     //ROOT.FILES[1]= "\r";

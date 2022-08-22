@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Aug 22 06:12:53 2022
+# Make data base, printed on Mon Aug 22 11:17:18 2022
 
 # Variables
 
@@ -63,7 +63,7 @@ LESSOPEN = |lesspipe %s
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-XXXXXXVHM4qJ/agent.2427
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXXjUBIZ7/agent.2376
 # default
 .SHELLFLAGS := -c
 # environment
@@ -77,7 +77,7 @@ ASFLAGS = -felf32
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 3841
+VSCODE_PID = 3021
 # environment
 XDG_SESSION_TYPE = tty
 # automatic
@@ -89,7 +89,7 @@ CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I headers
 # environment
 MANPAGER = manpager
 # environment
-SESSION_MANAGER = local/localhost:@/tmp/.ICE-unix/2365,unix/localhost:/tmp/.ICE-unix/2365
+SESSION_MANAGER = local/localhost:@/tmp/.ICE-unix/2314,unix/localhost:/tmp/.ICE-unix/2314
 # automatic
 *F = $(notdir $*)
 # environment
@@ -97,7 +97,7 @@ MANPATH = /usr/share/gcc-data/x86_64-pc-linux-gnu/11.3.0/man:/usr/share/binutils
 # environment
 CHROME_DESKTOP = code-url-handler.desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:abstract=/tmp/dbus-yyl8UVAgAS,guid=73f3b07a9f76256170fecbb563035380
+DBUS_SESSION_BUS_ADDRESS = unix:abstract=/tmp/dbus-eTtAdygg7Q,guid=7bc7e28c314d1ff092cf5dac63039df0
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
@@ -167,7 +167,7 @@ MAKE_VERSION := 4.3
 # environment
 HUSHLOGIN = FALSE
 # environment
-SSH_AGENT_PID = 2428
+SSH_AGENT_PID = 2377
 # environment
 _ = /usr/bin/make
 # environment
@@ -288,9 +288,9 @@ run:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+ 
 
 # files hash-table stats:
- 
 # Load=6/1024=1%, Rehash=0, Collisions=0/22=0%
 # VPATH Search Paths
 
@@ -304,6 +304,6 @@ run:
 # strcache performance: lookups = 28 / hit rate = 39%
 # hash-table stats:
 # Load=17/8192=0%, Rehash=0, Collisions=0/28=0%
-# Finished Make data base on Mon Aug 22 06:12:53 2022
+# Finished Make data base on Mon Aug 22 11:17:18 2022
 
  
