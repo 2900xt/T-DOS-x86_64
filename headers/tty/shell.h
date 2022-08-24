@@ -1,9 +1,8 @@
 #pragma once
 #include <tty/console.hpp>
 #include <../T-DOS/Programs/programinc.h>
-
+#include <std/class.hpp>
 #include <ata/gvfs.h>
-
 
 void command(){
 
@@ -26,12 +25,6 @@ void command(){
     else if(stringCmp(command_buffer,"mkfl")){
 
         exit_code = mkfl("HELLO");
-    }
-
-    else if(stringCmp(command_buffer,"debug")){
-        //cout("Debug Info: \n\n%s\n",debug);
-        cout("\nWIP");
-        exit_code = 0;
     }
 
     else if(stringCmp(command_buffer,"help")){

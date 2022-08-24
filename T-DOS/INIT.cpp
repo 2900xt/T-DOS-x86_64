@@ -5,15 +5,12 @@
 #include <ata/gvfs.h>
 #include <mem/heap.h>
 
+
+
+
 void kmain(){
 
-    cout("\nWelcome To T-DOS\n for a list of commands: 'help'\n\n->");
-
-    int arr[2] = {2,3};
-
-    gsl::Vector<int> vec(arr);
-
-    cout("%d",*(arr+2*sizeof(int)));
+    cout("\nWelcome To T-DOS\nfor a list of commands: 'help'\n\n->");
 
      for(;;) {
     asm("hlt");
