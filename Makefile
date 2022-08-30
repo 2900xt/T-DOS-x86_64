@@ -1,5 +1,6 @@
 
 CROSS = /usr/local/x86_64elfgcc/bin/x86_64-elf-g++
+LD = /usr/local/x86_64elfgcc/bin/x86_64-elf-ld
 CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I headers
 
 
@@ -13,9 +14,9 @@ buildiso:
 	nasm -o build/boot.bin -f bin T-DOS/boot/boot.asm
 	nasm -o build/ext.elf -f elf64 src/ext.s
 
-	/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc ${CCFLAGS} -c "T-DOS/INIT.cpp" -o "build/kernel.o"
-	/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc ${CCFLAGS} -c "T-DOS/Programs/serial.cpp" -o "build/serial.o"
-	/usr/local/x86_64elfgcc/bin/x86_64-elf-ld -T "link.ld"
+	${CROSS} ${CCFLAGS} -c "T-DOS/INIT.cpp" -o "build/kernel.o"
+	${CROSS} ${CCFLAGS} -c "T-DOS/Programs/serial.cpp" -o "build/serial.o"
+	${LD} -T "link.ld"
 
 	cat  build/boot.bin build/kernel.bin > build/os.img
 

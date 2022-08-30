@@ -147,10 +147,11 @@ case 27:
     cout("]");
 	return;
 case 28:
-
+	if (SHELL_ACTIVE){
 		command();
 		cout("\n%s[%d]->",PWD,exit_code);
 		command_buffer[buffer_ptr]=0;
+		}
 	
 	return;
 case 29:
