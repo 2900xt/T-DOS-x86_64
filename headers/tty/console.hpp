@@ -81,7 +81,7 @@ void clrscr()
         for (int x = 0; x < SCREEN_WIDTH; x++)
         {
             putchr(x, y, '\0');
-            putcolor(x, y, 4);
+            putcolor(x, y, 15);
         }
 
     g_ScreenX = 0;

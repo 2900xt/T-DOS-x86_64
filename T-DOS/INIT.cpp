@@ -6,8 +6,6 @@
 #include <mem/heap.h>
 
 
-
-
 void kmain(){
 
     cout("\nWelcome To T-DOS\nfor a list of commands: 'help'\n\n->");

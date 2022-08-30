@@ -4,10 +4,10 @@
 #include <stdint.h>
 #include <std/class.hpp>
 #include <tty/console.hpp>
+#include <std/scan.hpp>
 
 #define FLAG_SET(number,flag)number |= flag
 #define FLAG_UNSET(number,flag)number &= ~flag
-
 
 char hexToStringOutput[128];
 
@@ -88,4 +88,3 @@ char* my_strcat(char* destination, const char* source)
     // the destination is returned by standard `strcat()`
     return destination;
 }
-

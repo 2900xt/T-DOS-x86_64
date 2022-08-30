@@ -3,13 +3,16 @@
 #include <../T-DOS/Programs/programinc.h>
 #include <std/class.hpp>
 #include <ata/gvfs.h>
+#include <std/io.hpp>
+
+bool stringCmp(const char* a, const char* b);
 
 void command(){
 
     char* args;
 
     if (stringCmp(command_buffer,"sout")){
-        exit_code = sout(command_buffer +4);
+        exit_code = sout(command_buffer + 5);
         cout("\nWrote %s to COM1\n",command_buffer+5);
     }
 
