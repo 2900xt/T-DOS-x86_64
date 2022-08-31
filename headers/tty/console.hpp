@@ -22,7 +22,7 @@ unsigned char inb(unsigned short port){
 
 const unsigned SCREEN_WIDTH = 80;
 const unsigned SCREEN_HEIGHT = 25;
-const uint8_t DEFAULT_COLOR = 0x7;
+const uint8_t DEFAULT_COLOR = 0x15;
 
 uint8_t* g_ScreenBuffer = (uint8_t*)0xB8000;
 int g_ScreenX = 0, g_ScreenY = 0;
@@ -102,7 +102,7 @@ void scrollback(int lines)
         for (int x = 0; x < SCREEN_WIDTH; x++)
         {
             putchr(x, y, '\0');
-            putcolor(x, y, 4);
+            putcolor(x, y, 15);
         }
 
     g_ScreenY -= lines;

@@ -88,3 +88,21 @@ char* my_strcat(char* destination, const char* source)
     // the destination is returned by standard `strcat()`
     return destination;
 }
+
+gsl::String CINOUTPUT;
+
+char charin(const char* commandBuffer){
+  if (SHELL_ACTIVE)
+    return 0;
+  
+  char out;
+  int characterCount = strlen(commandBuffer);
+  int updatingCharacterCount = strlen(commandBuffer);
+
+  while (1){
+    if (updatingCharacterCount != characterCount){
+      out = commandBuffer[buffer_ptr];
+      return out;
+    }
+  }
+}

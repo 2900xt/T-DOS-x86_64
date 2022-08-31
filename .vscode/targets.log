@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Aug 30 12:25:00 2022
+# Make data base, printed on Wed Aug 31 00:50:00 2022
 
 # Variables
 
@@ -19,7 +19,7 @@ NO_AT_BRIDGE = 1
 # environment
 VSCODE_CWD = /home/uhc
 # environment
-WINDOWPATH = 2
+WINDOWPATH = 1
 # environment
 GCC_SPECS = 
 # default
@@ -63,7 +63,7 @@ LESSOPEN = |lesspipe %s
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-XXXXXXu6RgLI/agent.2454
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXX7Kn3aV/agent.2412
 # default
 .SHELLFLAGS := -c
 # environment
@@ -72,24 +72,24 @@ XDG_CONFIG_DIRS = /etc/xdg:/etc/xdg
 +D = $(patsubst %/,%,$(dir $+))
 # makefile (from 'Makefile', line 1)
 MAKEFILE_LIST := Makefile
-# makefile (from 'Makefile', line 6)
+# makefile (from 'Makefile', line 7)
 ASFLAGS = -felf32
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 3145
+VSCODE_PID = 3029
 # environment
 XDG_SESSION_TYPE = tty
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # makefile (from 'Makefile', line 2)
 CROSS = /usr/local/x86_64elfgcc/bin/x86_64-elf-g++
-# makefile (from 'Makefile', line 3)
+# makefile (from 'Makefile', line 4)
 CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I headers
 # environment
 MANPAGER = manpager
 # environment
-SESSION_MANAGER = local/localhost:@/tmp/.ICE-unix/2392,unix/localhost:/tmp/.ICE-unix/2392
+SESSION_MANAGER = local/localhost:@/tmp/.ICE-unix/2350,unix/localhost:/tmp/.ICE-unix/2350
 # automatic
 *F = $(notdir $*)
 # environment
@@ -97,12 +97,12 @@ MANPATH = /usr/share/gcc-data/x86_64-pc-linux-gnu/11.3.0/man:/usr/share/binutils
 # environment
 CHROME_DESKTOP = code-url-handler.desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:abstract=/tmp/dbus-J9qtifcbTA,guid=c1d83c2bbdaf98f908c76454630e39b5
+DBUS_SESSION_BUS_ADDRESS = unix:abstract=/tmp/dbus-HMUiVaiR08,guid=1c1ad0453eecb7497e78d41c630ee809
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
-# makefile (from 'Makefile', line 8)
+# makefile (from 'Makefile', line 9)
 INCLUDE = 2900-files/include
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
@@ -155,7 +155,7 @@ CONFIG_PROTECT_MASK = /etc/sandbox.d /etc/fonts/fonts.conf /etc/gentoo-release /
 # environment
 CONFIG_PROTECT = /usr/share/gnupg/qualified.txt
 # environment
-XDG_VTNR = 2
+XDG_VTNR = 1
 # makefile
 .DEFAULT_GOAL := all
 # environment
@@ -167,7 +167,7 @@ MAKE_VERSION := 4.3
 # environment
 HUSHLOGIN = FALSE
 # environment
-SSH_AGENT_PID = 2455
+SSH_AGENT_PID = 2413
 # environment
 _ = /usr/bin/make
 # environment
@@ -194,6 +194,8 @@ PANEL_GDK_CORE_DEVICE_EVENTS = 0
 <F = $(notdir $<)
 # default
 SUFFIXES := 
+# makefile (from 'Makefile', line 3)
+LD = /usr/local/x86_64elfgcc/bin/x86_64-elf-ld
 # environment
 VSCODE_CLI = 1
 # environment
@@ -203,7 +205,7 @@ ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 XDG_MENU_PREFIX = xfce-
 # variable set hash-table stats:
-# Load=96/1024=9%, Rehash=0, Collisions=3/131=2%
+# Load=97/1024=9%, Rehash=0, Collisions=3/135=2%
 
 # Pattern-specific Variable Values
 
@@ -224,7 +226,7 @@ XDG_MENU_PREFIX = xfce-
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-20 14:54:48.282871812
+#  Last modified 2022-08-30 12:42:44.130284052
 #  File has been updated.
 #  Successfully updated.
 
@@ -251,13 +253,13 @@ buildiso:
 # automatic
 # | := 
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/13=8%
-#  recipe to execute (from 'Makefile', line 13):
+# Load=8/32=25%, Rehash=0, Collisions=3/16=19%
+#  recipe to execute (from 'Makefile', line 14):
 	nasm -o build/boot.bin -f bin T-DOS/boot/boot.asm
 	nasm -o build/ext.elf -f elf64 src/ext.s
-	/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc ${CCFLAGS} -c "T-DOS/INIT.cpp" -o "build/kernel.o"
-	/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc ${CCFLAGS} -c "T-DOS/Programs/serial.cpp" -o "build/serial.o"
-	/usr/local/x86_64elfgcc/bin/x86_64-elf-ld -T "link.ld"
+	${CROSS} ${CCFLAGS} -c "T-DOS/INIT.cpp" -o "build/kernel.o"
+	${CROSS} ${CCFLAGS} -c "T-DOS/Programs/serial.cpp" -o "build/serial.o"
+	${LD} -T "link.ld"
 	cat  build/boot.bin build/kernel.bin > build/os.img
 	rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o
 
@@ -274,16 +276,16 @@ all: buildiso run
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
+# Load=0/32=0%, Rehash=0, Collisions=0/8=0%
 
 run:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 25):
+ 
+#  recipe to execute (from 'Makefile', line 26):
 	qemu-system-x86_64 --fda build/os.img
 
- 
 # Not a target:
 .SUFFIXES:
 #  Implicit rule search has not been done.
@@ -304,6 +306,6 @@ run:
 # strcache performance: lookups = 29 / hit rate = 37%
 # hash-table stats:
 # Load=18/8192=0%, Rehash=0, Collisions=0/29=0%
-# Finished Make data base on Tue Aug 30 12:25:00 2022
+# Finished Make data base on Wed Aug 31 00:50:00 2022
 
  
