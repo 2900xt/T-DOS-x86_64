@@ -7,7 +7,6 @@ SEARCH_DIR(build)
 INPUT(
     ext.elf
     kernel.o
-    serial.o
 )
 
 OUTPUT(

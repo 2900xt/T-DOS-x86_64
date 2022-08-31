@@ -4,6 +4,7 @@
 #include <tty/shell.h>
 #include <ata/gvfs.h>
 #include <mem/heap.h>
+#include <std/scan.hpp>
 
 
 void kmain(){
@@ -12,6 +13,11 @@ void kmain(){
 
      for(;;) {
         asm("hlt");
+        if (!SHELL_ACTIVE){
+        command();
+		cout("\n%s[%d]->",PWD,exit_code);
+		command_buffer[buffer_ptr]=0;
+		SHELL_ACTIVE=(!SHELL_ACTIVE);}
  }
 }
 
@@ -31,6 +37,10 @@ extern "C" void _start(){
     cout("  ...done!\nInitializing GVFS");
 
     _GFS_INIT();
+
+    for (int i = 0; i<4096;i++){
+        ProgramBuffer[i]=0;
+    }
 
     cout(" ...done!\n\n");
 

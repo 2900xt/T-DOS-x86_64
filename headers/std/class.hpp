@@ -1,7 +1,8 @@
 #pragma once
 #include <mem/heap.h>
 #include <std/io.hpp>
-#include <tty/console.hpp>
+#include <stdarg.h>
+void cout(const char* fmt, ...);
 
 char* my_strcat(char* destination, const char* source);
 char* strcpy(char* destination, const char* source);

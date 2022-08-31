@@ -9,8 +9,6 @@ int PBC = 0;
 
 void TranslateScanCode(uint8_t scancode){
 
-    gsl::String ProgramBuffer;
-
     char character = 0;
 
     switch (scancode){
