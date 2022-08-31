@@ -7,6 +7,7 @@
 
 bool stringCmp(const char* a, const char* b);
 
+char* charin();
 
 void command(){
 

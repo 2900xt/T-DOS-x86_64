@@ -52,7 +52,7 @@ namespace gsl{
             data = (char*)calloc(sizeof(char));
             size++;
         }
-        const char* c_str(){
+        char* c_str(){
             return data;
         }
         char operator[](uint16_t index){

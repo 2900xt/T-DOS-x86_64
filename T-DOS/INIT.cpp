@@ -11,7 +11,7 @@ void kmain(){
     cout("\nWelcome To T-DOS\nfor a list of commands: 'help'\n\n->");
 
      for(;;) {
-    asm("hlt");
+        asm("hlt");
  }
 }
 
@@ -35,4 +35,5 @@ extern "C" void _start(){
     cout(" ...done!\n\n");
 
     kmain();
+
 }
