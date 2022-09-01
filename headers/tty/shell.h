@@ -3,6 +3,8 @@
 #include <std/class.hpp>
 #include <ata/gvfs.h>
 #include <std/io.hpp>
+#include <std/scan.hpp>
+#include <std/vars.h>
 
 char ProgramBuffer[4096];
 
@@ -40,7 +42,7 @@ void command(){
 
     else if(stringCmp(command_buffer,"help")){
         exit_code = 0;
-        cout("\nCommands:\n\nSOUT [str] \t\t\tprints to serial \nECHO [str]\t\t\t\t prints to tty\nDEBUG\t\t\t\t\t shows debug info");
+        cout("\nCommands:\n\nSOUT [str] \t\t\tprints to serial \nECHO [str]\t\t\t\t prints to tty\nTEDIT\t\t\t\t\t Experimantal File Editor? WIP");
     }
     else if(stringCmp(command_buffer,"tedit")){
         #include <tedit.cpp>

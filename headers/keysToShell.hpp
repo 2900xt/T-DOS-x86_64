@@ -225,6 +225,9 @@ case 28:
 	if (SHELL_ACTIVE){
 		SHELL_ACTIVE=(!SHELL_ACTIVE);
 	}
+	else{
+		programEnter = 1;
+	}
 	return;
 case 29:
     cout("lctrl 29");
