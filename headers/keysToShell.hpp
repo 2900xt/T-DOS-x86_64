@@ -4,161 +4,214 @@ case 1:
 case 2:
 		 character = '1';
 	if (SHELL_ACTIVE){
-	putc(character);}
-
-	command_buffer[buffer_ptr] = character;
-	buffer_ptr++;
+		command_buffer[buffer_ptr] = character;
+	buffer_ptr++;}else{ProgramBuffer[PBC++] = character;return;}
+	if (TTY_ACTIVE){
+		putc(character);
+	}
+	
 	return;
 case 3:
 character = '2';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
 	putc(character);
 	command_buffer[buffer_ptr] = character;
 buffer_ptr++;}
+
+	
 case 4:
 character = '3';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 5:
 character = '4';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 6:
 character = '5';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);}character = '5';
+	}character = '5';
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;
 case 7:
 character = '6';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);} character = '6';
+	} character = '6';
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;
 case 8:
 character = '7';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 9:
 character = '8';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 10:
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 character = '9';
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 11:
 character = '0';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 12:
 character = '-';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 13:
 character = '=';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-    putc(character);}
+    }
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;
 case 14:
-    backspace();
+if (TTY_ACTIVE){
+    backspace();}
 	return;
 case 15:
     cout("\t");
-	
 	return;
 case 16:
 character = (Shift_BIT ? 'Q' : 'q' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
     if (SHELL_ACTIVE){ 
-	putc(character);
+	
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 17:
 character = (Shift_BIT ? 'W' : 'w' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
     if (SHELL_ACTIVE){ 
-	putc(character);
+	
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 18:
 character = (Shift_BIT ? 'E' : 'e' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
     if (SHELL_ACTIVE){ 
-	putc(character);
+	
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 19:
 character = (Shift_BIT ? 'R' : 'r' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 20:
 character = (Shift_BIT ? 'T' : 't' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 21:
 character = (Shift_BIT ? 'Y' : 'y' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 22:
 character = (Shift_BIT ? 'U' : 'u' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 23:
 character = (Shift_BIT ? 'I' : 'i' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 24:
 character = (Shift_BIT ? 'O' : 'o' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 25:
 character = (Shift_BIT ? 'P' : 'p' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
@@ -178,85 +231,110 @@ case 29:
 	return;
 case 30:
 character = (Shift_BIT ? 'A' : 'a' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 31:
 character = (Shift_BIT ? 'S' : 's' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){
-	putc(character); 
+	 
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 32:
 character = (Shift_BIT ? 'D' : 'd' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 33:
 	character = (Shift_BIT ? 'F' : 'f' );
+		if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 34:
 character = (Shift_BIT ? 'G' : 'g' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 35:
 character = (Shift_BIT ? 'H' : 'h' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 36:
 character = (Shift_BIT ? 'J' : 'j' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 37:
 character = (Shift_BIT ? 'K' : 'k' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 38:
 character = (Shift_BIT ? 'L' : 'l' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 39:
 character = ';';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 40:
 character = '\'';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 41:
 character = '`';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
@@ -266,78 +344,103 @@ case 42:
 
 case 43:
 character = '\\';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 44:
 character = (Shift_BIT ? 'Z' : 'z' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 45:
 character = (Shift_BIT ? 'X' : 'x' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 46:
 character = (Shift_BIT ? 'C' : 'c' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 47:
 character = (Shift_BIT ? 'V' : 'v' );
 	if (SHELL_ACTIVE){ 
-	putc(character); 
+	 
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 48:
 character = (Shift_BIT ? 'B' : 'b' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character); 
+	 
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 49:
 character = (Shift_BIT ? 'N' : 'n' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character); 
+	 
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 50:
 character = (Shift_BIT ? 'M' : 'm' );
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character); 
+	 
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 51:
 character = ',';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 52:
 character = '.';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character); 
+	 
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 53:
 character = '/';
+	if (TTY_ACTIVE){
+		putc(character);
+	}
 	if (SHELL_ACTIVE){ 
-	putc(character); 
+	 
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
@@ -362,7 +465,7 @@ case 58:
     /*
 case 59:
 	if (SHELL_ACTIVE){ character = '';
-	putc(character);
+	
 	return;
 case 60:
 	character = '';

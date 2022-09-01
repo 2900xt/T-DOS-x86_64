@@ -6,6 +6,7 @@
 int Shift_BIT = 0;
 int SHELL_ACTIVE = 1;
 int PBC = 0;
+int TTY_ACTIVE = 1;
 
 void TranslateScanCode(uint8_t scancode){
 
