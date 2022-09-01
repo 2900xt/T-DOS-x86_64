@@ -20,8 +20,9 @@ character = '2';
 	putc(character);
 	command_buffer[buffer_ptr] = character;
 buffer_ptr++;}
+return;
 
-	
+
 case 4:
 character = '3';
 	if (TTY_ACTIVE){
