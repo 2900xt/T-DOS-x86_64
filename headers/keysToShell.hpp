@@ -226,7 +226,7 @@ case 28:
 	if (SHELL_ACTIVE){
 		SHELL_ACTIVE=(!SHELL_ACTIVE);
 	}
-	else{
+	else if(!programEnter){
 		programEnter = 1;
 	}
 	return;

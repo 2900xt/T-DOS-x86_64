@@ -37,7 +37,11 @@ void command(){
 
     else if(stringCmp(command_buffer,"mkfl")){
 
-        exit_code = mkfl("HELLO");
+        cout("\nFILENAME: ");
+        while(!programEnter){
+        }
+        exit_code = mkfl(my_strcat(ProgramBuffer,"\0"));
+        programEnter=0; 
     }
 
     else if(stringCmp(command_buffer,"help")){
@@ -51,5 +55,6 @@ void command(){
         exit_code = 127;
         cout("\nCOMMAND NOT FOUND: %s",command_buffer);
     }
-    resetBuffer();       
+    resetBuffer();  
+    programEnter=0;   
 }
