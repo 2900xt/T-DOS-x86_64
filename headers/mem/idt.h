@@ -37,4 +37,5 @@ extern "C" void isr1_handler(){
     TranslateScanCode(scancode);
     outb(0x20, 0x20);
     outb(0xa0, 0x20);
+    PIC_sendEOI(1);
 }

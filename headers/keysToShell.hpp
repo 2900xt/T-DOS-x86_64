@@ -1,5 +1,5 @@
 case 1:
-	character = NULL;//esc
+	character = 0;//esc
 	return;
 case 2:
 		 character = '1';

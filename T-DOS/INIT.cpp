@@ -1,17 +1,18 @@
 #include <std/io.hpp>
 
-
 void kmain(){
 
     cout("\nWelcome To T-DOS\nfor a list of commands: 'help'\n\n->");
-
      for(;;) {
+        FontColor=GREEN_FONT;
         asm("hlt");
         if (!SHELL_ACTIVE){
+        FontColor=WHITE_FONT;
         command();
-		cout("\n%s[%d]->",PWD,exit_code);
+		cout("\nT-SH [%d]->",exit_code);
 		command_buffer[buffer_ptr]=0;
-		SHELL_ACTIVE=(!SHELL_ACTIVE);}
+		SHELL_ACTIVE=(!SHELL_ACTIVE);
+        FontColor=GREEN_FONT;}
  }
 }
 
@@ -38,6 +39,10 @@ extern "C" void _start(){
 
     cout(" ...done!\n\n");
 
+    cout("%s:",FILESYSTEM.returnFileName(rootID));
+
     kmain();
 
+    asm("sti");
+    asm("hlt");
 }

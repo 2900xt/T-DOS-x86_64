@@ -1,8 +1,12 @@
-#pragma once
+#ifndef IOHPP_TDOS
+#define IOHPP_TDOS
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdarg.h>
+#include <std/vga.h>
+#define NEW(T) (T*)calloc(sizeof(T))
+
 
 struct MEMMAPENTRY
 {
@@ -23,7 +27,6 @@ struct MemorySegmentHeader_T{
 
 MemorySegmentHeader_T* FirstFreeMemorySegment;
 
-const char* PWD;
 
 MEMMAPENTRY** GetUsableMemory();
 void memset(void* start, uint64_t value, uint64_t num);
@@ -34,6 +37,7 @@ void CombineFreeSegments(MemorySegmentHeader_T* a, MemorySegmentHeader_T* b);
 void free(void* address);
 void* calloc(uint64_t size);
 void* realloc(void* address, uint64_t newSize);
+void PIC_sendEOI(unsigned char irq);
 
 char* strcpy(char* destination, const char* source);
 bool stringCmp(const char* a, const char* b);
@@ -41,11 +45,23 @@ char* strcat(char* destination, const char* source);
 void cout(const char* fmt, ...);
 
 int mkfl(const char* filename);
-int LISTFILES(const char* DIR);
+int LISTFILES();
 
 #define FLAG_SET(number,flag)number |= flag
 #define FLAG_UNSET(number,flag)number &= ~flag
 
+static unsigned long int next = 1; 
+
+int rand(void) // RAND_MAX assumed to be 32767 
+{ 
+    next = next * 1103515245 + 12345; 
+    return (unsigned int)(next/65536) % 32768; 
+} 
+
+void srand(unsigned int seed) 
+{ 
+    next = seed; 
+} 
 
 int sout(const char* str);
 extern "C" void com1_putc(char c);
@@ -119,19 +135,81 @@ namespace gsl{
 }
 
 class FILE_T{
-    public:
-        const char* filename;
-        uint8_t properties; //0b (FILE(0) OR DIR(1)) 3(Permisson string (RWE))
-        FILE_T* NextFiles = nullptr;
-        FILE_T* PreviousFiles = nullptr;
-        uint64_t LBA;
+public:
+    const char* filename;
+    uint8_t properties; //0b (FILE(0) OR DIR(1)) 3(Permisson string (RWE))
+    FILE_T* NextFiles = nullptr;
+    FILE_T* PreviousFiles = nullptr;
+    uint16_t ID;
+};
+
+class GVFS_BASE{
+public:
+    FILE_T* FirstFile;
+    uint64_t addFile(uint8_t properties,const char* name){
+        if (FirstFile == nullptr){
+            FirstFile = NEW(FILE_T);
+            FirstFile->properties = properties;
+            FirstFile->filename = name;
+            FirstFile->ID = rand();
+            return FirstFile->ID;
+        }
+        FILE_T* CurrentFile = FirstFile;
+        while(CurrentFile->NextFiles != 0){
+            CurrentFile = CurrentFile->NextFiles;
+        }
+        CurrentFile = NEW(FILE_T);
+        CurrentFile->properties = properties;
+        CurrentFile->filename = name;
+        CurrentFile->ID = rand();
+        return FirstFile->ID;
+    }
+    //Searches the linked list for an empty file location and creates a new file there.
+
+    bool removeFile(uint16_t fileID){
+        FILE_T* CurrentFile = FirstFile;
+        if (!FirstFile){
+            return false;
+        }
+        do {
+            if (fileID = CurrentFile->ID){
+                free(CurrentFile);
+                return true;
+            }
+            CurrentFile->NextFiles = CurrentFile;
+        } while (CurrentFile->NextFiles != 0);
+        return false;
+    }
+    bool removeFile(const char* FileName){
+        FILE_T* CurrentFile = FirstFile;
+        if (!FirstFile){
+            return false;
+        }
+        do {
+            if (stringCmp(FileName,CurrentFile->filename)){
+                free(CurrentFile);
+                return true;
+            }
+            CurrentFile->NextFiles = CurrentFile;
+        } while (CurrentFile->NextFiles != 0);
+        return false;
+    }
+    const char* returnFileName(uint16_t fileID){
+        FILE_T* CurrentFile = FirstFile;
+        do {
+            if (fileID == CurrentFile->ID ){
+                return CurrentFile->filename;
+            }
+            CurrentFile->NextFiles = CurrentFile;
+        } while (CurrentFile->NextFiles != 0);
+
+        return nullptr;
+    }
+
 };
 
 
-FILE_T ROOT;
-FILE_T* CURRENTFILE;
-FILE_T* FILES_IN_PWD[1024];
-int filenum  = 0;
+GVFS_BASE FILESYSTEM;
 
 int Shift_BIT = 0;
 int SHELL_ACTIVE = 1;
@@ -142,12 +220,14 @@ char ProgramBuffer[4096];
 const unsigned SCREEN_WIDTH = 80;
 const unsigned SCREEN_HEIGHT = 25;
 const uint8_t DEFAULT_COLOR = 0x15;
+uint8_t FontColor = 15;
 uint8_t* g_ScreenBuffer = (uint8_t*)0xB8000;
 int g_ScreenX = 0, g_ScreenY = 0;
 char command_buffer[256];
 int exit_code = 0;
 int buffer_ptr = 0;
 int arg_bit = 0;
+uint16_t rootID;
 
 extern uint8_t MemoryRegionCount;
 uint8_t usableMemoryRegionCount = 0;
@@ -280,7 +360,7 @@ void setcursor(int x, int y)
 }
 
 void backspace(){
-	if (g_ScreenX==0){
+	if (g_ScreenX==0 || buffer_ptr==0){
 		return;
 	}
 
@@ -350,6 +430,7 @@ void putc(char c)
 
         default:
             putchr(g_ScreenX, g_ScreenY, c);
+            putcolor(g_ScreenX,g_ScreenY, FontColor);
             g_ScreenX++;
             break;
     }
@@ -608,15 +689,12 @@ void command(){
     }
 
     else if(stringCmp(command_buffer,"lf")){
-        exit_code = LISTFILES(PWD);
+        exit_code = LISTFILES();
     }
 
     else if(stringCmp(command_buffer,"mkfl")){
 
-        cout("\nFILENAME: ");
-        while(!programEnter){
-        }
-        exit_code = mkfl(strcat(ProgramBuffer,"\0"));
+        exit_code = 0;
         programEnter=0; 
     }
 
@@ -639,3 +717,6 @@ void command(){
 #include <mem/idt.h>
 #include <ata/gvfs.h>
 #include <std/scan.hpp>
+#include <../T-DOS/Programs/pic.c>
+#include <../T-DOS/Programs/time.c>
+#endif

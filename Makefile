@@ -8,9 +8,10 @@ ASFLAGS = -felf32
 
 INCLUDE = 2900-files/include
 
-all: buildiso run
+all: buildimg run
 
-buildiso:
+buildimg:
+	clear
 	nasm -o build/boot.bin -f bin T-DOS/boot/boot.asm
 	nasm -o build/ext.elf -f elf64 src/ext.s
 
@@ -22,4 +23,5 @@ buildiso:
 	rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o
 
 run:
-	qemu-system-x86_64 --fda build/os.img
+	@echo STARTING VM 
+	qemu-system-x86_64 -drive file=build/os.img,index=0,if=floppy,format=raw
