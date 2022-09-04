@@ -1,10 +1,4 @@
 #include <std/io.hpp>
-#include <mem/idt.h>
-#include <mem/mem.h>
-#include <tty/shell.h>
-#include <ata/gvfs.h>
-#include <mem/heap.h>
-#include <std/scan.hpp>
 
 
 void kmain(){

@@ -1,23 +1,5 @@
 #pragma once
 #include <std/io.hpp>
-#include <mem/heap.h>
-#include <std/class.hpp>
-
-class FILE_T{
-    public:
-        const char* filename;
-        uint8_t properties; //0b (FILE(0) OR DIR(1)) 3(Permisson string (RWE))
-        FILE_T* NextFiles = nullptr;
-        FILE_T* PreviousFiles = nullptr;
-        uint64_t LBA;
-};
-
-
-FILE_T ROOT;
-FILE_T* CURRENTFILE;
-FILE_T* FILES_IN_PWD[1024];
-const char* PWD;
-int filenum  = 0;
 
 void _GFS_INIT(){
     for (int i = 0; i<1024;i++){
