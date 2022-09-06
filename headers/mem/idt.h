@@ -14,6 +14,7 @@ struct IDT64{
 
 extern "C" IDT64 _idt[256];
 extern uint64_t isr1;
+extern uint64_t isr0;
 extern "C" void LoadIDT();
 
 
@@ -37,5 +38,4 @@ extern "C" void isr1_handler(){
     TranslateScanCode(scancode);
     outb(0x20, 0x20);
     outb(0xa0, 0x20);
-    PIC_sendEOI(1);
 }

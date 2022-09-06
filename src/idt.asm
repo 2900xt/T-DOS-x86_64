@@ -4,7 +4,6 @@ idtDescriptor:
   dw 4095
   dq _idt
 
-
   %macro PUSHALL 0
   	push rax
   	push rcx
@@ -25,17 +24,29 @@ idtDescriptor:
   	pop rax
   %endmacro
 
-[extern isr1_handler]
-GLOBAL isr1
-isr1:
-  PUSHALL
-  call isr1_handler
-  POPALL
-  iretq
+  %macro _ISR 2
+  [extern %1]
+  GLOBAL %2
+  %2:
+   PUSHALL
+   call %1
+   POPALL
+   iretq
+  %endmacro
 
+_ISR isr1_handler,isr1
+
+[extern CountDown]
+GLOBAL isr0
+isr0:
+	PUSHALL
+
+	POPALL
+	iretq
 
 GLOBAL LoadIDT
 LoadIDT:
   lidt [idtDescriptor]
   sti
   ret
+

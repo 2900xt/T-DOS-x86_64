@@ -1,7 +1,7 @@
 
 CROSS = /usr/local/x86_64elfgcc/bin/x86_64-elf-g++
 LD = /usr/local/x86_64elfgcc/bin/x86_64-elf-ld
-CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I headers -I T-DOS/Programs
+CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I headers -I T-DOS/Programs -I TFS
 
 
 ASFLAGS = -felf32
@@ -13,7 +13,7 @@ all: buildimg run
 buildimg:
 	clear
 	nasm -o build/boot.bin -f bin T-DOS/boot/boot.asm
-	nasm -o build/ext.elf -f elf64 src/ext.s
+	nasm -o build/ext.elf -f elf64 src/ext.s -w+zeroing
 
 	${CROSS} ${CCFLAGS} -c "T-DOS/INIT.cpp" -o "build/kernel.o"
 	${LD} -T "link.ld"

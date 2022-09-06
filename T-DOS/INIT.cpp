@@ -3,13 +3,21 @@
 void kmain(){
 
     cout("\nWelcome To T-DOS\nfor a list of commands: 'help'\n\n->");
+    __STI;
      for(;;) {
         FontColor=GREEN_FONT;
-        asm("hlt");
+        __HLT;
         if (!SHELL_ACTIVE){
         FontColor=WHITE_FONT;
         command();
-		cout("\nT-SH [%d]->",exit_code);
+		cout("\nT-SH [");
+        if(!exit_code)
+            FontColor = BLUE_FONT;
+        else 
+            FontColor = RED_FONT;
+        cout("%d",exit_code);
+        FontColor = WHITE_FONT;
+        cout("]->");
 		command_buffer[buffer_ptr]=0;
 		SHELL_ACTIVE=(!SHELL_ACTIVE);
         FontColor=GREEN_FONT;}
@@ -24,6 +32,8 @@ extern "C" void _start(){
     cout("Initializing IDT");
 
     _IDT_INIT();
+
+    __CLI;
 
     cout("  ...done!\nInitializing Heap");
 
@@ -43,6 +53,6 @@ extern "C" void _start(){
 
     kmain();
 
-    asm("sti");
-    asm("hlt");
+    __CLI;
+    __HLT;
 }

@@ -4,8 +4,13 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdarg.h>
+#include <fstypes.h>
 #include <std/vga.h>
 #define NEW(T) (T*)calloc(sizeof(T))
+
+#define __CLI asm("cli")
+#define __STI asm("sti")
+#define __HLT asm("hlt")
 
 
 struct MEMMAPENTRY
@@ -52,7 +57,7 @@ int LISTFILES();
 
 static unsigned long int next = 1; 
 
-int rand(void) // RAND_MAX assumed to be 32767 
+uint16_t rand(void) // RAND_MAX assumed to be 32767 
 { 
     next = next * 1103515245 + 12345; 
     return (unsigned int)(next/65536) % 32768; 
@@ -98,7 +103,7 @@ namespace gsl{
         uint16_t size = 0;
 
     public:
-        String(char* input){
+        void INIT(char* input){
             data = (char*)calloc(sizeof(input));
             for (int i=0;i<sizeof(input);i++){
                 data[i] = input[i];
@@ -140,7 +145,7 @@ public:
     uint8_t properties; //0b (FILE(0) OR DIR(1)) 3(Permisson string (RWE))
     FILE_T* NextFiles = nullptr;
     FILE_T* PreviousFiles = nullptr;
-    uint16_t ID;
+    id_t ID;
 };
 
 class GVFS_BASE{
@@ -180,20 +185,6 @@ public:
         } while (CurrentFile->NextFiles != 0);
         return false;
     }
-    bool removeFile(const char* FileName){
-        FILE_T* CurrentFile = FirstFile;
-        if (!FirstFile){
-            return false;
-        }
-        do {
-            if (stringCmp(FileName,CurrentFile->filename)){
-                free(CurrentFile);
-                return true;
-            }
-            CurrentFile->NextFiles = CurrentFile;
-        } while (CurrentFile->NextFiles != 0);
-        return false;
-    }
     const char* returnFileName(uint16_t fileID){
         FILE_T* CurrentFile = FirstFile;
         do {
@@ -204,6 +195,17 @@ public:
         } while (CurrentFile->NextFiles != 0);
 
         return nullptr;
+    }
+        uint64_t returnFileID(const char* filename){
+        FILE_T* CurrentFile = FirstFile;
+        do {
+            if (stringCmp(filename,CurrentFile->filename)){
+                return CurrentFile->ID;
+            }
+            CurrentFile->NextFiles = CurrentFile;
+        } while (CurrentFile->NextFiles != 0);
+
+        return 0;
     }
 
 };
@@ -236,25 +238,6 @@ MEMMAPENTRY* usableRegions[10];
 bool MemRegionsGot = false; 
 
 
-char hexToStringOutput[128];
-
-const char* HexToString(uint16_t value){
-  uint16_t* valPtr = &value;
-  uint8_t* ptr;
-  uint8_t temp;
-  uint8_t size = (sizeof(uint16_t)) * 2 - 1;
-  uint8_t i;
-  for (i = 0; i < size; i++){
-    ptr = ((uint8_t*)valPtr + i);
-    temp = ((*ptr & 0xF0) >> 4);
-    hexToStringOutput[size - (i * 2 + 1)] = temp + (temp > 9 ? 55 : 48);
-    temp = ((*ptr & 0x0F));
-    hexToStringOutput[size - (i * 2 + 0)] = temp + (temp > 9 ? 55 : 48);
-  }
-  hexToStringOutput[size + 1] = 0;
-  return hexToStringOutput;
-}
-
 bool stringCmp(const char* a, const char* b){
   for (int j=-1;b[++j] != 0;){
     if (a[j] != b[j]){
@@ -277,7 +260,7 @@ char* strcpy(char* destination, const char* source)
 {
     // return if no memory is allocated to the destination
     if (destination == NULL) {
-        return NULL;
+        return nullptr;
     }
  
     // take a pointer pointing to the beginning of the destination string
@@ -360,14 +343,14 @@ void setcursor(int x, int y)
 }
 
 void backspace(){
-	if (g_ScreenX==0 || buffer_ptr==0){
+	if (--g_ScreenX==0 || buffer_ptr==0){
 		return;
 	}
 
-	setcursor(--g_ScreenX, g_ScreenY);
+	setcursor(g_ScreenX, g_ScreenY);
 	putchr(g_ScreenX,g_ScreenY,' ');
-    command_buffer[buffer_ptr--] = 0;
- 
+    command_buffer[--buffer_ptr] = '\0';
+    
 }
 
 void resetBuffer(){
@@ -717,6 +700,5 @@ void command(){
 #include <mem/idt.h>
 #include <ata/gvfs.h>
 #include <std/scan.hpp>
-#include <../T-DOS/Programs/pic.c>
-#include <../T-DOS/Programs/time.c>
+#include <../T-DOS/Programs/time.h>
 #endif
