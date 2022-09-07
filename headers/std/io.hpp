@@ -49,9 +49,8 @@ bool stringCmp(const char* a, const char* b);
 char* strcat(char* destination, const char* source);
 void cout(const char* fmt, ...);
 
-int mkfl(const char* filename);
+uint16_t mkfl(const char* filename);
 int LISTFILES();
-
 #define FLAG_SET(number,flag)number |= flag
 #define FLAG_UNSET(number,flag)number &= ~flag
 
@@ -60,7 +59,7 @@ static unsigned long int next = 1;
 uint16_t rand(void) // RAND_MAX assumed to be 32767 
 { 
     next = next * 1103515245 + 12345; 
-    return (unsigned int)(next/65536) % 32768; 
+    return (unsigned int)(next/131072) % 65535; 
 } 
 
 void srand(unsigned int seed) 
@@ -142,7 +141,6 @@ namespace gsl{
 class FILE_T{
 public:
     const char* filename;
-    uint8_t properties; //0b (FILE(0) OR DIR(1)) 3(Permisson string (RWE))
     FILE_T* NextFiles = nullptr;
     FILE_T* PreviousFiles = nullptr;
     id_t ID;
@@ -151,10 +149,9 @@ public:
 class GVFS_BASE{
 public:
     FILE_T* FirstFile;
-    uint64_t addFile(uint8_t properties,const char* name){
+    uint16_t addFile(const char* name){
         if (FirstFile == nullptr){
             FirstFile = NEW(FILE_T);
-            FirstFile->properties = properties;
             FirstFile->filename = name;
             FirstFile->ID = rand();
             return FirstFile->ID;
@@ -164,7 +161,6 @@ public:
             CurrentFile = CurrentFile->NextFiles;
         }
         CurrentFile = NEW(FILE_T);
-        CurrentFile->properties = properties;
         CurrentFile->filename = name;
         CurrentFile->ID = rand();
         return FirstFile->ID;
@@ -187,6 +183,9 @@ public:
     }
     const char* returnFileName(uint16_t fileID){
         FILE_T* CurrentFile = FirstFile;
+        if (!FirstFile){
+            return nullptr;
+        }
         do {
             if (fileID == CurrentFile->ID ){
                 return CurrentFile->filename;
@@ -196,8 +195,11 @@ public:
 
         return nullptr;
     }
-        uint64_t returnFileID(const char* filename){
+    uint64_t returnFileID(const char* filename){
         FILE_T* CurrentFile = FirstFile;
+        if (!FirstFile){
+            return NULL;
+        }
         do {
             if (stringCmp(filename,CurrentFile->filename)){
                 return CurrentFile->ID;
@@ -206,6 +208,26 @@ public:
         } while (CurrentFile->NextFiles != 0);
 
         return 0;
+    }
+    gsl::String returnFileInDir(const char* DIR = nullptr){
+        gsl::String out;
+        if (!FirstFile){
+            return out;
+        }
+        out.INIT("\n");
+        FILE_T* CurrentFile = FirstFile->NextFiles;
+        if (!DIR){
+            do {
+                //out<<(CurrentFile->filename);
+                out<<" ";
+                CurrentFile->NextFiles = CurrentFile;
+            } while (CurrentFile->NextFiles != 0);
+            return out;
+        }
+        else{
+            cout("WIP\n");
+            return out;
+        }
     }
 
 };
@@ -676,9 +698,17 @@ void command(){
     }
 
     else if(stringCmp(command_buffer,"mkfl")){
-
-        exit_code = 0;
-        programEnter=0; 
+        const char* str = command_buffer+5;
+        if (str[0] == '\0' || str[0] == ' '){
+            cout("\nERROR: Missing Parameter\n");
+            exit_code = -1;
+        }
+        else {
+            mkfl(str);
+            putc('\n');
+            exit_code = 0;
+        }
+        
     }
 
     else if(stringCmp(command_buffer,"help")){
