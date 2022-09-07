@@ -14,13 +14,13 @@ void _GFS_INIT(){
 }*/
 
 uint16_t mkfl(const char* filename){
-    cout("\nAdded file: %s",filename);
     srand(rand_seed++);
     uint16_t newfile = FILESYSTEM.addFile(filename);
-    if (newfile != 0)
-        return 0;
-    else
-        cout("\nAdded file: %s",FILESYSTEM.returnFileName(newfile));
+    cout("%d",newfile);
+    //if (newfile != 0)
+        //sreturn 0;
+    //else
+        //cout("\nAdded file: %s",FILESYSTEM.returnFileName(newfile));
     return newfile;
 }
 
