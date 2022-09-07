@@ -4,7 +4,6 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdarg.h>
-#include <fstypes.h>
 #include <std/vga.h>
 #define NEW(T) (T*)calloc(sizeof(T))
 
@@ -48,6 +47,7 @@ char* strcpy(char* destination, const char* source);
 bool stringCmp(const char* a, const char* b);
 char* strcat(char* destination, const char* source);
 void cout(const char* fmt, ...);
+int strlen(const char* str);
 
 uint16_t mkfl(const char* filename);
 int LISTFILES();
@@ -57,9 +57,10 @@ int LISTFILES();
 static unsigned long int next = 1; 
 
 uint16_t rand(void) // RAND_MAX assumed to be 32767 
-{ 
+{
+    next+=1000;
     next = next * 1103515245 + 12345; 
-    return (unsigned int)(next/131072) % 65535; 
+    return (unsigned int)(next/65535) % 32767; 
 } 
 
 void srand(unsigned int seed) 
@@ -69,6 +70,11 @@ void srand(unsigned int seed)
 
 int sout(const char* str);
 extern "C" void com1_putc(char c);
+void bp(int x){
+    cout("Break:%d\n",x);
+    __CLI;
+    __HLT;
+}
 
 namespace gsl{
     template <class T>
@@ -102,7 +108,7 @@ namespace gsl{
         uint16_t size = 0;
 
     public:
-        void INIT(char* input){
+        void INIT(const char* input){
             data = (char*)calloc(sizeof(input));
             for (int i=0;i<sizeof(input);i++){
                 data[i] = input[i];
@@ -143,26 +149,28 @@ public:
     const char* filename;
     FILE_T* NextFiles = nullptr;
     FILE_T* PreviousFiles = nullptr;
-    id_t ID;
+    uint16_t ID;
 };
 
 class GVFS_BASE{
 public:
     FILE_T* FirstFile;
     uint16_t addFile(const char* name){
+        uint16_t id_IT = 0;
         if (FirstFile == nullptr){
             FirstFile = NEW(FILE_T);
             FirstFile->filename = name;
-            FirstFile->ID = rand();
+            FirstFile->ID = id_IT;
             return FirstFile->ID;
         }
         FILE_T* CurrentFile = FirstFile;
         while(CurrentFile->NextFiles != 0){
             CurrentFile = CurrentFile->NextFiles;
+            id_IT++;
         }
         CurrentFile = NEW(FILE_T);
         CurrentFile->filename = name;
-        CurrentFile->ID = rand();
+        CurrentFile->ID = id_IT;
         return FirstFile->ID;
     }
     //Searches the linked list for an empty file location and creates a new file there.
@@ -198,7 +206,7 @@ public:
     uint64_t returnFileID(const char* filename){
         FILE_T* CurrentFile = FirstFile;
         if (!FirstFile){
-            return NULL;
+            return 0;
         }
         do {
             if (stringCmp(filename,CurrentFile->filename)){
@@ -209,17 +217,19 @@ public:
 
         return 0;
     }
-    gsl::String returnFileInDir(const char* DIR = nullptr){
-        gsl::String out;
+    const char* returnFileInDir(const char* DIR = nullptr){
+        char* out;
+        int it=0;
         if (!FirstFile){
             return out;
         }
-        out.INIT("\n");
         FILE_T* CurrentFile = FirstFile->NextFiles;
         if (!DIR){
             do {
-                //out<<(CurrentFile->filename);
-                out<<" ";
+                for (int i = 0;i < strlen(CurrentFile->filename); i++){
+                    out[it++]=CurrentFile->filename[i];
+                }
+                out[it++]='\t';
                 CurrentFile->NextFiles = CurrentFile;
             } while (CurrentFile->NextFiles != 0);
             return out;
@@ -730,5 +740,4 @@ void command(){
 #include <mem/idt.h>
 #include <ata/gvfs.h>
 #include <std/scan.hpp>
-#include <../T-DOS/Programs/time.h>
 #endif

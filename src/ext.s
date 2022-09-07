@@ -1,5 +1,3 @@
-
-
 jmp EnterProtectedMode
 
 

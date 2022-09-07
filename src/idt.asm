@@ -36,7 +36,6 @@ idtDescriptor:
 
 _ISR isr1_handler,isr1
 
-[extern CountDown]
 GLOBAL isr0
 isr0:
 	PUSHALL
