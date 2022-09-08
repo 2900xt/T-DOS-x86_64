@@ -226,10 +226,7 @@ public:
         FILE_T* CurrentFile = FirstFile->NextFiles;
         if (!DIR){
             do {
-                for (int i = 0;i < strlen(CurrentFile->filename); i++){
-                    out[it++]=CurrentFile->filename[i];
-                }
-                out[it++]='\t';
+                out = strcat(strcat(out,CurrentFile->filename),"\t");
                 CurrentFile->NextFiles = CurrentFile;
             } while (CurrentFile->NextFiles != 0);
             return out;
