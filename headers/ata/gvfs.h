@@ -25,8 +25,8 @@ uint16_t mkfl(const char* filename){
 }
 
 int LISTFILES(){
-    gsl::String files;
+    gsl::String* files;
     files = FILESYSTEM.returnFileInDir();
-    cout(files.c_str());
+    cout(files->c_str());
     return 0;
 }

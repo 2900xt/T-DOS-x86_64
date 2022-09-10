@@ -217,28 +217,28 @@ public:
 
         return 0;
     }
-    const char* returnFileInDir(const char* DIR = nullptr){
-        char* out;
-        int it=0;
+    gsl::String* returnFileInDir(const char* DIR = nullptr){
+        gsl::String* out= NEW(gsl::String);
+        out->INIT("\t");
         if (!FirstFile){
             return out;
         }
         FILE_T* CurrentFile = FirstFile->NextFiles;
         if (!DIR){
             do {
-                out = strcat(strcat(out,CurrentFile->filename),"\t");
                 CurrentFile->NextFiles = CurrentFile;
+                *out<<"f";
             } while (CurrentFile->NextFiles != 0);
             return out;
         }
         else{
             cout("WIP\n");
             return out;
-        }
+        
     }
 
+}
 };
-
 
 GVFS_BASE FILESYSTEM;
 
