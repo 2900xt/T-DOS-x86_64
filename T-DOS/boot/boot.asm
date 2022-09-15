@@ -12,8 +12,8 @@ call PrintStr
 
 jmp PROGRAM_SPACE; EXT
 
-%include "headers/ostream16"
-%include "src/disc.asm"
+%include "T-DOS/include/ostream16"
+%include "T-DOS/src/asm/disc.asm"
 str:
     db "ERROR LOADING OS (-1)",0
 times 510-($-$$) db 0;

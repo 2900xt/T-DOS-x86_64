@@ -7,6 +7,10 @@ SEARCH_DIR(build)
 INPUT(
     ext.elf
     kernel.o
+    idt.o
+    io.o
+    gvfs.o
+    mem.o
 )
 
 OUTPUT(
