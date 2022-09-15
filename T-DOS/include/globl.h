@@ -50,11 +50,13 @@ char* strcat(char* destination, const char* source);
 void cout(const char* fmt, ...);
 int strlen(const char* str);
 void clrscr();
+void bp(int x);
 extern "C" void _IDT_INIT();
-void _GFS_INIT();
+
+
 void command();
 void putc(char c);
-uint16_t rand(void);
+int rand(void);
 void srand(unsigned int seed);
 
 unsigned char inb(unsigned short port);
@@ -63,12 +65,12 @@ void outb(unsigned short port, unsigned char val);
 
 void backspace();
 
-uint16_t mkfl(const char* filename);
-int LISTFILES();
+
 #define FLAG_SET(number,flag)number |= flag
 #define FLAG_UNSET(number,flag)number &= ~flag
 
-static unsigned long int next = 1;
+
+//Garbage Standard Library
 
 namespace gsl{
     template <class T>
@@ -138,103 +140,7 @@ namespace gsl{
     };
 }
 
-class FILE_T{
-public:
-    const char* filename;
-    FILE_T* NextFiles = nullptr;
-    FILE_T* PreviousFiles = nullptr;
-    uint16_t ID;
-};
-
-class GVFS_BASE{
-public:
-    FILE_T* FirstFile;
-    uint16_t addFile(const char* name){
-        uint16_t id_IT = 0;
-        if (FirstFile == nullptr){
-            FirstFile = NEW(FILE_T);
-            FirstFile->filename = name;
-            FirstFile->ID = id_IT;
-            return FirstFile->ID;
-        }
-        FILE_T* CurrentFile = FirstFile;
-        while(CurrentFile->NextFiles != 0){
-            CurrentFile = CurrentFile->NextFiles;
-            id_IT++;
-        }
-        CurrentFile = NEW(FILE_T);
-        CurrentFile->filename = name;
-        CurrentFile->ID = id_IT;
-        return FirstFile->ID;
-    }
-    //Searches the linked list for an empty file location and creates a new file there.
-
-    bool removeFile(uint16_t fileID){
-        FILE_T* CurrentFile = FirstFile;
-        if (!FirstFile){
-            return false;
-        }
-        do {
-            if (fileID = CurrentFile->ID){
-                free(CurrentFile);
-                return true;
-            }
-            CurrentFile->NextFiles = CurrentFile;
-        } while (CurrentFile->NextFiles != 0);
-        return false;
-    }
-    const char* returnFileName(uint16_t fileID){
-        FILE_T* CurrentFile = FirstFile;
-        if (!FirstFile){
-            return nullptr;
-        }
-        do {
-            if (fileID == CurrentFile->ID ){
-                return CurrentFile->filename;
-            }
-            CurrentFile->NextFiles = CurrentFile;
-        } while (CurrentFile->NextFiles != 0);
-
-        return nullptr;
-    }
-    uint64_t returnFileID(const char* filename){
-        FILE_T* CurrentFile = FirstFile;
-        if (!FirstFile){
-            return 0;
-        }
-        do {
-            if (stringCmp(filename,CurrentFile->filename)){
-                return CurrentFile->ID;
-            }
-            CurrentFile->NextFiles = CurrentFile;
-        } while (CurrentFile->NextFiles != 0);
-
-        return 0;
-    }
-    gsl::String* returnFileInDir(const char* DIR = nullptr){
-        gsl::String* out= NEW(gsl::String);
-        out->INIT("\t");
-        if (!FirstFile){
-            return out;
-        }
-        FILE_T* CurrentFile = FirstFile->NextFiles;
-        if (!DIR){
-            do {
-                CurrentFile->NextFiles = CurrentFile;
-                *out<<"f";
-            } while (CurrentFile->NextFiles != 0);
-            return out;
-        }
-        else{
-            cout("WIP\n");
-            return out;
-        
-    }
-
-}
-};
-
-extern GVFS_BASE FILESYSTEM;
+//Global Variables for Console/Shell IO
 
 extern int Shift_BIT ;
 extern int SHELL_ACTIVE ;

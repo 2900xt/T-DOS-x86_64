@@ -1,4 +1,3 @@
-
 %macro IncBin 2
 	SECTION .rodata
 	GLOBAL %1

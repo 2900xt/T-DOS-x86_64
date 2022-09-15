@@ -22,10 +22,15 @@ buildimg:
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/mem.c" -o "build/mem.o"
 	${LD} -T "link.ld"
 
-	cat  build/boot.bin build/kernel.bin > build/os.img
+	@echo Formatting Image
+	cat  build/boot.bin build/kernel.bin > build/os.bin
+	dd if=/dev/null of=build/os.bin bs=1 count=1 seek=1474559 
+	dd if=build/os.bin of=build/t-dos.flp bs=512 count=2880
 
-	rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o
+	@echo CLEANING UP
+	rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o build/os.bin
 
 run:
+	clear
 	@echo STARTING VM 
-	qemu-system-x86_64 -drive file=build/os.img,index=0,if=floppy,format=raw
+	qemu-system-x86_64 -drive file=build/t-dos.flp,index=0,if=floppy,format=raw

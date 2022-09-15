@@ -1,6 +1,7 @@
 #include <globl.h>
 
 MemorySegmentHeader_T* FirstFreeMemorySegment;
+bool MemRegionsGot = false; 
 uint8_t usableMemoryRegionCount = 0;
 MEMMAPENTRY* usableRegions[10];
 
@@ -76,7 +77,6 @@ void memcpy(void* destination, void* source, uint64_t num) {
 	}
 
 }
-
 
 
 void heap_init(uint64_t heap_address, uint64_t heap_length){

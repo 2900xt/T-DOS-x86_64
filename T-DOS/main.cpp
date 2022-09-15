@@ -1,8 +1,10 @@
 #include <globl.h>
+#include <fs/gvfs.h>
 
 void kmain(){
 
     cout("\nWelcome To T-DOS\nfor a list of commands: 'help'\n\n->");
+
     __STI;
      for(;;) {
         FontColor=GREEN_FONT;
@@ -20,13 +22,13 @@ void kmain(){
         cout("]->");
 		command_buffer[buffer_ptr]=0;
 		SHELL_ACTIVE=(!SHELL_ACTIVE);
-        FontColor=GREEN_FONT;}
+        FontColor=GREEN_FONT;
+        }
  }
 }
 
 extern "C" void _start(){
 
-    
     clrscr();
 
     cout("Initializing IDT");
@@ -34,12 +36,18 @@ extern "C" void _start(){
     _IDT_INIT();
 
     __CLI;
-
-    cout("  ...done!\nInitializing Heap");
+    
+    FontColor=GREEN_FONT;
+    cout("...done!");
+    FontColor = WHITE_FONT;
+    cout(" \nInitializing Heap");
 
     heap_init(0x100000,0x100000);
 
-    cout("  ...done!\nInitializing GVFS");
+    FontColor=GREEN_FONT;
+    cout("...done!");
+    FontColor = WHITE_FONT;
+    cout("\nInitializing GVFS");
 
     _GFS_INIT();
 
@@ -47,9 +55,10 @@ extern "C" void _start(){
         ProgramBuffer[i]=0;
     }
 
+    FontColor=GREEN_FONT;
     cout(" ...done!\n\n");
+    FontColor = WHITE_FONT;
 
-    cout("%s:",FILESYSTEM.returnFileName(rootID));
 
     kmain();
 

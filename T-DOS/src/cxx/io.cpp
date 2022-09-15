@@ -1,4 +1,5 @@
 #include <globl.h>
+#include <fs/gvfs.h>
 
 int Shift_BIT = 0;
 int SHELL_ACTIVE = 1;
@@ -17,17 +18,19 @@ int exit_code = 0;
 int buffer_ptr = 0;
 int arg_bit = 0;
 
-uint16_t rand(void) // RAND_MAX assumed to be 32767 
+static unsigned long int next = 1; 
+
+int rand() // RAND_MAX assumed to be 32767 
 {
-    next+=1000;
     next = next * 1103515245 + 12345; 
-    return (unsigned int)(next/65535) % 32767; 
+    return (unsigned int)(next/65536) % 32768; 
 } 
 
 void srand(unsigned int seed) 
 { 
     next = seed; 
-} 
+}  
+
 
 int sout(const char* str);
 extern "C" void com1_putc(char c);
@@ -58,9 +61,9 @@ int strlen(const char* str){
 char* strcpy(char* destination, const char* source)
 {
     // return if no memory is allocated to the destination
-    if (destination == NULL) {
-        return nullptr;
-    }
+    //if (destination == NULL) {
+   //     return nullptr;
+    //}
  
     // take a pointer pointing to the beginning of the destination string
     char *ptr = destination;
@@ -471,7 +474,7 @@ void command(){
     }
 
     else if(stringCmp(command_buffer,"lf")){
-        exit_code = LISTFILES();
+        exit_code = listFiles();
     }
 
     else if(stringCmp(command_buffer,"mkfl")){
