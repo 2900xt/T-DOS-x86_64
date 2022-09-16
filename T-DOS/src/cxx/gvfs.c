@@ -1,12 +1,13 @@
 #include <globl.h>
 #include <fs/gvfs.h>
+#include <gsl.h>
 uint16_t rootID;
 uint16_t rand_seed = 1;
-FileGVFS_T* HEAD_FILE;
-FileGVFS_T* CURRENT_FILE;
+FileGVFS_T* HEAD_FILE = nullptr;
+FileGVFS_T* CURRENT_FILE = nullptr;
 
 void _GFS_INIT(){
-    srand(rand_seed++);
+    
 }
 
 
@@ -14,9 +15,7 @@ uint16_t mkfl(const char* filename){
     if (HEAD_FILE == nullptr){
         HEAD_FILE = NEW(FileGVFS_T);
         CURRENT_FILE=HEAD_FILE;
-        strcpy(CURRENT_FILE->filename,filename);
-        srand(rand_seed++);
-        CURRENT_FILE->fileID = rand();
+        CURRENT_FILE->filename = filename;
     }
     else{
         CURRENT_FILE = HEAD_FILE;
@@ -24,25 +23,26 @@ uint16_t mkfl(const char* filename){
             CURRENT_FILE = CURRENT_FILE->nextFile;
         }
         CURRENT_FILE->nextFile = NEW(FileGVFS_T);
-        strcpy(CURRENT_FILE->nextFile->filename,filename);
-        srand(rand_seed++);
-        CURRENT_FILE->nextFile->fileID = rand();
         CURRENT_FILE = CURRENT_FILE->nextFile;
+        CURRENT_FILE->filename = filename;
     }
-    cout("\nMade File: %s with file ID of %d",CURRENT_FILE->filename,CURRENT_FILE->fileID);
+    cout("\nMade File: %s",CURRENT_FILE->filename.c_str());
     CURRENT_FILE = nullptr;
     return 0;
 }
 
 int listFiles(){
-    if (HEAD_FILE == nullptr)
+    if (HEAD_FILE == nullptr || CURRENT_FILE != nullptr)
         return 1;
     CURRENT_FILE = HEAD_FILE;
-    cout("\n%s\t",CURRENT_FILE->filename);
+    gsl::sstring out;
     while(CURRENT_FILE->nextFile != nullptr){
-        cout(" %s\t",CURRENT_FILE->filename);
+        out<<CURRENT_FILE->filename;
+        out<<"\t";
         CURRENT_FILE = CURRENT_FILE->nextFile;
     }
+    out<<CURRENT_FILE->filename;
+    cout(out.c_str());
     CURRENT_FILE = nullptr;
     return 0;
 }
