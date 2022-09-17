@@ -29,7 +29,15 @@ struct MemorySegmentHeader_T{
     MemorySegmentHeader_T* PreviousFreeSegment;
     bool Free;
 };
-
+struct Time_T{
+   unsigned char second;
+    unsigned char minute;
+    unsigned char hour;
+    unsigned char day;
+    unsigned char month;
+    unsigned int year;
+ 
+};
 extern MemorySegmentHeader_T* FirstFreeMemorySegment;
 
 
@@ -52,12 +60,13 @@ int strlen(const char* str);
 void clrscr();
 void bp(int x);
 extern "C" void _IDT_INIT();
-
-
+void printTime();
 void command();
 void putc(char c);
 int rand(void);
 void srand(unsigned int seed);
+
+void sleep(uint64_t millis);
 
 unsigned char inb(unsigned short port);
 
@@ -93,7 +102,6 @@ extern int exit_code ;
 extern int buffer_ptr ;
 extern int arg_bit;
 extern uint16_t rootID;
-
 extern uint8_t MemoryRegionCount;
 extern uint8_t usableMemoryRegionCount;
 extern MEMMAPENTRY* usableRegions[10];

@@ -61,6 +61,7 @@ start64Bit:
     rep stosq
 
     call activateSSE
+
     call _start
 
 .end:
@@ -88,3 +89,4 @@ activateSSE:
     ret
 
 %include "T-DOS/src/asm/idt.asm"
+%include "T-DOS/src/asm/pit.asm"

@@ -20,6 +20,7 @@ buildimg:
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/idt.c" -o "build/idt.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/io.cpp" -o "build/io.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/mem.c" -o "build/mem.o"
+	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/rtc.c" -o "build/rtc.o"
 	${LD} -T "link.ld"
 
 	@echo Formatting Image

@@ -11,6 +11,7 @@ void kmain(){
 
     __STI;
      for(;;) {
+        //TSH Backend
         FontColor=GREEN_FONT;
         __HLT;
         if (!SHELL_ACTIVE){
@@ -63,6 +64,7 @@ extern "C" void _start(){
     cout(" ...done!\n\n");
     FontColor = WHITE_FONT;
 
+    printTime();
 
     kmain();
 

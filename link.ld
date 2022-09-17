@@ -11,6 +11,7 @@ INPUT(
     io.o
     gvfs.o
     mem.o
+    rtc.o
 )
 
 OUTPUT(

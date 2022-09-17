@@ -13,7 +13,7 @@ struct IDT64{
 
 extern "C" IDT64 _idt[256];
 extern uint64_t isr1;
-extern uint64_t isr0;
+extern uint64_t isr8;
 extern "C" void LoadIDT();
 
 
@@ -27,12 +27,13 @@ extern "C" void _IDT_INIT(){
         _idt[t].selector = 0x08;
         _idt[t].types_attribute = 0x8e;
     }
+
     outb(0x21,0xfd);
     outb(0xa1,0xff);
     LoadIDT();
 }
 
-extern "C" void isr1_handler(){
+extern "C" void keyboard_handler(){
     uint8_t scancode = inb(0x60);
     TranslateScanCode(scancode);
     outb(0x20, 0x20);

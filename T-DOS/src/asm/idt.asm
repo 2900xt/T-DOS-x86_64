@@ -34,14 +34,8 @@ idtDescriptor:
    iretq
   %endmacro
 
-_ISR isr1_handler,isr1
+_ISR keyboard_handler,isr1
 
-GLOBAL isr0
-isr0:
-	PUSHALL
-
-	POPALL
-	iretq
 
 GLOBAL LoadIDT
 LoadIDT:

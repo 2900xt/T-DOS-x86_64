@@ -17,6 +17,7 @@ char command_buffer[256];
 int exit_code = 0;
 int buffer_ptr = 0;
 int arg_bit = 0;
+extern "C" volatile uint64_t CountDown = 0;
 
 static unsigned long int next = 1; 
 
@@ -31,6 +32,12 @@ void srand(unsigned int seed)
     next = seed; 
 }  
 
+void sleep(uint64_t millis) {
+    CountDown = millis;
+    while (CountDown > 0) {
+        __HLT;
+    }
+}
 
 int sout(const char* str);
 extern "C" void com1_putc(char c);
@@ -100,7 +107,6 @@ char* strcat(char* destination, const char* source)
     // the destination is returned by standard `strcat()`
     return destination;
 }
-
 
 void outb(unsigned short port, unsigned char val){
   asm volatile ("outb %0, %1" : : "a"(val), "Nd"(port));
@@ -454,7 +460,6 @@ uint32_t bintohex(uint32_t binaryval){
     return hexadecimalval;
 }
 
-
 void command(){
 
     char* args;
@@ -497,6 +502,12 @@ void command(){
     }
     else if(stringCmp(command_buffer,"tedit")){
         #include <../Programs/tedit.cpp>
+    }
+    else if(stringCmp(command_buffer,"time")){
+        cout("\nThe time is: \n\n");
+        printTime();
+        cout("\n");
+        exit_code = 0;
     }
     else{
         exit_code = 127;

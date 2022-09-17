@@ -36,13 +36,14 @@ int listFiles(){
         return 1;
     CURRENT_FILE = HEAD_FILE;
     gsl::sstring out;
+    out<<CURRENT_FILE->filename;
     while(CURRENT_FILE->nextFile != nullptr){
+        CURRENT_FILE = CURRENT_FILE->nextFile;
         out<<CURRENT_FILE->filename;
         out<<"\t";
-        CURRENT_FILE = CURRENT_FILE->nextFile;
     }
-    out<<CURRENT_FILE->filename;
     cout(out.c_str());
+    out.~sstring();
     CURRENT_FILE = nullptr;
     return 0;
 }
