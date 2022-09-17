@@ -32,19 +32,15 @@ void srand(unsigned int seed)
     next = seed; 
 }  
 
-void sleep(uint64_t millis) {
-    CountDown = millis;
-    while (CountDown > 0) {
-        __HLT;
-    }
-}
+
 
 int sout(const char* str);
 extern "C" void com1_putc(char c);
 void bp(int x){
     cout("Break:%d\n",x);
-    __CLI;
+    TTY_ACTIVE = 0;
     __HLT;
+    TTY_ACTIVE = 1;
 }
 
 bool stringCmp(const char* a, const char* b){
@@ -498,12 +494,22 @@ void command(){
 
     else if(stringCmp(command_buffer,"help")){
         exit_code = 0;
-        cout("\nCommands:\n\nSOUT [str] \t\t\tprints to serial \nECHO [str]\t\t\t\t prints to tty\nTEDIT\t\t\t\t\t Experimantal File Editor? WIP");
+        cout("\nCommands:\n\nSOUT [str] \t\t\tprints to serial \nECHO [str]\t\t\t\t prints to tty\nTEDIT\t\t\t\t\t Experimantal File Editor? WIP\nTIME\nSLEEP");
     }
     else if(stringCmp(command_buffer,"tedit")){
         #include <../Programs/tedit.cpp>
     }
     else if(stringCmp(command_buffer,"time")){
+        cout("\nThe time is: \n\n");
+        printTime();
+        cout("\n");
+        exit_code = 0;
+    }
+    else if(stringCmp(command_buffer,"sleep")){
+        cout("\nThe time is: \n\n");
+        printTime();
+        cout("\n");
+        sleep(5);
         cout("\nThe time is: \n\n");
         printTime();
         cout("\n");

@@ -19,7 +19,7 @@ unsigned char get_RTC_register(int reg) {
       outb(cmos_address, reg);
       return inb(cmos_data);
 }
- 
+
 Time_T read_rtc() {
       unsigned char century;
       unsigned char last_second;
@@ -104,4 +104,15 @@ Time_T read_rtc() {
 void printTime(){
     Time_T Now = read_rtc();
     cout("%d:%d:%d\n%d/%d/%d",Now.hour,Now.minute,Now.second,Now.month,Now.day,Now.year);
+}
+
+void sleep(int seconds){
+    int elapsed;
+    seconds = seconds * 16384;
+    Time_T oldTime = read_rtc();
+    while (elapsed < seconds){
+        if(read_rtc().second != oldTime.second + elapsed){
+            elapsed++;
+        }
+    }
 }

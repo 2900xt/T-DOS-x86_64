@@ -66,7 +66,7 @@ void putc(char c);
 int rand(void);
 void srand(unsigned int seed);
 
-void sleep(uint64_t millis);
+void sleep(int seconds);
 
 unsigned char inb(unsigned short port);
 
