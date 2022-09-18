@@ -17,7 +17,6 @@ char command_buffer[256];
 int exit_code = 0;
 int buffer_ptr = 0;
 int arg_bit = 0;
-extern "C" volatile uint64_t CountDown = 0;
 
 static unsigned long int next = 1; 
 
@@ -514,6 +513,9 @@ void command(){
         printTime();
         cout("\n");
         exit_code = 0;
+    }
+    else if(stringCmp(command_buffer,"tcalc")){
+        tcalcMain();
     }
     else{
         exit_code = 127;

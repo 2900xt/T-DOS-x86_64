@@ -65,7 +65,8 @@ void command();
 void putc(char c);
 int rand(void);
 void srand(unsigned int seed);
-
+void tcalcMain();
+const char* subStr(const char* str, int start, int finish);
 void sleep(int seconds);
 
 unsigned char inb(unsigned short port);

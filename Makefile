@@ -8,7 +8,7 @@ ASFLAGS = -felf32
 
 INCLUDE = 2900-files/include
 
-all: buildimg run
+test: buildimg clean run
 
 buildimg:
 	clear
@@ -21,6 +21,7 @@ buildimg:
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/io.cpp" -o "build/io.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/mem.c" -o "build/mem.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/rtc.c" -o "build/rtc.o"
+	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/math.c" -o "build/math.o"
 	${LD} -T "link.ld"
 
 	@echo Formatting Image
@@ -28,10 +29,12 @@ buildimg:
 	dd if=/dev/null of=build/os.bin bs=1 count=1 seek=1474559 
 	dd if=build/os.bin of=build/t-dos.flp bs=512 count=2880
 
-	@echo CLEANING UP
-	rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o build/os.bin
-
 run:
-	clear
+	@echo
+	@echo
 	@echo STARTING VM 
 	qemu-system-x86_64 -drive file=build/t-dos.flp,index=0,if=floppy,format=raw
+
+clean:
+	@echo CLEANING UP
+	rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o build/os.bin build/gvfs.o build/idt.o build/io.o build/math.o build/mem.o build/rtc.o

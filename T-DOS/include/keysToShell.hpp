@@ -2,13 +2,14 @@ case 1:
 	character = 0;//esc
 	return;
 case 2:
-		 character = '1';
-	if (SHELL_ACTIVE){
-		command_buffer[buffer_ptr] = character;
-	buffer_ptr++;}else{ProgramBuffer[PBC++] = character;return;}
+	character = '1';
 	if (TTY_ACTIVE){
 		putc(character);
 	}
+	if (SHELL_ACTIVE){
+		command_buffer[buffer_ptr] = character;
+	buffer_ptr++;}else{ProgramBuffer[PBC++] = character;return;}
+	
 	
 	return;
 case 3:
@@ -19,7 +20,7 @@ character = '2';
 	if (SHELL_ACTIVE){ 
 	putc(character);
 	command_buffer[buffer_ptr] = character;
-buffer_ptr++;}
+buffer_ptr++;}else{ProgramBuffer[PBC++] = character;return;}
 return;
 
 

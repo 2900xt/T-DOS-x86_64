@@ -89,4 +89,3 @@ activateSSE:
     ret
 
 %include "T-DOS/src/asm/idt.asm"
-%include "T-DOS/src/asm/pit.asm"

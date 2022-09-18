@@ -1,5 +1,6 @@
 #include <globl.h>
 #include <fs/gvfs.h>
+#include <math/math.h>
 #include <gsl.h>
 
 void * __gxx_personality_v0=0;
@@ -65,6 +66,8 @@ extern "C" void _start(){
     FontColor = WHITE_FONT;
 
     printTime();
+
+    mkRow('_');
 
     kmain();
 

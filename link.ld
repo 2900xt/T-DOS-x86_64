@@ -12,6 +12,7 @@ INPUT(
     gvfs.o
     mem.o
     rtc.o
+    math.o
 )
 
 OUTPUT(
