@@ -48,20 +48,18 @@ character = '5';
 		putc(character);
 	}
 	if (SHELL_ACTIVE){ 
-	}character = '5';
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
-	return;
+	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 7:
 character = '6';
 	if (TTY_ACTIVE){
 		putc(character);
 	}
 	if (SHELL_ACTIVE){ 
-	} character = '6';
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
-	return;
+	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 8:
 character = '7';
 	if (TTY_ACTIVE){
@@ -108,7 +106,7 @@ character = '-';
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 13:
-character = '=';
+character = (Shift_BIT ? '+' : '=' );
 	if (TTY_ACTIVE){
 		putc(character);
 	}

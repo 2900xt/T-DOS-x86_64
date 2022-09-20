@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdarg.h>
-#include <vga.h>
+#include <vga/colors.h>
 #define NEW(T) (T*)calloc(sizeof(T))
 
 #define __CLI asm("cli")
