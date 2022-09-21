@@ -7,12 +7,7 @@ int programEnter = 0;
 int PBC = 0;
 int TTY_ACTIVE = 1;
 char ProgramBuffer[4096];
-const unsigned SCREEN_WIDTH = 320;
-const unsigned SCREEN_HEIGHT = 200;
-const uint8_t DEFAULT_COLOR = 0x1;
-uint8_t FontColor = 1;
-uint8_t* g_ScreenBuffer = (uint8_t*)0xA0000;
-int g_ScreenX = 0, g_ScreenY = 0;
+
 char command_buffer[256];
 int exit_code = 0;
 int buffer_ptr = 0;
@@ -187,50 +182,6 @@ void scrollback(int lines)
     g_ScreenY -= lines;
 }
 
-void putc(char c)
-{
-    switch (c)
-    {
-        case '\n':
-            g_ScreenX = 0;
-            g_ScreenY++;
-            break;
-    
-        case '\t':
-            for (int i = 0; i < 4 - (g_ScreenX % 4); i++)
-                putc(' ');
-            break;
-
-        case '\r':
-            g_ScreenX = 0;
-            break;
-
-        default:
-            putchr(g_ScreenX, g_ScreenY, c);
-            putcolor(g_ScreenX,g_ScreenY, FontColor);
-            g_ScreenX++;
-            break;
-    }
-
-    if (g_ScreenX >= SCREEN_WIDTH)
-    {
-        g_ScreenY++;
-        g_ScreenX = 0;
-    }
-    if (g_ScreenY >= SCREEN_HEIGHT)
-        scrollback(1);
-
-    setcursor(g_ScreenX, g_ScreenY);
-}
-
-void puts(const char* str)
-{
-    while(*str)
-    {
-        putc(*str);
-        str++;
-    }
-}
 
 const char g_HexChars[] = "0123456789abcdef";
 
@@ -249,14 +200,14 @@ void printf_unsigned(unsigned long long number, int radix)
 
     // print number in reverse order
     while (--pos >= 0)
-        putc(buffer[pos]);
+        putChar(fonts[buffer[pos]],g_ScreenX,g_ScreenY,0x04);
 }
 
 void printf_signed(long long number, int radix)
 {
     if (number < 0)
     {
-        putc('-');
+        putString("-",0x04);
         printf_unsigned(-number, radix);
     }
     else printf_unsigned(number, radix);
@@ -295,7 +246,7 @@ void cout(const char* fmt, ...)
                 {
                     case '%':   state = PRINTF_STATE_LENGTH;
                                 break;
-                    default:    putc(*fmt);
+                    default:    putChar(fonts[*fmt],g_ScreenX+=8,g_ScreenY,0x04);
                                 break;
                 }
                 break;
@@ -335,15 +286,10 @@ void cout(const char* fmt, ...)
             PRINTF_STATE_SPEC_:
                 switch (*fmt)
                 {
-                    case 'c':   putc((char)va_arg(args, int));
-                                break;
-
                     case 's':   
-                                puts(va_arg(args, const char*));
+                                putString(va_arg(args, const char*),0x04);
                                 break;
 
-                    case '%':   putc('%');
-                                break;
 
                     case 'd':
                     case 'i':   radix = 10; sign = true; number = true;
@@ -414,7 +360,7 @@ void cout(const char* fmt, ...)
 
     va_end(args);
 }
-
+/*
 void print_buffer(const char* msg, const void* buffer, uint32_t count)
 {
     const uint8_t* u8Buffer = (const uint8_t*)buffer;
@@ -427,7 +373,7 @@ void print_buffer(const char* msg, const void* buffer, uint32_t count)
     }
     puts("\n");
 }
-
+*/
 uint32_t bintohex(uint32_t binaryval){
     uint32_t hexadecimalval = 0, i = 1, remainder = 0;
         while (binaryval != 0)
@@ -476,7 +422,6 @@ void command(){
         }
         else {
             mkfl(str);
-            putc('\n');
             exit_code = 0;
         }
         

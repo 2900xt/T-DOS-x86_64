@@ -4,7 +4,7 @@ case 1:
 case 2:
 	character = '1';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){
 		command_buffer[buffer_ptr] = character;
@@ -15,10 +15,10 @@ case 2:
 case 3:
 character = '2';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
-	putc(character);
+	putString(&character,15);
 	command_buffer[buffer_ptr] = character;
 buffer_ptr++;}else{ProgramBuffer[PBC++] = character;return;}
 return;
@@ -27,7 +27,7 @@ return;
 case 4:
 character = '3';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -36,7 +36,7 @@ character = '3';
 case 5:
 character = '4';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -45,7 +45,7 @@ character = '4';
 case 6:
 character = '5';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -54,7 +54,7 @@ character = '5';
 case 7:
 character = '6';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -63,7 +63,7 @@ character = '6';
 case 8:
 character = '7';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -72,7 +72,7 @@ character = '7';
 case 9:
 character = '8';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -80,7 +80,7 @@ character = '8';
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 10:
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 character = '9';
 	if (SHELL_ACTIVE){ 
@@ -90,7 +90,7 @@ character = '9';
 case 11:
 character = '0';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -99,7 +99,7 @@ character = '0';
 case 12:
 character = '-';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -108,7 +108,7 @@ character = '-';
 case 13:
 character = (Shift_BIT ? '+' : '=' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
     }
@@ -125,8 +125,9 @@ case 15:
 case 16:
 character = (Shift_BIT ? 'Q' : 'q' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putChar(fonts[character],g_ScreenX,g_ScreenY+8,15);
 	}
+
     if (SHELL_ACTIVE){ 
 	
 	command_buffer[buffer_ptr] = character;
@@ -135,7 +136,7 @@ character = (Shift_BIT ? 'Q' : 'q' );
 case 17:
 character = (Shift_BIT ? 'W' : 'w' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
     if (SHELL_ACTIVE){ 
 	
@@ -145,7 +146,7 @@ character = (Shift_BIT ? 'W' : 'w' );
 case 18:
 character = (Shift_BIT ? 'E' : 'e' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
     if (SHELL_ACTIVE){ 
 	
@@ -155,7 +156,7 @@ character = (Shift_BIT ? 'E' : 'e' );
 case 19:
 character = (Shift_BIT ? 'R' : 'r' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -164,7 +165,7 @@ character = (Shift_BIT ? 'R' : 'r' );
 case 20:
 character = (Shift_BIT ? 'T' : 't' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -173,7 +174,7 @@ character = (Shift_BIT ? 'T' : 't' );
 case 21:
 character = (Shift_BIT ? 'Y' : 'y' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -182,7 +183,7 @@ character = (Shift_BIT ? 'Y' : 'y' );
 case 22:
 character = (Shift_BIT ? 'U' : 'u' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -191,7 +192,7 @@ character = (Shift_BIT ? 'U' : 'u' );
 case 23:
 character = (Shift_BIT ? 'I' : 'i' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -200,7 +201,7 @@ character = (Shift_BIT ? 'I' : 'i' );
 case 24:
 character = (Shift_BIT ? 'O' : 'o' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -209,7 +210,7 @@ character = (Shift_BIT ? 'O' : 'o' );
 case 25:
 character = (Shift_BIT ? 'P' : 'p' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -235,7 +236,7 @@ case 29:
 case 30:
 character = (Shift_BIT ? 'A' : 'a' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -244,7 +245,7 @@ character = (Shift_BIT ? 'A' : 'a' );
 case 31:
 character = (Shift_BIT ? 'S' : 's' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){
 	 
@@ -254,7 +255,7 @@ character = (Shift_BIT ? 'S' : 's' );
 case 32:
 character = (Shift_BIT ? 'D' : 'd' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -263,7 +264,7 @@ character = (Shift_BIT ? 'D' : 'd' );
 case 33:
 	character = (Shift_BIT ? 'F' : 'f' );
 		if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -272,7 +273,7 @@ case 33:
 case 34:
 character = (Shift_BIT ? 'G' : 'g' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -281,7 +282,7 @@ character = (Shift_BIT ? 'G' : 'g' );
 case 35:
 character = (Shift_BIT ? 'H' : 'h' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -290,7 +291,7 @@ character = (Shift_BIT ? 'H' : 'h' );
 case 36:
 character = (Shift_BIT ? 'J' : 'j' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -299,7 +300,7 @@ character = (Shift_BIT ? 'J' : 'j' );
 case 37:
 character = (Shift_BIT ? 'K' : 'k' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -308,7 +309,7 @@ character = (Shift_BIT ? 'K' : 'k' );
 case 38:
 character = (Shift_BIT ? 'L' : 'l' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -317,7 +318,7 @@ character = (Shift_BIT ? 'L' : 'l' );
 case 39:
 character = ';';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -326,7 +327,7 @@ character = ';';
 case 40:
 character = '\'';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -335,7 +336,7 @@ character = '\'';
 case 41:
 character = '`';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -348,7 +349,7 @@ case 42:
 case 43:
 character = '\\';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -357,7 +358,7 @@ character = '\\';
 case 44:
 character = (Shift_BIT ? 'Z' : 'z' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -366,7 +367,7 @@ character = (Shift_BIT ? 'Z' : 'z' );
 case 45:
 character = (Shift_BIT ? 'X' : 'x' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -375,7 +376,7 @@ character = (Shift_BIT ? 'X' : 'x' );
 case 46:
 character = (Shift_BIT ? 'C' : 'c' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -391,7 +392,7 @@ character = (Shift_BIT ? 'V' : 'v' );
 case 48:
 character = (Shift_BIT ? 'B' : 'b' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	 
@@ -401,7 +402,7 @@ character = (Shift_BIT ? 'B' : 'b' );
 case 49:
 character = (Shift_BIT ? 'N' : 'n' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	 
@@ -411,7 +412,7 @@ character = (Shift_BIT ? 'N' : 'n' );
 case 50:
 character = (Shift_BIT ? 'M' : 'm' );
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	 
@@ -421,7 +422,7 @@ character = (Shift_BIT ? 'M' : 'm' );
 case 51:
 character = ',';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	command_buffer[buffer_ptr] = character;
@@ -430,7 +431,7 @@ character = ',';
 case 52:
 character = '.';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	 
@@ -440,7 +441,7 @@ character = '.';
 case 53:
 character = '/';
 	if (TTY_ACTIVE){
-		putc(character);
+		putString(&character,15);
 	}
 	if (SHELL_ACTIVE){ 
 	 
@@ -472,786 +473,786 @@ case 59:
 	return;
 case 60:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 61:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 62:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 63:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 64:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 65:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 66:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 67:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 68:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 69:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 70:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 71:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 72:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 73:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 74:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 75:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 76:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 77:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 78:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 79:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 80:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 81:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 82:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 83:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 84:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 85:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 86:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 87:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 88:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 89:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 90:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 91:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 92:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 93:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 94:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 95:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 96:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 97:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 98:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 99:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 100:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 101:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 102:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 103:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 104:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 105:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 106:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 107:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 108:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 109:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 110:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 111:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 112:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 113:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 114:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 115:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 116:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 117:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 118:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 119:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 120:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 121:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 122:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 123:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 124:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 125:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 126:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 127:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 128:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 129:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 130:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 131:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 132:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 133:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 134:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 135:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 136:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 137:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 138:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 139:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 140:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 141:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 142:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 143:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 144:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 145:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 146:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 147:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 148:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 149:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 150:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 151:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 152:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 153:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 154:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 155:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 156:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 157:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 158:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 159:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 160:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 161:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 162:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 163:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 164:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 165:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 166:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 167:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 168:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 169:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 170:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 171:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 172:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 173:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 174:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 175:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 176:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 177:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 178:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 179:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 180:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 181:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 182:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 183:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 184:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 185:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 186:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 187:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 188:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 189:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 190:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 191:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 192:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 193:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 194:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 195:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 196:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 197:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 198:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 199:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 200:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 201:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 202:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 203:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 204:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 205:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 206:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 207:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 208:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 209:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 210:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 211:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 212:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 213:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 214:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 215:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 216:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 217:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 218:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 219:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 220:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 221:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 222:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 223:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 224:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 225:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 226:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 227:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 228:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 229:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 230:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 231:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 232:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 233:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 234:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 235:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 236:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 237:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 238:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 239:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 240:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 241:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 242:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 243:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 244:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 245:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 246:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 247:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 248:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 249:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 250:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 251:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 252:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 253:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 254:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 case 255:
 	character = '';
-	putc(character);
+	putString(&character,15);
 	return;
 */

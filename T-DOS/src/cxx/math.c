@@ -50,7 +50,7 @@ int stringToInt(const char* str){
 void mkRow(char c){
     g_ScreenX = 0;
     for (int i = 0;i<80;i++){
-        putc(c);
+        putString("_",0x15);
     }
 }
 const char* subStr(const char* str, int start, int finish){
