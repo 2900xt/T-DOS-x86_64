@@ -35,7 +35,21 @@ void kmain(){
 
 extern "C" void _start(){
 
-    clrscr();
+    fontInit();
+
+    putPixelArray(g_ScreenX,g_ScreenY++,0b0000001111000000);
+    putPixelArray(g_ScreenX,g_ScreenY++,0b0000111001110000);
+    putPixelArray(g_ScreenX,g_ScreenY++,0b0001110000111000);
+    putPixelArray(g_ScreenX,g_ScreenY++,0b0001100000011000);
+    putPixelArray(g_ScreenX,g_ScreenY++,0b0011111111111100);
+    putPixelArray(g_ScreenX,g_ScreenY++,0b0111000000001110);
+    putPixelArray(g_ScreenX,g_ScreenY++,0b1100000000000011);
+    putPixelArray(g_ScreenX,g_ScreenY++,0b0000000000000000);
+    
+
+    //putChar(fonts['A'],g_ScreenX,g_ScreenY);
+
+    __HLT;
 
     cout("Initializing IDT");
 

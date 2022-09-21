@@ -5,10 +5,13 @@ jmp EnterProtectedMode
 %include "T-DOS/include/ostream16"
 %include "T-DOS/src/asm/mem.asm"
 
+
 EnterProtectedMode:
+
     call MEM_DETECT
-    
+
     call EnableA20
+    call EnableVideoMode
     cli
     lgdt [gdt_descriptor]
     mov eax, cr0
@@ -21,7 +24,13 @@ EnableA20:
     or al, 2
     out 0x92, al
     ret
+EnableVideoMode:
+    mov ah, 0x00
+    mov al, 0x13
+    int 0x10			; call VBE BIOS
 
+ErrorStr:
+    db 'Error Entering VGA mode',0
 [bits 32]
 
 %include "T-DOS/include/CPUID.s"
@@ -53,12 +62,7 @@ startProtectedMode:
 [extern data]
 
 start64Bit:
-
-
-    mov edi,0xb8000
-    mov rax,0x1f201f201f201f20
-    mov ecx, 500
-    rep stosq
+    
 
     call activateSSE
 

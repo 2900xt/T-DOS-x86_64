@@ -22,6 +22,8 @@ buildimg:
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/mem.c" -o "build/mem.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/rtc.c" -o "build/rtc.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/math.c" -o "build/math.o"
+	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/vga/vga.c" -o "build/vga.o"
+	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/vga/display.c" -o "build/display.o"
 	${LD} -T "link.ld"
 
 	@echo Formatting Image
@@ -33,7 +35,7 @@ run:
 	@echo
 	@echo
 	@echo STARTING VM 
-	qemu-system-x86_64 -drive file=build/t-dos.flp,index=0,if=floppy,format=raw
+	qemu-system-x86_64 -drive file=build/t-dos.flp,index=0,if=floppy,format=raw -vga cirrus 
 
 clean:
 	@echo CLEANING UP

@@ -13,6 +13,8 @@ INPUT(
     mem.o
     rtc.o
     math.o
+    vga.o
+    display.o
 )
 
 OUTPUT(

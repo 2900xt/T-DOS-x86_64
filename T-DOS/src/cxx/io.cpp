@@ -7,11 +7,11 @@ int programEnter = 0;
 int PBC = 0;
 int TTY_ACTIVE = 1;
 char ProgramBuffer[4096];
-const unsigned SCREEN_WIDTH = 80;
-const unsigned SCREEN_HEIGHT = 25;
-const uint8_t DEFAULT_COLOR = 0x15;
-uint8_t FontColor = 15;
-uint8_t* g_ScreenBuffer = (uint8_t*)0xB8000;
+const unsigned SCREEN_WIDTH = 320;
+const unsigned SCREEN_HEIGHT = 200;
+const uint8_t DEFAULT_COLOR = 0x1;
+uint8_t FontColor = 1;
+uint8_t* g_ScreenBuffer = (uint8_t*)0xA0000;
 int g_ScreenX = 0, g_ScreenY = 0;
 char command_buffer[256];
 int exit_code = 0;
@@ -30,8 +30,6 @@ void srand(unsigned int seed)
 { 
     next = seed; 
 }  
-
-
 
 int sout(const char* str);
 extern "C" void com1_putc(char c);
@@ -117,12 +115,12 @@ unsigned char inb(unsigned short port){
 
 void putchr(int x, int y, char c)
 {
-    g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x)] = c;
+    g_ScreenBuffer[(y * SCREEN_WIDTH + x)] = c;
 }
 
 void putcolor(int x, int y, uint8_t color)
 {
-    g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x) + 1] = color;
+    g_ScreenBuffer[(y * SCREEN_WIDTH + x) + 1] = color;
 }
 
 char getchr(int x, int y)
@@ -165,16 +163,9 @@ void resetBuffer(){
 
 void clrscr()
 {
-    for (int y = 0; y < SCREEN_HEIGHT; y++)
-        for (int x = 0; x < SCREEN_WIDTH; x++)
-        {
-            putchr(x, y, '\0');
-            putcolor(x, y, 15);
-        }
-
-    g_ScreenX = 0;
-    g_ScreenY = 0;
-    setcursor(g_ScreenX, g_ScreenY);
+    for(int i = 0; i<640*480;i++){
+        g_ScreenBuffer[i]=0;
+    }
 }
 
 void scrollback(int lines)
