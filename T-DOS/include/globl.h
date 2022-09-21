@@ -110,7 +110,9 @@ extern MEMMAPENTRY* usableRegions[10];
 extern Font_T fonts[256];
 void fontInit();
 void putChar(Font_T font, uint16_t x, uint16_t y);
-void putPixelArray(uint16_t x, uint16_t y, uint16_t data);
+void putPixelArray(uint16_t x, uint16_t y, uint8_t data);
+
+void putString(const char* str);
 extern bool MemRegionsGot ; 
 #define VGA_MAX_X 320
 #define VGA_MAX_Y 200
