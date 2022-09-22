@@ -1,7 +1,7 @@
 
 CROSS = /usr/local/x86_64elfgcc/bin/x86_64-elf-g++
 LD = /usr/local/x86_64elfgcc/bin/x86_64-elf-ld
-CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I T-DOS/include -I TFS
+CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I T-DOS/include -I TFS -fpermissive
 
 
 ASFLAGS = -felf32

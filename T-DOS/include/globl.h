@@ -111,8 +111,8 @@ extern Font_T fonts[256];
 void fontInit();
 void putChar(Font_T font, uint16_t x, uint16_t y,int color);
 void putPixelArray(uint16_t x, uint16_t y, uint8_t data, int color);
-
-void putString(const char* str, int color);
+void writeChar(char c);
+void putString(const char* str, int color = FontColor);
 extern bool MemRegionsGot ; 
 #define VGA_MAX_X 320
 #define VGA_MAX_Y 200

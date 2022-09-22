@@ -41,28 +41,38 @@ void putChar(Font_T font, uint16_t x, uint16_t y, int color){
     putPixelArray(x,y++,font.h,color);
 }
 
-void putString(const char* str, int color){
-    for(int i = 0; i<strlen(str);i++){
-
-        switch(str[i]){
-            case '\n':
+void writeChar(char c){
+    switch(c){
+        case '\n':
+            g_ScreenX = 0;
+            g_ScreenY +=8;
+            break;
+        default:
+            if(g_ScreenY >= 190){
+                g_ScreenY = 0;
                 g_ScreenX = 0;
-                g_ScreenY +=8;
-                break;
-            default:
-                putChar(fonts[str[i]],g_ScreenX,g_ScreenY,color);
-                g_ScreenX +=10;
-                if(g_ScreenX>=310){
-                    g_ScreenX = 0;
-                    g_ScreenY += 8;
-                }
-                else if(g_ScreenY>=196){
-                    clearScreen();
-                    g_ScreenX = 0;
-                    g_ScreenY = 0;
-                }
-                break;
+                clearScreen();
+                putChar(fonts[c],g_ScreenX,g_ScreenY,FontColor);
+                g_ScreenX+=9;
+            }
+            else if(g_ScreenX >=310){
+                g_ScreenX = 0;
+                g_ScreenY+=8;
+                putChar(fonts[c],g_ScreenX,g_ScreenY,FontColor);
+                g_ScreenX+=9;
+            }else{
+                putChar(fonts[c],g_ScreenX,g_ScreenY,FontColor);
+                g_ScreenX+=9;
+            }
+            break;
         }
+    return;
+}
+
+void putString(const char* str, int color = FontColor){
+    FontColor = color;
+    for(int i = 0; i<strlen(str);i++){
+        writeChar(str[i]);
     }
     return;
 }

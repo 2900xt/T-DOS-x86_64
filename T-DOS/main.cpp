@@ -8,7 +8,7 @@ void * _Unwind_Resume =0;
 
 void kmain(){
 
-    putString("WELCOME TO TDOS",15);
+    putString("WELCOME TO TDOS",4);
 
     __STI;
      for(;;) {
@@ -35,6 +35,11 @@ void kmain(){
 extern "C" void _start(){
 
     fontInit();
+
+    putString("`~1!23#4$5%6^7&8*9(0)-_=+[{]}\\|;:\'\",<.>/?");
+
+    __CLI;
+    __HLT;
 
     _IDT_INIT();
 
