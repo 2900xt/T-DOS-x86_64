@@ -1,7 +1,7 @@
 
 CROSS = /usr/local/x86_64elfgcc/bin/x86_64-elf-g++
 LD = /usr/local/x86_64elfgcc/bin/x86_64-elf-ld
-CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I T-DOS/include -I TFS -fpermissive
+CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I T-DOS/include -I TFS
 
 
 ASFLAGS = -felf32
@@ -22,8 +22,6 @@ buildimg:
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/mem.c" -o "build/mem.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/rtc.c" -o "build/rtc.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/math.c" -o "build/math.o"
-	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/vga/vga.c" -o "build/vga.o"
-	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/vga/display.c" -o "build/display.o"
 	${LD} -T "link.ld"
 
 	@echo Formatting Image
@@ -35,7 +33,7 @@ run:
 	@echo
 	@echo
 	@echo STARTING VM 
-	qemu-system-x86_64 -drive file=build/t-dos.flp,index=0,if=floppy,format=raw -vga cirrus 
+	qemu-system-x86_64 -drive file=build/t-dos.flp,index=0,if=floppy,format=raw
 
 clean:
 	@echo CLEANING UP

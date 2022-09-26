@@ -5,8 +5,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdarg.h>
-#include <vga/colors.h>
-#include <vga/fonts.h>
+#include <vga.h>
 #define NEW(T) (T*)calloc(sizeof(T))
 
 #define __CLI asm("cli")
@@ -76,7 +75,7 @@ void outb(unsigned short port, unsigned char val);
 
 void backspace();
 
-void putPixel(uint16_t pos_x, uint16_t pos_y, uint8_t pixel);
+
 #define FLAG_SET(number,flag)number |= flag
 #define FLAG_UNSET(number,flag)number &= ~flag
 
@@ -107,13 +106,7 @@ extern uint16_t rootID;
 extern uint8_t MemoryRegionCount;
 extern uint8_t usableMemoryRegionCount;
 extern MEMMAPENTRY* usableRegions[10];
-extern Font_T fonts[256];
-void fontInit();
-void putChar(Font_T font, uint16_t x, uint16_t y,int color);
-void putPixelArray(uint16_t x, uint16_t y, uint8_t data, int color);
-void writeChar(char c);
-void putString(const char* str, int color = FontColor);
+
 extern bool MemRegionsGot ; 
-#define VGA_MAX_X 320
-#define VGA_MAX_Y 200
+
 #endif

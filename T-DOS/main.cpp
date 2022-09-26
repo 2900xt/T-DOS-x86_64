@@ -8,12 +8,12 @@ void * _Unwind_Resume =0;
 
 void kmain(){
 
-    putString("WELCOME TO TDOS",4);
+    cout("\nWelcome To T-DOS\nfor a list of commands: 'help'\n\n->");
 
     __STI;
      for(;;) {
         //TSH Backend
-        /*FontColor=GREEN_FONT;
+        FontColor=GREEN_FONT;
         __HLT;
         if (!SHELL_ACTIVE){
         FontColor=WHITE_FONT;
@@ -28,28 +28,47 @@ void kmain(){
         cout("]->");
 		command_buffer[buffer_ptr]=0;
 		SHELL_ACTIVE=(!SHELL_ACTIVE);
-        FontColor=GREEN_FONT;}*/
+        FontColor=GREEN_FONT;
         }
  }
+}
 
 extern "C" void _start(){
 
-    fontInit();
+    clrscr();
 
-    putString("`~1!23#4$5%6^7&8*9(0)-_=+[{]}\\|;:\'\",<.>/?");
-
-    __CLI;
-    __HLT;
+    cout("Initializing IDT");
 
     _IDT_INIT();
 
+    __CLI;
+    
+    FontColor=GREEN_FONT;
+    cout("...done!");
+    FontColor = WHITE_FONT;
+    cout(" \nInitializing Heap");
+
     heap_init(0x100000,0x100000);
+
+    FontColor=GREEN_FONT;
+    cout("...done!");
+    FontColor = WHITE_FONT;
+    cout("\nInitializing GVFS");
 
     _GFS_INIT();
 
     for (int i = 0; i<4096;i++){
         ProgramBuffer[i]=0;
     }
+
+    FontColor=GREEN_FONT;
+    cout(" ...done!\n\n");
+    FontColor = WHITE_FONT;
+
+    printTime();
+
+    mkRow('_');
+
     kmain();
 
     __CLI;

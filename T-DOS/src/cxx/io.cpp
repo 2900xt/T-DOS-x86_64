@@ -7,7 +7,12 @@ int programEnter = 0;
 int PBC = 0;
 int TTY_ACTIVE = 1;
 char ProgramBuffer[4096];
-
+const unsigned SCREEN_WIDTH = 80;
+const unsigned SCREEN_HEIGHT = 25;
+const uint8_t DEFAULT_COLOR = 0x15;
+uint8_t FontColor = 15;
+uint8_t* g_ScreenBuffer = (uint8_t*)0xB8000;
+int g_ScreenX = 0, g_ScreenY = 0;
 char command_buffer[256];
 int exit_code = 0;
 int buffer_ptr = 0;
@@ -25,6 +30,8 @@ void srand(unsigned int seed)
 { 
     next = seed; 
 }  
+
+
 
 int sout(const char* str);
 extern "C" void com1_putc(char c);
@@ -110,12 +117,12 @@ unsigned char inb(unsigned short port){
 
 void putchr(int x, int y, char c)
 {
-    g_ScreenBuffer[(y * SCREEN_WIDTH + x)] = c;
+    g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x)] = c;
 }
 
 void putcolor(int x, int y, uint8_t color)
 {
-    g_ScreenBuffer[(y * SCREEN_WIDTH + x) + 1] = color;
+    g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x) + 1] = color;
 }
 
 char getchr(int x, int y)
@@ -158,9 +165,16 @@ void resetBuffer(){
 
 void clrscr()
 {
-    for(int i = 0; i<640*480;i++){
-        g_ScreenBuffer[i]=0;
-    }
+    for (int y = 0; y < SCREEN_HEIGHT; y++)
+        for (int x = 0; x < SCREEN_WIDTH; x++)
+        {
+            putchr(x, y, '\0');
+            putcolor(x, y, 15);
+        }
+
+    g_ScreenX = 0;
+    g_ScreenY = 0;
+    setcursor(g_ScreenX, g_ScreenY);
 }
 
 void scrollback(int lines)
@@ -182,6 +196,50 @@ void scrollback(int lines)
     g_ScreenY -= lines;
 }
 
+void putc(char c)
+{
+    switch (c)
+    {
+        case '\n':
+            g_ScreenX = 0;
+            g_ScreenY++;
+            break;
+    
+        case '\t':
+            for (int i = 0; i < 4 - (g_ScreenX % 4); i++)
+                putc(' ');
+            break;
+
+        case '\r':
+            g_ScreenX = 0;
+            break;
+
+        default:
+            putchr(g_ScreenX, g_ScreenY, c);
+            putcolor(g_ScreenX,g_ScreenY, FontColor);
+            g_ScreenX++;
+            break;
+    }
+
+    if (g_ScreenX >= SCREEN_WIDTH)
+    {
+        g_ScreenY++;
+        g_ScreenX = 0;
+    }
+    if (g_ScreenY >= SCREEN_HEIGHT)
+        scrollback(1);
+
+    setcursor(g_ScreenX, g_ScreenY);
+}
+
+void puts(const char* str)
+{
+    while(*str)
+    {
+        putc(*str);
+        str++;
+    }
+}
 
 const char g_HexChars[] = "0123456789abcdef";
 
@@ -200,14 +258,14 @@ void printf_unsigned(unsigned long long number, int radix)
 
     // print number in reverse order
     while (--pos >= 0)
-        putChar(fonts[buffer[pos]],g_ScreenX,g_ScreenY,0x04);
+        putc(buffer[pos]);
 }
 
 void printf_signed(long long number, int radix)
 {
     if (number < 0)
     {
-        putString("-",0x04);
+        putc('-');
         printf_unsigned(-number, radix);
     }
     else printf_unsigned(number, radix);
@@ -246,7 +304,7 @@ void cout(const char* fmt, ...)
                 {
                     case '%':   state = PRINTF_STATE_LENGTH;
                                 break;
-                    default:    putChar(fonts[*fmt],g_ScreenX+=8,g_ScreenY,0x04);
+                    default:    putc(*fmt);
                                 break;
                 }
                 break;
@@ -286,10 +344,15 @@ void cout(const char* fmt, ...)
             PRINTF_STATE_SPEC_:
                 switch (*fmt)
                 {
-                    case 's':   
-                                putString(va_arg(args, const char*),0x04);
+                    case 'c':   putc((char)va_arg(args, int));
                                 break;
 
+                    case 's':   
+                                puts(va_arg(args, const char*));
+                                break;
+
+                    case '%':   putc('%');
+                                break;
 
                     case 'd':
                     case 'i':   radix = 10; sign = true; number = true;
@@ -360,7 +423,7 @@ void cout(const char* fmt, ...)
 
     va_end(args);
 }
-/*
+
 void print_buffer(const char* msg, const void* buffer, uint32_t count)
 {
     const uint8_t* u8Buffer = (const uint8_t*)buffer;
@@ -373,7 +436,7 @@ void print_buffer(const char* msg, const void* buffer, uint32_t count)
     }
     puts("\n");
 }
-*/
+
 uint32_t bintohex(uint32_t binaryval){
     uint32_t hexadecimalval = 0, i = 1, remainder = 0;
         while (binaryval != 0)
@@ -422,6 +485,7 @@ void command(){
         }
         else {
             mkfl(str);
+            putc('\n');
             exit_code = 0;
         }
         
