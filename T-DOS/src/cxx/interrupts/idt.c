@@ -63,7 +63,14 @@ extern "C" void keyboard_handler(){
 }
 
 extern "C" void common_ISR(){
-    
+    asm("mov $0xb8000, %edi\n\t"
+    "mov $0x1f201f201f201f20, %rax\n\t"
+    "mov $500, %ecx\n\t"
+    "rep stosq");
+
+    cout("Unhandled Exception");
+    __HLT;
+    __CLI;
 }
 
 void TranslateScanCode(uint8_t scancode){

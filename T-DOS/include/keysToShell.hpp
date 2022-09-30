@@ -48,20 +48,18 @@ character = '5';
 		putc(character);
 	}
 	if (SHELL_ACTIVE){ 
-	}character = '5';
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
-	return;
+	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 7:
 character = '6';
 	if (TTY_ACTIVE){
 		putc(character);
 	}
 	if (SHELL_ACTIVE){ 
-	} character = '6';
 	command_buffer[buffer_ptr] = character;
 	buffer_ptr++;
-	return;
+	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 8:
 character = '7';
 	if (TTY_ACTIVE){
@@ -344,7 +342,7 @@ character = '`';
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 42:
-    cout("lShift 42");
+    Shift_BIT = !Shift_BIT;
 	return;
 
 case 43:
@@ -450,7 +448,7 @@ character = '/';
 	buffer_ptr++;
 	return;}else{ProgramBuffer[PBC++] = character;return;}
 case 54:
-    cout("rshift 54");
+    Shift_BIT = !Shift_BIT;
 	return;
 case 55:
     cout("keypad 55");
@@ -911,11 +909,10 @@ case 168:
 case 169:
 	character = '';
 	putc(character);
-	return;
+	return;*/
 case 170:
-	character = '';
-	putc(character);
-	return;
+	Shift_BIT = !Shift_BIT;
+	return;/*
 case 171:
 	character = '';
 	putc(character);
@@ -1191,11 +1188,10 @@ case 238:
 case 239:
 	character = '';
 	putc(character);
-	return;
+	return;*/
 case 240:
-	character = '';
-	putc(character);
-	return;
+	Shift_BIT = !Shift_BIT;
+	return;/*
 case 241:
 	character = '';
 	putc(character);

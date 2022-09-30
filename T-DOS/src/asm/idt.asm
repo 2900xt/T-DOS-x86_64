@@ -45,3 +45,5 @@ LoadIDT:
   ret
 
 _ISR common_ISR, comisr
+
+GLOBAL panic
