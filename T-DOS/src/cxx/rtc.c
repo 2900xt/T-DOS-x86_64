@@ -120,6 +120,6 @@ void sleep(int seconds){
 void sleep(int millis) {
     countDown = millis;
     while (countDown > 0) {
-        __HLT;
+        
     }
 }

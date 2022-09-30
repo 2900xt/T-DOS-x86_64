@@ -13,6 +13,7 @@ INPUT(
     mem.o
     rtc.o
     math.o
+    pic.o
 )
 
 OUTPUT(

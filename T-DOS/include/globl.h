@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <vga/colors.h>
+#include <hal/pic.h>
 #define NEW(T) (T*)calloc(sizeof(T))
 
 #define __CLI asm("cli")
@@ -78,10 +79,6 @@ void backspace();
 
 #define FLAG_SET(number,flag)number |= flag
 #define FLAG_UNSET(number,flag)number &= ~flag
-
-
-//Garbage Standard Library
-
 
 
 //Global Variables for Console/Shell IO

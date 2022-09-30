@@ -506,13 +506,10 @@ void command(){
         exit_code = 0;
     }
     else if(stringCmp(command_buffer,"sleep")){
-        cout("\nThe time is: \n\n");
-        printTime();
+       
         cout("\n");
         sleep(5);
-        cout("\nThe time is: \n\n");
-        printTime();
-        cout("\n");
+        
         exit_code = 0;
     }
     else if(stringCmp(command_buffer,"tcalc")){

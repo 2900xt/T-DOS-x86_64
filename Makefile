@@ -17,7 +17,8 @@ buildimg:
 
 	${CROSS} ${CCFLAGS} -c "T-DOS/main.cpp" -o "build/kernel.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/gvfs.c" -o "build/gvfs.o"
-	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/idt.c" -o "build/idt.o"
+	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/interrupts/idt.c" -o "build/idt.o"
+	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/interrupts/PIC.c" -o "build/pic.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/io.cpp" -o "build/io.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/mem.c" -o "build/mem.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/rtc.c" -o "build/rtc.o"

@@ -36,10 +36,12 @@ idtDescriptor:
 
 _ISR keyboard_handler, isr1
 
-_ISR pic_handler, isr0
+_ISR pit_handler, isr0
 
 GLOBAL LoadIDT
 LoadIDT:
   lidt [idtDescriptor]
   sti
   ret
+
+_ISR common_ISR, comisr
