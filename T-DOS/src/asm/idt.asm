@@ -34,12 +34,12 @@ idtDescriptor:
    iretq
   %endmacro
 
-_ISR keyboard_handler,isr1
+_ISR keyboard_handler, isr1
 
+_ISR pic_handler, isr0
 
 GLOBAL LoadIDT
 LoadIDT:
   lidt [idtDescriptor]
   sti
   ret
-

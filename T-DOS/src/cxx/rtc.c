@@ -105,7 +105,7 @@ void printTime(){
     Time_T Now = read_rtc();
     cout("%d:%d:%d\n%d/%d/%d",Now.hour,Now.minute,Now.second,Now.month,Now.day,Now.year);
 }
-
+/*
 void sleep(int seconds){
     int elapsed;
     seconds = seconds * 16384;
@@ -114,5 +114,12 @@ void sleep(int seconds){
         if(read_rtc().second != oldTime.second + elapsed){
             elapsed++;
         }
+    }
+}*/
+
+void sleep(int millis) {
+    countDown = millis;
+    while (countDown > 0) {
+        __HLT;
     }
 }

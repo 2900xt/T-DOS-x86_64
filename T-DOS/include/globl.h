@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdarg.h>
-#include <vga.h>
+#include <vga/colors.h>
 #define NEW(T) (T*)calloc(sizeof(T))
 
 #define __CLI asm("cli")
@@ -108,5 +108,7 @@ extern uint8_t usableMemoryRegionCount;
 extern MEMMAPENTRY* usableRegions[10];
 
 extern bool MemRegionsGot ; 
+
+extern int countDown ;
 
 #endif

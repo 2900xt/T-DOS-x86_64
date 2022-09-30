@@ -38,7 +38,8 @@ extern "C" void com1_putc(char c);
 void bp(int x){
     cout("Break:%d\n",x);
     TTY_ACTIVE = 0;
-    __HLT;
+    __CLI;
+    sleep(1);
     TTY_ACTIVE = 1;
 }
 

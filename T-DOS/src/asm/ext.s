@@ -87,5 +87,17 @@ activateSSE:
     or ax, 0b1100000000
     mov cr4, rax
     ret
+[global enablePit]
+enablePit:                              ;Disabled interrupts (just in case)
+    
+    mov ax, 8008
+
+    mov al,00110100b                  ;channel 0, lobyte/hibyte, rate generator
+    out 0x43, al
+    
+    out 0x40,al                       ;Set low byte of PIT reload value
+    mov al,ah                         ;ax = high 8 bits of reload value
+    out 0x40,al                       ;Set high byte of PIT reload value
+
 
 %include "T-DOS/src/asm/idt.asm"
