@@ -16,9 +16,6 @@ disc_read:
 
     ret
 
-BOOT_DISK:
-    db 0
-
 DiskReadErrorString:
     db 'Disk Read Failed', 0
 

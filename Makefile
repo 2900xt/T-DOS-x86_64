@@ -3,12 +3,22 @@ CROSS = /usr/local/x86_64elfgcc/bin/x86_64-elf-g++
 LD = /usr/local/x86_64elfgcc/bin/x86_64-elf-ld
 CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I T-DOS/include -I TFS
 
+STABLEIMG = build/t-dos_0.01A.flp
+
+TEST = build/t-dos.flp
+
 
 ASFLAGS = -felf32
 
 INCLUDE = 2900-files/include
 
 test: buildimg clean run
+
+stable: runstable
+
+buildfinal: buildimg
+
+	cp $(TEST) $(STABLEIMG)
 
 buildimg:
 	clear
@@ -26,16 +36,23 @@ buildimg:
 	${LD} -T "link.ld"
 
 	@echo Formatting Image
-	cat  build/boot.bin build/kernel.bin > build/os.bin
-	dd if=/dev/null of=build/os.bin bs=1 count=1 seek=1474559 
-	dd if=build/os.bin of=build/t-dos.flp bs=512 count=2880
+
+
+	dd if=/dev/zero of=build/t-dos.flp bs=512 count=2880
+	cat build/boot.bin build/kernel.bin > build/os.bin
+	mkfs.fat -F 12 -n "T-DOS" build/t-dos.flp
+	dd if=build/os.bin of=build/t-dos.flp conv=notrunc
+	
 
 run:
 	@echo
 	@echo
 	@echo STARTING VM 
-	qemu-system-x86_64 -drive file=build/t-dos.flp,index=0,if=floppy,format=raw
+	qemu-system-x86_64 -drive file=$(TEST),index=0,if=floppy,format=raw
 
 clean:
 	@echo CLEANING UP
-	rm build/ext.elf build/boot.bin build/kernel.bin build/kernel.o build/os.bin build/gvfs.o build/idt.o build/io.o build/math.o build/mem.o build/rtc.o
+	rm build/ext.elf build/boot.bin build/kernel.bin build/os.bin build/kernel.o build/gvfs.o build/idt.o build/io.o build/math.o build/mem.o build/rtc.o
+
+runstable:
+	qemu-system-x86_64 -drive file=$(STABLEIMG),index=0,if=floppy,format=raw

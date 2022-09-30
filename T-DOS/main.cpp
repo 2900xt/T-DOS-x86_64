@@ -8,7 +8,7 @@ void * _Unwind_Resume =0;
 
 void kmain(){
 
-    cout("\nWelcome To T-DOS\nfor a list of commands: 'help'\n\n->");
+    cout("\nWelcome To T-DOS (Testing image)\n\n->");
 
     __STI;
      for(;;) {
