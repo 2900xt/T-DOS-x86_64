@@ -52,7 +52,7 @@ run:
 
 clean:
 	@echo CLEANING UP
-	rm build/ext.elf build/boot.bin build/kernel.bin build/os.bin build/kernel.o build/gvfs.o build/idt.o build/io.o build/math.o build/mem.o build/rtc.o
+	rm build/ext.elf build/boot.bin build/kernel.bin build/os.bin build/kernel.o build/gvfs.o build/idt.o build/io.o build/math.o build/mem.o build/rtc.o build/pic.o build/vga.o build/display.o
 
 runstable:
 	qemu-system-x86_64 -drive file=$(STABLEIMG),index=0,if=floppy,format=raw
