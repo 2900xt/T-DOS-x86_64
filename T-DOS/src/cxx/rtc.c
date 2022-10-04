@@ -75,7 +75,7 @@ Time_T read_rtc() {
       if (!(registerB & 0x04)) {
             currentTime.second = (currentTime.second & 0x0F) + ((currentTime.second / 16) * 10);
             currentTime.minute = (currentTime.minute & 0x0F) + ((currentTime.minute / 16) * 10);
-            currentTime.hour = ( (currentTime.hour & 0x0F) + (((currentTime.hour & 0x70) / 16) * 10) ) | (currentTime.hour & 0x80);
+            currentTime.hour = (( (currentTime.hour & 0x0F) + (((currentTime.hour & 0x70) / 16) * 10) ) | (currentTime.hour & 0x80))-4;
             currentTime.day = (currentTime.day & 0x0F) + ((currentTime.day / 16) * 10);
             currentTime.month = (currentTime.month & 0x0F) + ((currentTime.month / 16) * 10);
             currentTime.year = (currentTime.year & 0x0F) + ((currentTime.year / 16) * 10);
@@ -101,8 +101,7 @@ Time_T read_rtc() {
     return currentTime;
 }
 
-void printTime(){
-    Time_T Now = read_rtc();
+void printTime(Time_T Now){
     cout("%d:%d:%d\n%d/%d/%d",Now.hour,Now.minute,Now.second,Now.month,Now.day,Now.year);
 }
 /*

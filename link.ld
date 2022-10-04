@@ -14,6 +14,7 @@ INPUT(
     rtc.o
     math.o
     pic.o
+    disk.o
 )
 
 OUTPUT(

@@ -12,9 +12,11 @@ struct IDT64{
 };
 
 extern "C" IDT64 _idt[256];
+extern uint64_t isr6;
 extern uint64_t isr1;
 extern uint64_t isr0;
 extern uint64_t comisr;
+extern uint64_t comexc;
 extern "C" void LoadIDT();
 
 void IDT_ENABLEINT(int interrupt, uint64_t* isr, uint8_t ist = 0, uint8_t flags = 0x8e, uint16_t selector = 0x08){
@@ -29,7 +31,7 @@ void IDT_ENABLEINT(int interrupt, uint64_t* isr, uint8_t ist = 0, uint8_t flags 
 
 
 extern "C" void _IDT_INIT(){
-    for (uint64_t t = 0;t<256;t++){
+    for (uint64_t t = 0;t<255;t++){
         _idt[t].zero = 0;
         _idt[t].offset_low = (uint16_t)(((uint64_t)&comisr &0x000000000000ffff));
         _idt[t].offset_mid = (uint16_t)(((uint64_t)&comisr &0x00000000ffff0000) >> 16);
@@ -39,9 +41,11 @@ extern "C" void _IDT_INIT(){
         _idt[t].types_attribute = 0x8e;
     }
 
-    IDT_ENABLEINT(1,&isr1);
+    IDT_ENABLEINT(1,&isr1); //PS2
 
-    IDT_ENABLEINT(0,&isr0);
+    IDT_ENABLEINT(0,&isr0); //PIT
+
+    IDT_ENABLEINT(6,&isr6);
 
     pic_Remap(0x00,0x0F);
 
@@ -62,16 +66,26 @@ extern "C" void keyboard_handler(){
     sendEOI(1);
 }
 
+bool FLOPPYINT = false;
+int floppy=0;
+
+extern "C" void floppy_handler(){
+    FLOPPYINT = true;
+    cout("%d",floppy++);
+    sendEOI(6);
+}
+
 extern "C" void common_ISR(){
     asm("mov $0xb8000, %edi\n\t"
     "mov $0x1f201f201f201f20, %rax\n\t"
     "mov $500, %ecx\n\t"
     "rep stosq");
 
-    cout("Unhandled Exception");
+    cout("Unhandled Interrupt");
     __HLT;
     __CLI;
 }
+
 
 void TranslateScanCode(uint8_t scancode){
 

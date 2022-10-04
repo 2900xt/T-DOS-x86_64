@@ -52,7 +52,7 @@ void free(void* address);
 void* calloc(uint64_t size);
 void* realloc(void* address, uint64_t newSize);
 void PIC_sendEOI(unsigned char irq);
-
+Time_T read_rtc() ;
 char* strcpy(char* destination, const char* source);
 bool stringCmp(const char* a, const char* b);
 char* strcat(char* destination, const char* source);
@@ -60,8 +60,12 @@ void cout(const char* fmt, ...);
 int strlen(const char* str);
 void clrscr();
 void bp(int x);
+int FDread(uint8_t c, uint8_t h, uint8_t s, uint8_t dl, uint8_t EOT);
+void KERNELPANIC(const char* message);
 extern "C" void _IDT_INIT();
-void printTime();
+void printTime(Time_T);
+void changeDir(const char* dir);
+void floppyInit();
 void command();
 void putc(char c);
 int rand(void);
@@ -107,5 +111,5 @@ extern MEMMAPENTRY* usableRegions[10];
 extern bool MemRegionsGot ; 
 
 extern int countDown ;
-
+extern bool FLOPPYINT;
 #endif

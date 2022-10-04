@@ -3,7 +3,7 @@ CROSS = /usr/local/x86_64elfgcc/bin/x86_64-elf-g++
 LD = /usr/local/x86_64elfgcc/bin/x86_64-elf-ld
 CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I T-DOS/include -I TFS
 
-STABLEIMG = build/t-dos_0.01A.flp
+STABLEIMG = release/t-dos_0.02A.flp
 
 TEST = build/t-dos.flp
 
@@ -33,6 +33,7 @@ buildimg:
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/mem.c" -o "build/mem.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/rtc.c" -o "build/rtc.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/math.c" -o "build/math.o"
+	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/disk.c" -o "build/disk.o"
 	${LD} -T "link.ld"
 
 	@echo Formatting Image
@@ -40,7 +41,6 @@ buildimg:
 
 	dd if=/dev/zero of=build/t-dos.flp bs=512 count=2880
 	cat build/boot.bin build/kernel.bin > build/os.bin
-	mkfs.fat -F 12 -n "T-DOS" build/t-dos.flp
 	dd if=build/os.bin of=build/t-dos.flp conv=notrunc
 	
 

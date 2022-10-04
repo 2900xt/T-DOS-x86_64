@@ -46,4 +46,5 @@ LoadIDT:
 
 _ISR common_ISR, comisr
 
+_ISR floppy_handler, isr6
 GLOBAL panic

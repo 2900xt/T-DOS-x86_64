@@ -8,7 +8,7 @@ void * _Unwind_Resume =0;
 
 void kmain(){
 
-    cout("\nWelcome To T-DOS (Testing image)\n\n->");
+    cout("\nWelcome To T-DOS Alpha 0.02\n\n->");
 
     __STI;
      for(;;) {
@@ -54,6 +54,9 @@ extern "C" void _start(){
     cout("...done!");
     FontColor = WHITE_FONT;
     cout("\nInitializing GVFS");
+    floppyInit();
+
+    FDread(2, 0, 0, 0x80, 128);
 
     _GFS_INIT();
 
@@ -65,7 +68,7 @@ extern "C" void _start(){
     cout(" ...done!\n\n");
     FontColor = WHITE_FONT;
 
-    printTime();
+    printTime(read_rtc());
 
     mkRow('_');
 

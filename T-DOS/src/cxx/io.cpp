@@ -150,7 +150,6 @@ void backspace(){
 	if (--g_ScreenX==0 || buffer_ptr==0){
 		return;
 	}
-
 	setcursor(g_ScreenX, g_ScreenY);
 	putchr(g_ScreenX,g_ScreenY,' ');
     command_buffer[--buffer_ptr] = '\0';
@@ -456,6 +455,17 @@ uint32_t bintohex(uint32_t binaryval){
     return hexadecimalval;
 }
 
+void KERNELPANIC(const char* message){
+    asm("mov $0xb8000, %edi\n\t"
+    "mov $0x1f201f201f201f20, %rax\n\t"
+    "mov $500, %ecx\n\t"
+    "rep stosq");
+
+    cout(message);
+    __HLT;
+    __CLI;
+}
+
 void command(){
 
     char* args;
@@ -494,14 +504,14 @@ void command(){
 
     else if(stringCmp(command_buffer,"help")){
         exit_code = 0;
-        cout("\nCommands:\n\nSOUT [str] \t\t\tprints to serial \nECHO [str]\t\t\t\t prints to tty\nTEDIT\t\t\t\t\t Experimantal File Editor? WIP\nTIME\nSLEEP");
+        cout("\nCommands:\n\nSOUT [str] \t\t\tprints to serial \nECHO [str]\t\t\t\t prints to tty\nTEDIT\t\t\t\t\t Experimantal File Editor? WIP\nTIME\t\t\t Tells time\nmkfl \t\t\t makes file\nlf\t\t\t lists files\n");
     }
     else if(stringCmp(command_buffer,"tedit")){
         #include <../Programs/tedit.cpp>
     }
     else if(stringCmp(command_buffer,"time")){
         cout("\nThe time is: \n\n");
-        printTime();
+        printTime(read_rtc());
         cout("\n");
         exit_code = 0;
     }
@@ -514,6 +524,18 @@ void command(){
     }
     else if(stringCmp(command_buffer,"tcalc")){
         tcalcMain();
+    }
+    else if(stringCmp(command_buffer,"cd")){
+        const char* str = command_buffer+3;
+        if (str[0] == '\0' || str[0] == ' '){
+            cout("\nERROR: Missing Parameter\n");
+            exit_code = -1;
+        }
+        else {
+            changeDir(str);
+            putc('\n');
+            exit_code = 0;
+        }
     }
     else{
         exit_code = 127;
