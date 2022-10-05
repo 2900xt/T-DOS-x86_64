@@ -23,7 +23,7 @@ buildfinal: buildimg
 buildimg:
 	clear
 	nasm -o build/boot.bin -f bin T-DOS/boot/boot.asm
-	nasm -o build/ext.elf -f elf64 T-DOS/src/asm/ext.s -w+zeroing
+	nasm -o build/ext.elf -f elf64 T-DOS/boot/ext.asm -w+zeroing
 
 	${CROSS} ${CCFLAGS} -c "T-DOS/main.cpp" -o "build/kernel.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/gvfs.c" -o "build/gvfs.o"
@@ -34,6 +34,7 @@ buildimg:
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/rtc.c" -o "build/rtc.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/math.c" -o "build/math.o"
 	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/disk.c" -o "build/disk.o"
+	${CROSS} ${CCFLAGS} -c "T-DOS/src/cxx/tty/tsh.c" -o "build/tsh.o"
 	${LD} -T "link.ld"
 
 	@echo Formatting Image

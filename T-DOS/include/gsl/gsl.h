@@ -2,6 +2,7 @@
 #define gsl_H
 
 #include <globl.h>
+#include <gsl/io.h>
 
 
 namespace gsl{

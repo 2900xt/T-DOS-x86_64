@@ -1,4 +1,5 @@
 #include <globl.h>
+#include <gsl/io.h>
 
 #define PIC_COMMAND     0x0020
 #define PIC_DATA        0x0021

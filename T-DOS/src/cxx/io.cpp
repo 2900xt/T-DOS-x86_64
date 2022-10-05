@@ -18,23 +18,10 @@ int exit_code = 0;
 int buffer_ptr = 0;
 int arg_bit = 0;
 
-static unsigned long int next = 1; 
-
-int rand() // RAND_MAX assumed to be 32767 
-{
-    next = next * 1103515245 + 12345; 
-    return (unsigned int)(next/65536) % 32768; 
-} 
-
-void srand(unsigned int seed) 
-{ 
-    next = seed; 
-}  
-
 
 
 int sout(const char* str);
-extern "C" void com1_putc(char c);
+
 void bp(int x){
     cout("Break:%d\n",x);
     TTY_ACTIVE = 0;
@@ -156,12 +143,7 @@ void backspace(){
     
 }
 
-void resetBuffer(){
-    buffer_ptr=0;
-    for (int i = 0; i < 256; i++)
-        command_buffer[i] = 0;
 
-}
 
 void clrscr()
 {
@@ -464,84 +446,5 @@ void KERNELPANIC(const char* message){
     cout(message);
     __HLT;
     __CLI;
-}
-
-void command(){
-
-    char* args;
-
-    if (stringCmp(command_buffer,"sout")){
-        const char* str = command_buffer+5;
-        do {
-        com1_putc(*(str++));
-        } while (*str);
-        exit_code = 0;
-        cout("\nWrote %s to COM1\n",command_buffer+5);
-    }
-
-    else if (stringCmp(command_buffer,"echo")){
-        exit_code = 0;
-        cout("\n%s",command_buffer+5);
-    }
-
-    else if(stringCmp(command_buffer,"lf")){
-        exit_code = listFiles();
-    }
-
-    else if(stringCmp(command_buffer,"mkfl")){
-        const char* str = command_buffer+5;
-        if (str[0] == '\0' || str[0] == ' '){
-            cout("\nERROR: Missing Parameter\n");
-            exit_code = -1;
-        }
-        else {
-            mkfl(str);
-            putc('\n');
-            exit_code = 0;
-        }
-        
-    }
-
-    else if(stringCmp(command_buffer,"help")){
-        exit_code = 0;
-        cout("\nCommands:\n\nSOUT [str] \t\t\tprints to serial \nECHO [str]\t\t\t\t prints to tty\nTEDIT\t\t\t\t\t Experimantal File Editor? WIP\nTIME\t\t\t Tells time\nmkfl \t\t\t makes file\nlf\t\t\t lists files\n");
-    }
-    else if(stringCmp(command_buffer,"tedit")){
-        #include <../Programs/tedit.cpp>
-    }
-    else if(stringCmp(command_buffer,"time")){
-        cout("\nThe time is: \n\n");
-        printTime(read_rtc());
-        cout("\n");
-        exit_code = 0;
-    }
-    else if(stringCmp(command_buffer,"sleep")){
-       
-        cout("\n");
-        sleep(5);
-        
-        exit_code = 0;
-    }
-    else if(stringCmp(command_buffer,"tcalc")){
-        tcalcMain();
-    }
-    else if(stringCmp(command_buffer,"cd")){
-        const char* str = command_buffer+3;
-        if (str[0] == '\0' || str[0] == ' '){
-            cout("\nERROR: Missing Parameter\n");
-            exit_code = -1;
-        }
-        else {
-            changeDir(str);
-            putc('\n');
-            exit_code = 0;
-        }
-    }
-    else{
-        exit_code = 127;
-        cout("\nCOMMAND NOT FOUND: %s",command_buffer);
-    }
-    resetBuffer();  
-    programEnter=0;   
 }
 

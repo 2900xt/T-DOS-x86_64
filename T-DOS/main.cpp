@@ -1,7 +1,8 @@
 #include <globl.h>
 #include <fs/gvfs.h>
 #include <math/math.h>
-#include <gsl.h>
+#include <gsl/gsl.h>
+#include <gsl/io.h>
 
 void * __gxx_personality_v0=0;
 void * _Unwind_Resume =0;
@@ -54,9 +55,6 @@ extern "C" void _start(){
     cout("...done!");
     FontColor = WHITE_FONT;
     cout("\nInitializing GVFS");
-    floppyInit();
-
-    FDread(2, 0, 0, 0x80, 128);
 
     _GFS_INIT();
 

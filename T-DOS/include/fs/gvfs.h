@@ -1,7 +1,7 @@
 #ifndef GVFS_TDOS_H
 #define GVFS_TDOS_H
 
-#include <gsl.h>
+#include <gsl/gsl.h>
 #include <globl.h>
 
 struct gvfsFile{

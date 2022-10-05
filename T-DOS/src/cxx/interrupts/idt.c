@@ -1,5 +1,6 @@
 #include <globl.h>
 #include <stdint.h>
+#include <gsl/io.h>
 void TranslateScanCode(uint8_t scancode);
 struct IDT64{
     uint16_t offset_low;
@@ -67,11 +68,9 @@ extern "C" void keyboard_handler(){
 }
 
 bool FLOPPYINT = false;
-int floppy=0;
 
 extern "C" void floppy_handler(){
     FLOPPYINT = true;
-    cout("%d",floppy++);
     sendEOI(6);
 }
 

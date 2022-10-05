@@ -15,6 +15,7 @@ INPUT(
     math.o
     pic.o
     disk.o
+    tsh.o
 )
 
 OUTPUT(

@@ -1,6 +1,6 @@
 #include <globl.h>
 #include <fs/gvfs.h>
-#include <gsl.h>
+#include <gsl/gsl.h>
 uint16_t rootID;
 
 char* pwd;

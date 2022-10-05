@@ -1,4 +1,5 @@
 #include <globl.h>
+#include <gsl/io.h>
 int64_t pow(int64_t base, int64_t power){
     int64_t current = base;
     for (int i = 0;i<power;i++){
@@ -71,28 +72,4 @@ void calculate(){
     cout("Syntax Error!\n");
     mkRow('_');
     return;
-}
-void tcalcMain(){
-
-    SHELL_ACTIVE = 0;
-cout("\n");
-            mkRow('_');
-            cout("\n");
-    while(true){
-        if(programEnter){
-            programEnter = !programEnter;
-            cout("\n");
-            mkRow('_');
-            mkRow(' ');
-            calculate();
-            mkRow(' ');
-            for(int i = 0;i<PBC;i++){
-                ProgramBuffer[i]=0;
-            }
-            PBC = 0;
-        }
-    }
-
-    __STI;
-    
 }

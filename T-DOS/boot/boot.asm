@@ -1,4 +1,5 @@
 [org 0x7c00]
+PROGRAM_SPACE equ 0x8000
 
 jmp short start
 nop
@@ -9,18 +10,63 @@ start:
     mov bp, 0x7c00
     mov sp, bp
 
-    call disc_read
 
-    mov bx, str
+    mov bx, PROGRAM_SPACE
+    mov al, 64
+    mov ch, 0x00
+    mov dh, 0x00
+    mov cl, 0x02
+    call discRead
+
+    jmp PROGRAM_SPACE
+
+
+;
+;DISK_READ : READS a disk using int 13h ah = 2
+;
+;BX = Output Location
+;AL = Sectors
+;CH = Ending Cylinder
+;DH = Head
+;CL = Starting Sector
+;DL = Disk #
+
+
+discRead:
+
+    mov ah , 0x02
+    int 0x13
+
+    jc DiskReadFailed
+
+    ret
+
+DiskReadErrorString:
+    db 'Disk Read Failed', 0
+
+DiskReadFailed:
+    mov bx, DiskReadErrorString
     call PrintStr
+    jmp $
 
-    jmp PROGRAM_SPACE; EXT
 
-    %include "T-DOS/include/ostream16"
-    %include "T-DOS/src/asm/disc.asm"
+;PrintString: Prints string in [BX] to TTY
 
-    str:
-        db "ERROR LOADING OS (-1)",0
-    times 510-($-$$) db 0;
+PrintStr:
+    mov ah, 0x0e
+    .loop:
+    cmp[bx], byte 0
+    je .exit
+        call PrintChar
+        inc bx
+        jmp .loop
+    .exit:
+    ret
 
-    dw 0xaa55;
+PrintChar:
+    mov al,[bx]
+    int 0x10
+    ret
+
+times 510-($-$$) db 0;
+dw 0xaa55;
