@@ -39,6 +39,9 @@ typedef uint16_t dw;
 typedef uint32_t dd;
 typedef uint64_t dq;
 
+db st0;
+db cylinder;
+
 typedef struct{
     db steprate_headunload;
     db headload_ndma;
@@ -58,31 +61,64 @@ db readFDC(db REG){
 }
 
 void writeFDC(db REG , db DATA){
+    outb(FLOPPY_PRIMARY_BASE + REG, DATA);
+}
+void waitForData(){
     while(((inb(FLOPPY_PRIMARY_BASE + MAIN_STATUS))&0xd0)!=0xd0);
-    outb(FLOPPY_PRIMARY_BASE + REG , DATA);
 }
 
 void waitForInt(){
-    while(!FLOPPYINT);
+    while(FLOPPYINT == false);
+    FLOPPYINT = false;
 }
 
-void checkIntStatus(){
-    
+void checkIntStaus(db* st0, db* cylinder){
+    writeFDC(DATA_FIFO, CHECK_INTERRUPT_STATUS);
+    waitForData();
+    *st0 = readFDC(DATA_FIFO);
+    waitForData();
+    *cylinder = readFDC(DATA_FIFO);
+    return;
 }
+
+void FDCCalibrate(){
+    //Turn drive motor on
+    writeFDC(DIGITAL_OUTPUT, inb(DIGITAL_OUTPUT) | 0b00010000);
+
+    //Send callibrate command
+    writeFDC(DATA_FIFO , CALIBRATE_DRIVE);
+    writeFDC(DATA_FIFO , 0);                    //Drive 0
+    
+    waitForInt();
+
+    checkIntStaus(&st0,&cylinder);
+
+    return;
+
+}
+
+void FDCConfigure(){
+    writeFDC(DATA_FIFO, FIX_DRIVE_DATA);
+    writeFDC(DATA_FIFO, 0);
+    writeFDC(DATA_FIFO, 0);
+    return;
+}
+
 
 //Resets the FDC to put it in a desirable state.
 
 void FDCReset(){
-    writeFDC(DIGITAL_OUTPUT,0x00);          //Disable FDC
-    writeFDC(DIGITAL_OUTPUT,0x0C);          //Enable FDC
-
+    writeFDC(DIGITAL_OUTPUT, 0x00);          //Disable FDC
+    writeFDC(DIGITAL_OUTPUT, 0x0C);          //Enable FDC
     waitForInt();
 
+    checkIntStaus(&st0,&cylinder);
 
+    writeFDC(CONFIG_CONTROL, 0);
+
+    FDCConfigure();
+    FDCCalibrate();
+    return;
 
 }
 
-void FDC(){
-    floppy_parameters floppyDisk;
-    memcpy(&floppyDisk, (db*)DISK_PARAMETER_ADRESS, sizeof(floppy_parameters));
-}

@@ -59,4 +59,6 @@ extern bool MemRegionsGot ;
 
 extern int countDown;
 extern bool FLOPPYINT;
+
+void FDCReset();
 #endif

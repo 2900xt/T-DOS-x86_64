@@ -46,7 +46,7 @@ extern "C" void _IDT_INIT(){
 
     IDT_ENABLEINT(0,&isr0); //PIT
 
-    IDT_ENABLEINT(6,&isr6);
+    IDT_ENABLEINT(6,&isr6); //FDC
 
     pic_Remap(0x00,0x0F);
 
@@ -71,7 +71,8 @@ bool FLOPPYINT = false;
 
 extern "C" void floppy_handler(){
     FLOPPYINT = true;
-    sendEOI(6);
+    cout("int");
+    pic_Remap(0x00,0x0F);
 }
 
 extern "C" void common_ISR(){
@@ -80,7 +81,7 @@ extern "C" void common_ISR(){
     "mov $500, %ecx\n\t"
     "rep stosq");
 
-    cout("Unhandled Interrupt");
+    cout("Unhandled Exception! (Missing IDT entry)");
     __HLT;
     __CLI;
 }

@@ -42,7 +42,7 @@ extern "C" void _start(){
 
     _IDT_INIT();
 
-    __CLI;
+    __STI;
     
     FontColor=GREEN_FONT;
     cout("...done!");
@@ -57,6 +57,8 @@ extern "C" void _start(){
     cout("\nInitializing GVFS");
 
     _GFS_INIT();
+
+    FDCReset();
 
     for (int i = 0; i<4096;i++){
         ProgramBuffer[i]=0;
