@@ -71,8 +71,7 @@ bool FLOPPYINT = false;
 
 extern "C" void floppy_handler(){
     FLOPPYINT = true;
-    cout("int");
-    pic_Remap(0x00,0x0F);
+    sendEOI(6);
 }
 
 extern "C" void common_ISR(){

@@ -58,7 +58,8 @@ extern "C" void _start(){
 
     _GFS_INIT();
 
-    FDCReset();
+    FDCINIT();
+
 
     for (int i = 0; i<4096;i++){
         ProgramBuffer[i]=0;
@@ -71,6 +72,10 @@ extern "C" void _start(){
     printTime(read_rtc());
 
     mkRow('_');
+
+    //FDCReadSector(0,0,1);
+
+    //cout((const char*)0x1000);
 
     kmain();
 

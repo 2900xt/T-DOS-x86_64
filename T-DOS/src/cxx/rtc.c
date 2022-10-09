@@ -103,19 +103,11 @@ Time_T read_rtc() {
 }
 
 void printTime(Time_T Now){
-    cout("%d:%d:%d\n%d/%d/%d",Now.hour,Now.minute,Now.second,Now.month,Now.day,Now.year);
+      if(Now.minute < 10)
+            cout("%d:0%d %s\n%d/%d/%d",Now.hour % 12,Now.minute,((Now.hour > 12) ? "PM" : "AM" ),Now.month,Now.day,Now.year);
+      else
+            cout("%d:%d %s\n%d/%d/%d",Now.hour % 12,Now.minute,((Now.hour > 12) ? "PM" : "AM" ),Now.month,Now.day,Now.year);
 }
-/*
-void sleep(int seconds){
-    int elapsed;
-    seconds = seconds * 16384;
-    Time_T oldTime = read_rtc();
-    while (elapsed < seconds){
-        if(read_rtc().second != oldTime.second + elapsed){
-            elapsed++;
-        }
-    }
-}*/
 
 void sleep(int millis) {
     countDown = millis;

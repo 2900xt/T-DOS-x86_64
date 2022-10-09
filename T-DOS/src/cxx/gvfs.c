@@ -10,7 +10,7 @@ gvfsFile* ROOT;
 
 void _GFS_INIT(){
     ROOT = NEW(gvfsFile);
-    ROOT->filepath = "/";
+    ROOT->filepath = (char*)"/";
     ROOT->lastModified = read_rtc();
     pwd = ROOT->filepath;
 }
@@ -54,7 +54,7 @@ int listFiles(){
 void changeDir(const char* dir){
     int length = strlen(pwd);
     if(stringCmp(dir,"/")){
-        pwd = "/";
+        pwd = (char*)"/";
     }
     strcat(pwd,dir);
 }

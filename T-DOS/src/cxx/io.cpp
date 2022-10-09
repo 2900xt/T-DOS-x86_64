@@ -444,7 +444,8 @@ void KERNELPANIC(const char* message){
     "rep stosq");
 
     cout(message);
-    __HLT;
     __CLI;
+    __HLT;
+   
 }
 

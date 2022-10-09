@@ -1,7 +1,7 @@
 
 CROSS = /usr/local/x86_64elfgcc/bin/x86_64-elf-g++
 LD = /usr/local/x86_64elfgcc/bin/x86_64-elf-ld
-CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I T-DOS/include -I TFS
+CCFLAGS = -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -I T-DOS/include -I TFS -Wwrite-strings
 
 STABLEIMG = release/t-dos_0.02A.flp
 
@@ -12,7 +12,7 @@ ASFLAGS = -felf32
 
 INCLUDE = 2900-files/include
 
-test: buildimg clean run
+test: buildimg clean
 
 stable: runstable
 
@@ -45,15 +45,10 @@ buildimg:
 	dd if=build/os.bin of=build/t-dos.flp conv=notrunc
 	
 
-run:
-	@echo
-	@echo
-	@echo STARTING VM 
-	qemu-system-x86_64 -drive file=$(TEST),index=0,if=floppy,format=raw
-
 clean:
 	@echo CLEANING UP
-	rm build/ext.elf build/boot.bin build/kernel.bin build/os.bin build/kernel.o build/gvfs.o build/idt.o build/io.o build/math.o build/mem.o build/rtc.o build/pic.o
+	rm build/ext.elf build/boot.bin build/kernel.bin build/os.bin build/kernel.o build/gvfs.o build/idt.o build/io.o build/math.o build/mem.o build/rtc.o build/pic.o build/bochs.log
+	touch build/bochs.log
 
 runstable:
 	qemu-system-x86_64 -drive file=$(STABLEIMG),index=0,if=floppy,format=raw

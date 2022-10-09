@@ -15,6 +15,11 @@
 #define __HLT asm("hlt")
 
 
+typedef uint8_t db;
+typedef uint16_t dw;
+typedef uint32_t dd;
+typedef uint64_t dq;
+
 struct Time_T{
    unsigned char second;
     unsigned char minute;
@@ -60,5 +65,8 @@ extern bool MemRegionsGot ;
 extern int countDown;
 extern bool FLOPPYINT;
 
-void FDCReset();
+
+void FDCINIT();
+void FDCWriteSector(db head, db track, db sector);
+uint16_t FDCReadSector(db head, db track, db sector);
 #endif
