@@ -20,6 +20,8 @@ extern uint64_t comisr;
 extern uint64_t comexc;
 extern "C" void LoadIDT();
 
+bool BREAK;
+
 void IDT_ENABLEINT(int interrupt, uint64_t* isr, uint8_t ist = 0, uint8_t flags = 0x8e, uint16_t selector = 0x08){
         _idt[interrupt].zero = 0;
         _idt[interrupt].offset_low = (uint16_t)(((uint64_t)isr & 0x000000000000ffff));
@@ -70,7 +72,10 @@ extern "C" void keyboard_handler(){
 bool FLOPPYINT = false;
 
 extern "C" void floppy_handler(){
-    FLOPPYINT = true;
+    if(!FLOPPYINT)
+        FLOPPYINT = true;
+    else
+        KERNELPANIC("ERROR: UNHANDLED FDC INTERRUPT!");
     sendEOI(6);
 }
 

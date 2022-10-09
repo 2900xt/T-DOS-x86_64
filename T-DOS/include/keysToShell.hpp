@@ -1,5 +1,6 @@
 case 1:
-	character = 0;//esc
+	if(BREAK)
+		BREAK = false;
 	return;
 case 2:
 	character = '1';

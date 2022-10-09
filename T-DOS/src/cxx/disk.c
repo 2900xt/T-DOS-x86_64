@@ -80,6 +80,19 @@ Bits 0-1 ->
 Used to determine what time of floppy you have (3.25 inch is 00)
 */
 
+enum FLPYDSK_DOR_MASK {
+ 
+	FLPYDSK_DOR_MASK_DRIVE0			=	0,	//00000000	= here for completeness sake
+	FLPYDSK_DOR_MASK_DRIVE1			=	1,	//00000001
+	FLPYDSK_DOR_MASK_DRIVE2			=	2,	//00000010
+	FLPYDSK_DOR_MASK_DRIVE3			=	3,	//00000011
+	FLPYDSK_DOR_MASK_RESET			=	4,	//00000100
+	FLPYDSK_DOR_MASK_DMA			=	8,	//00001000
+	FLPYDSK_DOR_MASK_DRIVE0_MOTOR		=	16,	//00010000
+	FLPYDSK_DOR_MASK_DRIVE1_MOTOR		=	32,	//00100000
+	FLPYDSK_DOR_MASK_DRIVE2_MOTOR		=	64,	//01000000
+	FLPYDSK_DOR_MASK_DRIVE3_MOTOR		=	128	//10000000
+};
 
 
 #define DATA_FIFO               0x0005      //COMMAND and IO
@@ -134,43 +147,32 @@ void writeFDC(db REG , db DATA){
 }
 
 void waitForInt(){
-    while(FLOPPYINT == false);
+    while(!FLOPPYINT);
     FLOPPYINT = false;
 }
 
+bool flagCheck(db flag, db bin){
+    return (flag & bin) == flag;
+}
+
+
 void motorControl(db drive, db enable){
-    db DOR = (readFDC(DIGITAL_OUTPUT) | ((enable%2) << ((drive%4) + 4))) | 0b00000100;    //Resets and enables a motor
+    db DOR;
+    if(enable){
+        DOR = FLPYDSK_DOR_MASK_DRIVE0_MOTOR | FLPYDSK_DOR_MASK_RESET;
+    }
+    else{
+        DOR = FLPYDSK_DOR_MASK_RESET;
+    }
     writeFDC(DIGITAL_OUTPUT, DOR);
 }
 
-db FDSendCommand(db CMD){
-    for(int i = 0;i<1000;i++){
-        if(!(readFDC(MAIN_STATUS) & FDC_READ))
-            return 0;                                             //FDC wants a read instead ...
-        else if(readFDC(MAIN_STATUS) & FDC_READY){
-            writeFDC(DATA_FIFO, CMD);
-            return 1;
-        }
-    }
-    return 0xFF;                                                    //Timeout!
-}
-
-db FDReadData(){
-    for(int i = 0;i<1000;i++){
-        if(readFDC(MAIN_STATUS) & FDC_READ)
-            return 0;                                             //FDC wants a write instead ...
-        else if(readFDC(MAIN_STATUS) & FDC_READY){
-            return readFDC(DATA_FIFO);
-        }
-    }
-    return 0xFF;                                                    //Timeout!
-}
 
 void checkIntStatus(dd* st0, dd* cyl){
-    FDSendCommand(0x8);
+    writeFDC(DATA_FIFO,0x8);
 
-    *st0 = FDReadData();
-    *cyl = FDReadData();
+    *st0 = readFDC(DATA_FIFO);
+    *cyl = readFDC(DATA_FIFO);
     
     return;
 }
@@ -181,36 +183,48 @@ int FDCCalibrate(dd drive){
     if(drive >= 4)
         return -2;
 
-    motorControl(drive,1);
-    
-    for(int i = 0 ; i < 10 ; i++){
-        FDSendCommand(FDC_CMD_CALIBRATE);
-        FDSendCommand(drive);
-        waitForInt();
-        checkIntStatus(&st0 , &cyl);
+    writeFDC(DIGITAL_OUTPUT, FLPYDSK_DOR_MASK_DRIVE0_MOTOR | FLPYDSK_DOR_MASK_DMA | FLPYDSK_DOR_MASK_RESET);
 
-        if(!cyl){
-            motorControl(drive,0);
-            return 0;
-        }
+    writeFDC(DATA_FIFO,FDC_CMD_CALIBRATE);
+    writeFDC(DATA_FIFO,0b11111001);
+
+    while(flagCheck(MAIN_STATUS,0b00000001));
+    enableIRQ(0);
+loop:
+    sleep(10);
+    checkIntStatus(&st0 , &cyl);
+
+    if(!cyl){
+        motorControl(drive,0);
+        goto loop;
     }
-bp(0);
+    
     motorControl(drive,0);
+
 	return -1;
 }
 
 void FDCSpecify(dd stepRate, dd loadTime, dd unloadTime, bool DMAEnable){
     dd data = 0;
 
-    FDSendCommand(FDC_CMD_SPECIFY);
+    writeFDC(DATA_FIFO,FDC_CMD_SPECIFY);
 
     data = ((stepRate & 0xF) << 4) | (unloadTime & 0xF);
-    FDSendCommand(data);
+    writeFDC(DATA_FIFO,data);
 
-    data = (loadTime) << 1 | (DMAEnable ? 1 : 0);
-    FDSendCommand(data);
+    data = (loadTime) << 1 | (DMAEnable ? 0 : 1);
+    writeFDC(DATA_FIFO,data);
 
     return;
+}
+
+
+void printFDCDebug(){
+    dd MSR = readFDC(MAIN_STATUS);
+    dd DOR = readFDC(DIGITAL_OUTPUT);
+    dd CCR = readFDC(CONFIG_CONTROL);
+
+    cout("\nMSR: 0x%x\nDOR: 0x%x\nCCR: 0x%x",MSR,DOR,CCR);
 }
 
 /*
@@ -238,31 +252,50 @@ Read Sector:
 */
 
 
-uint16_t FDCReadSector(db head, db track, db sector){
+uint8_t* FDCReadSector(db head, db track, db sector){
     dd st0, cyl;
 
     DMARead();
+    writeFDC(DIGITAL_OUTPUT, FLPYDSK_DOR_MASK_DRIVE0_MOTOR | FLPYDSK_DOR_MASK_DMA | FLPYDSK_DOR_MASK_RESET);
 
-    FDSendCommand(FDC_CMD_READ_SECT | FDC_CMD_EXT_DENSITY | FDC_CMD_EXT_MULTITRACK | FDC_CMD_EXT_SKIP);     //Send Read Command
-    FDSendCommand(head << 2 | 0b00000001);                                                                  //Parameter 1 : Drive 0
-    FDSendCommand(track);                                                                                   //Parameter 2 : Cylinder
-    FDSendCommand(head);                                                                                    //Parameter 3 : Head
-    FDSendCommand(sector);                                                                                  //Parameter 4 : Sector #
-    FDSendCommand(FLPYDSK_SECTOR_DTL_512);                                                                  //Parameter 5 : 512 bytes per sector
-    FDSendCommand(18);                                                                                      //Parameter 6 : 18 sectors per track
-    FDSendCommand(FLPYDSK_GAP3_LENGTH_3_5);                                                                 //Parameter 7 : 3.5 inch floppy
-    FDSendCommand(0xFF);                                                                                    //Parameter 8 : Read 1 sector (512 bytes)
+    for (int i = 0; i < 10; i++ ) {
+ 
+ FLOPPYINT=false;
+		//! send the command
+		writeFDC(DATA_FIFO,FDC_CMD_SEEK);
+		writeFDC(DATA_FIFO ,(head) << 2 );
+		writeFDC(DATA_FIFO, 0);
+		//! wait for the results phase IRQ
+        enableIRQ(0);
+		sleep(10);
+    
+        waitForInt();
+        checkIntStatus(&st0,&cyl);    
+
+	}
+ 
+
+    sleep(10);
+    writeFDC(DATA_FIFO,FDC_CMD_READ_SECT | FDC_CMD_EXT_DENSITY | FDC_CMD_EXT_MULTITRACK | FDC_CMD_EXT_SKIP);     //Send Read Command
+    writeFDC(DATA_FIFO,head << 2 | 0b00000000);                                                                  //Parameter 1 : Drive 0
+    writeFDC(DATA_FIFO,track);                                                                                   //Parameter 2 : Cylinder
+    writeFDC(DATA_FIFO,head);                                                                                    //Parameter 3 : Head
+    writeFDC(DATA_FIFO,sector);                                                                                  //Parameter 4 : Sector #
+    writeFDC(DATA_FIFO,FLPYDSK_SECTOR_DTL_512);                                                                  //Parameter 5 : 512 bytes per sector
+    writeFDC(DATA_FIFO,18);                                                                                      //Parameter 6 : 18 sectors per track
+    writeFDC(DATA_FIFO,FLPYDSK_GAP3_LENGTH_3_5);                                                                 //Parameter 7 : 3.5 inch floppy
+    writeFDC(DATA_FIFO,0xFF);                                                                                    //Parameter 8 : Read 1 sector (512 bytes)
 
     waitForInt();
 
     for(int i = 0 ; i < 7 ; i++){
-        FDReadData();
+        readFDC(DATA_FIFO);
     }
 
     checkIntStatus(&st0, &cyl);
 
     //OUR SECTOR IS AT THE CURRENT DMA ADDRESS (0x1000)
-    return 0x1000;
+    return (uint8_t*)0x1000;
 }
 
 //WRITE 512 BYTES FROM ADRESS 0x1000
@@ -272,20 +305,20 @@ void FDCWriteSector(db head, db track, db sector){
 
     DMAWrite();
 
-    FDSendCommand(FDC_CMD_WRITE_SECT | FDC_CMD_EXT_DENSITY | FDC_CMD_EXT_MULTITRACK | FDC_CMD_EXT_SKIP);    //Send Read Command
-    FDSendCommand(head << 2 | 0b00000001);                                                                  //Parameter 1 : Drive 0
-    FDSendCommand(track);                                                                                   //Parameter 2 : Cylinder
-    FDSendCommand(head);                                                                                    //Parameter 3 : Head
-    FDSendCommand(sector);                                                                                  //Parameter 4 : Sector #
-    FDSendCommand(FLPYDSK_SECTOR_DTL_512);                                                                  //Parameter 5 : 512 bytes per sector
-    FDSendCommand(18);                                                                                      //Parameter 6 : 18 sectors per track
-    FDSendCommand(FLPYDSK_GAP3_LENGTH_3_5);                                                                 //Parameter 7 : 3.5 inch floppy
-    FDSendCommand(0xFF);                                                                                    //Parameter 8 : Read 1 sector (512 bytes)
+    writeFDC(DATA_FIFO,FDC_CMD_WRITE_SECT | FDC_CMD_EXT_DENSITY | FDC_CMD_EXT_MULTITRACK | FDC_CMD_EXT_SKIP);    //Send Read Command
+    writeFDC(DATA_FIFO,head << 2 | 0b00000001);                                                                  //Parameter 1 : Drive 0
+    writeFDC(DATA_FIFO,track);                                                                                   //Parameter 2 : Cylinder
+    writeFDC(DATA_FIFO,head);                                                                                    //Parameter 3 : Head
+    writeFDC(DATA_FIFO,sector);                                                                                  //Parameter 4 : Sector #
+    writeFDC(DATA_FIFO,FLPYDSK_SECTOR_DTL_512);                                                                  //Parameter 5 : 512 bytes per sector
+    writeFDC(DATA_FIFO,18);                                                                                      //Parameter 6 : 18 sectors per track
+    writeFDC(DATA_FIFO,FLPYDSK_GAP3_LENGTH_3_5);                                                                 //Parameter 7 : 3.5 inch floppy
+    writeFDC(DATA_FIFO,0xFF);                                                                                    //Parameter 8 : Read 1 sector (512 bytes)
 
     waitForInt();
 
     for(int i = 0 ; i < 7 ; i++){
-        FDReadData();
+        readFDC(DATA_FIFO);
     }
 
     checkIntStatus(&st0, &cyl);
@@ -296,6 +329,8 @@ void FDCWriteSector(db head, db track, db sector){
 void FDCINIT(){
 
     __STI;
+    maskIRQ(1);
+    maskIRQ(0);
 
     outb(0x70,0x10);
 
@@ -310,14 +345,16 @@ void FDCINIT(){
     writeFDC(DIGITAL_OUTPUT, 0);                    //Reset
     writeFDC(DIGITAL_OUTPUT, 0b00011100);           //DMA on and enable
     waitForInt();
-    cout("\nDOR:%x",readFDC(DIGITAL_OUTPUT));
-
 
     writeFDC(CONFIG_CONTROL , 0);                   //1.44 MB
-    cout("\nCCR:%x",readFDC(CONFIG_CONTROL));
-    FDCSpecify(3 , 16 , 240 , true);
+    FDCSpecify(3,16,240,true);
+
+    //printFDCDebug();
 
     FDCCalibrate(0);
+
+    enableIRQ(0);
+    enableIRQ(1);
 
     return;
 }

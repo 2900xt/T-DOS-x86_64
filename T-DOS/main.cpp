@@ -73,10 +73,13 @@ extern "C" void _start(){
 
     mkRow('_');
 
-    //FDCReadSector(0,0,1);
-
-    //cout((const char*)0x1000);
-
+uint8_t* sector = FDCReadSector(0,0,1);
+int i = 0;
+for(int c = 0; c<4;c++){
+    for (int j = 0; j < 128; j++)
+		cout ("0x%d", sector[ i + j ]);
+	i += 128;
+    }
     kmain();
 
     __CLI;

@@ -32,7 +32,7 @@ struct Time_T{
 extern MemorySegmentHeader_T* FirstFreeMemorySegment;
 
 extern "C" void _IDT_INIT();
-
+void printFDCDebug();
 #define FLAG_SET(number,flag)number |= flag
 #define FLAG_UNSET(number,flag)number &= ~flag
 
@@ -55,6 +55,7 @@ extern char command_buffer[256];
 extern int exit_code ;
 extern int buffer_ptr ;
 extern int arg_bit;
+extern bool BREAK;
 extern uint16_t rootID;
 extern uint8_t MemoryRegionCount;
 extern uint8_t usableMemoryRegionCount;
@@ -67,6 +68,9 @@ extern bool FLOPPYINT;
 
 
 void FDCINIT();
+void enableIRQ(uint8_t irq);
+
+void maskIRQ(uint8_t irq);
 void FDCWriteSector(db head, db track, db sector);
-uint16_t FDCReadSector(db head, db track, db sector);
+uint8_t* FDCReadSector(db head, db track, db sector);
 #endif

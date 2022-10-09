@@ -23,11 +23,14 @@ int arg_bit = 0;
 int sout(const char* str);
 
 void bp(int x){
-    cout("Break:%d\n",x);
+    enableIRQ(1);
+    cout("\nBreak:%d (PRESS ESC TO CONTINUE)\n",x);
     TTY_ACTIVE = 0;
-    __CLI;
-    sleep(1);
+    BREAK = true;
+    while(BREAK)
+        __HLT;
     TTY_ACTIVE = 1;
+    maskIRQ(1);
 }
 
 bool stringCmp(const char* a, const char* b){
