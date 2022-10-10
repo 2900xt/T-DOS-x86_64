@@ -11,6 +11,7 @@ const char* subStr(const char* str, int start, int finish);
 
 // MISC
 
+void outw(unsigned short port, unsigned short val);
 
 void clrscr();
 void bp(int x);

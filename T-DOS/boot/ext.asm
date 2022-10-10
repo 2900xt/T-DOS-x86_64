@@ -279,3 +279,51 @@ LoadIDT:
 _ISR common_ISR, comisr
 
 _ISR floppy_handler, isr6
+
+%macro _EXCP_ERROR 3
+  [extern %1]
+  GLOBAL %2
+  %2:
+    push 0
+    push %3
+    PUSHALL
+    POPALL
+    iretq
+%endmacro
+
+
+%macro _EXCP_NOERROR 3
+
+  [extern %1]
+  GLOBAL %2
+  %2:
+
+    call %1
+
+    iretq
+%endmacro
+
+_EXCP_NOERROR exceptionHandler, exp0, 0
+_EXCP_NOERROR exceptionHandler, exp1, 1
+_EXCP_NOERROR exceptionHandler, exp2, 2
+_EXCP_NOERROR exceptionHandler, exp3, 3
+_EXCP_NOERROR exceptionHandler, exp4, 4
+_EXCP_NOERROR exceptionHandler, exp5, 5
+_EXCP_NOERROR exceptionHandler, exp6, 6
+_EXCP_NOERROR exceptionHandler, exp7, 7
+_EXCP_NOERROR exceptionHandler, exp8, 8
+_EXCP_NOERROR exceptionHandler, exp9, 9
+_EXCP_NOERROR exceptionHandler, exp10, 10
+_EXCP_NOERROR exceptionHandler, exp11, 11
+_EXCP_NOERROR exceptionHandler, exp12, 12
+_EXCP_NOERROR exceptionHandler, exp13, 13
+_EXCP_NOERROR exceptionHandler, exp14, 14
+_EXCP_NOERROR exceptionHandler, exp16, 16
+_EXCP_NOERROR exceptionHandler, exp17, 17
+_EXCP_NOERROR exceptionHandler, exp18, 18
+_EXCP_NOERROR exceptionHandler, exp19, 19
+_EXCP_NOERROR exceptionHandler, exp20, 20
+_EXCP_NOERROR exceptionHandler, exp21, 21
+_EXCP_NOERROR exceptionHandler, exp28, 28
+_EXCP_NOERROR exceptionHandler, exp29, 29
+_EXCP_NOERROR exceptionHandler, exp30, 30

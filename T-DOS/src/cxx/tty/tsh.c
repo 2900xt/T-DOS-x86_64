@@ -64,6 +64,14 @@ void command(){
         
         exit_code = 0;
     }
+    else if(stringCmp(command_buffer,"break")){
+       
+        cout("\n");
+        
+        outw(0x8A00,0x8A00); outw(0x8A00,0x08AE0);
+        
+        exit_code = 0;
+    }
     else if(stringCmp(command_buffer,"cd")){
         const char* str = command_buffer+3;
         if (str[0] == '\0' || str[0] == ' '){

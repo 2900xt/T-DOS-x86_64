@@ -12,9 +12,7 @@ ASFLAGS = -felf32
 
 INCLUDE = 2900-files/include
 
-test: buildimg clean
-
-stable: runstable
+test: buildimg clean run
 
 buildfinal: buildimg
 
@@ -47,8 +45,8 @@ buildimg:
 
 clean:
 	@echo CLEANING UP
-	rm build/ext.elf build/boot.bin build/kernel.bin build/os.bin build/kernel.o build/gvfs.o build/idt.o build/io.o build/math.o build/mem.o build/rtc.o build/pic.o build/bochs.log
+	rm build/ext.elf build/kernel.bin build/os.bin build/kernel.o build/gvfs.o build/idt.o build/io.o build/math.o build/mem.o build/rtc.o build/pic.o build/bochs.log
 	touch build/bochs.log
 
-runstable:
-	qemu-system-x86_64 -drive file=$(STABLEIMG),index=0,if=floppy,format=raw
+run:
+	bochs -q

@@ -16,8 +16,8 @@ void kmain(){
         //TSH Backend
         FontColor=GREEN_FONT;
         __HLT;
-        if (!SHELL_ACTIVE){
-        FontColor=WHITE_FONT;
+            if (!SHELL_ACTIVE){
+            FontColor=WHITE_FONT;
         command();
 		cout("\nT-SH [");
         if(!exit_code)
@@ -64,7 +64,7 @@ extern "C" void _start(){
     for (int i = 0; i<4096;i++){
         ProgramBuffer[i]=0;
     }
-
+    FDCReadSector(0,0,1);
     FontColor=GREEN_FONT;
     cout(" ...done!\n\n");
     FontColor = WHITE_FONT;
@@ -73,13 +73,6 @@ extern "C" void _start(){
 
     mkRow('_');
 
-uint8_t* sector = FDCReadSector(0,0,1);
-int i = 0;
-for(int c = 0; c<4;c++){
-    for (int j = 0; j < 128; j++)
-		cout ("0x%d", sector[ i + j ]);
-	i += 128;
-    }
     kmain();
 
     __CLI;
